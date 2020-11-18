@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="./css/main.css">
+  </head>
+  <body>
+
+    <div id="imageFileArea" class="margin-bottom">
+      <canvas id="imageData" width="500" height="500"></canvas>
+      <div>
+        <input type="file" name="imageFile" id="imageFile"/>
+      </div>
+    </div>
+
+    <div id="colorControlArea">
+
+      <div id="viewColor" class="margin-bottom margin-right"></div>
+
+      <div id="editColor">
+        <fieldset id="rgbaSliderArea" class="margin-bottom">
+
+          <legend>RGB</legend>
+
+          <div>
+            Color code : <input type="text" size="10" maxlength="7" name="rgbColorCode" id="rgbColorCode"/>
+          </div>
+            R : <input type="range" min="0" max="255" value="0" id="rgbSilder_r">
+            <input type="text" size="3" maxlength="3" id="rgbText_r"/>
+          <div>
+            G : <input type="range" min="0" max="255" value="0" id="rgbSilder_g">
+            <input type="text" size="3" maxlength="3" id="rgbText_g"/>
+          </div>
+          <div>
+            B : <input type="range" min="0" max="255" value="0" id="rgbSilder_b">
+            <input type="text" size="3" maxlength="3" id="rgbText_b"/>
+          </div>
+
+        </fieldset>
+
+
+        <fieldset id="hsvSliderArea">
+
+          <legend>HSV</legend>
+
+          <div>
+            H : <input type="range" min="0" max="360" value="0" id="hsvSilder_h">
+            <input type="text" size="3" maxlength="3" id="hsvText_h"/>
+          </div>
+          <div>
+            S : <input type="range" min="0" max="100" value="0" id="hsvSilder_s">
+            <input type="text" size="3" maxlength="3" id="hsvText_s"/>
+          </div>
+          <div>
+            V : <input type="range" min="0" max="100" value="0" id="hsvSilder_v">
+            <input type="text" size="3" maxlength="3" id="hsvText_v"/>
+          </div>
+
+        </fieldset>
+      </div>
+
+    </div>
+
+    <div id="circleBlack" class="clickedPoint"></div>
+    <div id="circleWhite" class="clickedPoint"></div>
+
+  <script src="./js/color.js"></script>
+  <script src="./js/main.js"></script>
+  </body>
+</html>
