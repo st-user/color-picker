@@ -1,4 +1,6 @@
-(() => {
+import HsvRgbConverter from "./color.js";
+
+export default function main() {
 
   const $canvas = document.querySelector('#imageData');
   const canvasDefaultWidth = 500;
@@ -398,6 +400,4 @@
     element => element.addEventListener("change", drawLoadedImage)
   );
 
-
-
-})();
+};

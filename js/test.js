@@ -1,8 +1,10 @@
+import HsvRgbConverter from "./color.js";
+
 const assertEquals = (expected, actual) => {
   if (expected === actual) {
     return;
   }
-  console.error(`expected ${expected} but was ${actual}`);
+  throw `expected ${expected} but was ${actual}`;
 };
 
 const assertRgb = (expected, actual) => {
@@ -68,3 +70,5 @@ doAssertRgbConvertion(120, 100, 50,  0, 128, 0);
 doAssertRgbConvertion(300, 100, 50,  128, 0, 128);
 doAssertRgbConvertion(180, 100, 50,  0, 128, 128);
 doAssertRgbConvertion(240, 100, 50,  0, 0, 128);
+
+console.log("End test.");

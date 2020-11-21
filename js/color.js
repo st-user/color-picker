@@ -90,3 +90,5 @@ const HsvRgbConverter = (() => {
 
 
 })();
+
+export default HsvRgbConverter;
