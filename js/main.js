@@ -29,6 +29,10 @@
   const $hsvSilder_v = document.querySelector('#hsvSilder_v');
   const $hsvText_v = document.querySelector('#hsvText_v');
 
+  const $sliders = [
+    $rgbSilder_r, $rgbSilder_g, $rgbSilder_b,
+    $hsvSilder_h, $hsvSilder_s, $hsvSilder_v,
+  ];
 
   const toHex = d => {
     const val = Number(d).toString(16);
@@ -243,31 +247,132 @@
     ctx.drawImage(currentLoadedImage, 0, 0, imageWidth, imageHeight);
     hideCircle($circleBlack);
     hideCircle($circleWhite);
-  }
+  };
 
-  $canvas.addEventListener('mousedown', event => {
+  let currentEventX, currentEventY, isControlKeyPressed, shouldPreventCircleFromMovingByArrow;
+  const pickUpColorFromSelectedPx = () => {
 
-    const eventX = event.pageX;
-    const eventY = event.pageY;
+    if (!currentEventX || !currentEventY) {
+      return;
+    }
 
-    showCircle($circleBlack, 10, eventX, eventY);
-    showCircle($circleWhite, 12, eventX, eventY);
+    showCircle($circleBlack, 10, currentEventX, currentEventY);
+    showCircle($circleWhite, 12, currentEventX, currentEventY);
 
-    const canvasX = eventX - $canvas.offsetLeft;
-    const canvasY = eventY - $canvas.offsetTop;
+    const canvasX = currentEventX - $canvas.offsetLeft;
+    const canvasY = currentEventY - $canvas.offsetTop;
 
     const ctx = $canvas.getContext('2d');
     const imageData = ctx.getImageData(canvasX, canvasY, 1, 1);
     const rgbaData = imageData.data;
 
     setColorValuesFromRgb(rgbaData[0], rgbaData[1], rgbaData[2]);
+  };
+
+  $canvas.addEventListener('mousedown', event => {
+
+    currentEventX = event.pageX;
+    currentEventY = event.pageY;
+
+    pickUpColorFromSelectedPx();
+  });
+
+  $canvas.addEventListener('mousemove', event => {
+
+    if (!isControlKeyPressed) {
+      return;
+    }
+
+    currentEventX = event.pageX;
+    currentEventY = event.pageY;
+
+    pickUpColorFromSelectedPx();
+
+  });
+
+  const changeCurrentEventX = diff => {
+    if (!currentEventX) {
+      return false;
+    }
+    const min = $canvas.offsetLeft;
+    const max = min + $canvas.width;
+    const newX = currentEventX + diff;
+    if (min <= newX && newX <= max) {
+      currentEventX = newX;
+      return true;
+    }
+    return false;
+  };
+
+  const changeCurrentEventY = diff => {
+    if (!currentEventY) {
+      return false;
+    }
+    const min = $canvas.offsetTop;
+    const max = min + $canvas.height;
+    const newY = currentEventY + diff;
+    if (min <= newY && newY <= max) {
+      currentEventY = newY;
+      return true;
+    }
+    return false;
+  };
+
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Control') {
+      isControlKeyPressed = true;
+    }
+  });
+
+  document.addEventListener('keydown', event => {
+    if (shouldPreventCircleFromMovingByArrow) {
+      return;
+    }
+    switch (event.key) {
+      case "Down":
+      case "ArrowDown":
+        if (changeCurrentEventY(1)) {
+            pickUpColorFromSelectedPx();
+        }
+        break;
+      case "Up":
+      case "ArrowUp":
+        if (changeCurrentEventY(-1)) {
+            pickUpColorFromSelectedPx();
+        }
+        break;
+      case "Left":
+      case "ArrowLeft":
+        if (changeCurrentEventX(-1)) {
+            pickUpColorFromSelectedPx();
+        }
+        break;
+      case "Right":
+      case "ArrowRight":
+        if (changeCurrentEventX(1)) {
+            pickUpColorFromSelectedPx();
+        }
+        break;
+      default:
+        return;
+    }
+    event.preventDefault();
+  });
+
+  $sliders.forEach($slider => {
+    $slider.addEventListener('focus', () => shouldPreventCircleFromMovingByArrow = true);
+    $slider.addEventListener('blur', () => shouldPreventCircleFromMovingByArrow = false);
+  })
+
+  document.addEventListener('keyup', event => {
+    if (event.key === 'Control') {
+      isControlKeyPressed = false;
+    }
   });
 
   $imageFile.addEventListener('change', e => {
 
     const fileData = e.target.files[0];
-    const imageType = fileData.type;
-
     const reader = new FileReader();
 
     reader.onerror = () => {
