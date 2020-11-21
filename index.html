@@ -3,14 +3,18 @@
   <head>
     <meta charset="utf-8">
     <title></title>
-    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/main.css?q=1.0.1">
   </head>
   <body>
 
     <div id="imageFileArea" class="margin-bottom">
-      <canvas id="imageData" width="500" height="500"></canvas>
+      <canvas id="imageData"></canvas>
       <div>
         <input type="file" name="imageFile" id="imageFile"/>
+      </div>
+      <div>
+        <label><input type="radio" name="needsToResize" value="0" checked/> 必要に応じて画像サイズを変える</label>
+        <label><input type="radio" name="needsToResize" value="1"/> 元の画像サイズを維持する</label>
       </div>
     </div>
 
@@ -65,7 +69,7 @@
     <div id="circleBlack" class="clickedPoint"></div>
     <div id="circleWhite" class="clickedPoint"></div>
 
-  <script src="./js/color.js"></script>
-  <script src="./js/main.js"></script>
+  <script src="./js/color.js?q=1.0.1"></script>
+  <script src="./js/main.js?q=1.0.1"></script>
   </body>
 </html>

@@ -1,9 +1,14 @@
 (() => {
 
   const $canvas = document.querySelector('#imageData');
+  const canvasDefaultWidth = 500;
+  const canvasDefaultHeight = 500;
+  $canvas.width = canvasDefaultWidth;
+  $canvas.height = canvasDefaultHeight;
 
   const $imageFileArea = document.querySelector('#imageFileArea');
   const $imageFile = document.querySelector('#imageFile');
+  const $needsToResize = document.querySelectorAll('input[name="needsToResize"]');
   const $circleBlack = document.querySelector('#circleBlack');
   const $circleWhite = document.querySelector('#circleWhite');
 
@@ -205,18 +210,51 @@
   };
   const hideCircle = element => element.style.display = 'none';
 
+  let currentLoadedImage;
+  const drawLoadedImage = () => {
+
+    if (!currentLoadedImage) {
+      return;
+    }
+
+    const needsToResize = document.querySelector('input[name="needsToResize"]:checked').value;
+    const originalImageWidth = currentLoadedImage.width;
+    const originalImageHeight = currentLoadedImage.height;
+    let imageWidth, imageHeight;
+
+    if (needsToResize === "0") {
+      const ratioX = canvasDefaultWidth / originalImageWidth;
+      const ratioY = canvasDefaultHeight / originalImageHeight;
+      const resizeRatio = ratioX < ratioY ? ratioX : ratioY;
+
+      imageWidth = originalImageWidth * resizeRatio;
+      imageHeight = originalImageHeight * resizeRatio;
+
+    } else {
+      imageWidth = originalImageWidth;
+      imageHeight = originalImageHeight;
+    }
+
+    $canvas.width = imageWidth;
+    $canvas.height = imageHeight;
+
+    const ctx = $canvas.getContext('2d');
+    ctx.clearRect(0, 0, imageWidth, imageHeight);
+    ctx.drawImage(currentLoadedImage, 0, 0, imageWidth, imageHeight);
+    hideCircle($circleBlack);
+    hideCircle($circleWhite);
+  }
+
   $canvas.addEventListener('mousedown', event => {
 
-    const eventX = event.x;
-    const eventY = event.y;
+    const eventX = event.pageX;
+    const eventY = event.pageY;
 
     showCircle($circleBlack, 10, eventX, eventY);
     showCircle($circleWhite, 12, eventX, eventY);
 
     const canvasX = eventX - $canvas.offsetLeft;
     const canvasY = eventY - $canvas.offsetTop;
-
-    console.log(`x: ${canvasX} y:${canvasY}`);
 
     const ctx = $canvas.getContext('2d');
     const imageData = ctx.getImageData(canvasX, canvasY, 1, 1);
@@ -227,43 +265,34 @@
 
   $imageFile.addEventListener('change', e => {
 
-    hideCircle($circleBlack);
-    hideCircle($circleWhite);
-
     const fileData = e.target.files[0];
     const imageType = fileData.type;
-    console.log(imageType);
 
     const reader = new FileReader();
-    reader.onloadstart = () => {
-      console.log('load start');
-    }
+
     reader.onerror = () => {
-      alert('error');
+      alert('ファイルの読み込みに失敗しました');
     };
 
     reader.onload = () => {
 
       const loadedImage = reader.result;
-      const ctx = $canvas.getContext('2d');
-      const canvasHeight = $canvas.height;
-      const canvasWidth = $canvas.width;
-
-      ctx.clearRect(0, 0, canvasHeight, canvasWidth);
       const image = new Image();
       image.src = loadedImage;
 
-      image.onload = () => {
-
-        const imageHeight = this.height < canvasHeight ? this.height : canvasHeight;
-        const imageWidth = this.width < canvasWidth ? this.width : canvasWidth;
-
-        ctx.drawImage(image, 0, 0, imageWidth, imageHeight);
+      image.onload = function() {
+        currentLoadedImage = image;
+        drawLoadedImage();
       };
 
     };
     reader.readAsDataURL(fileData);
   });
+
+  $needsToResize.forEach(
+    element => element.addEventListener("change", drawLoadedImage)
+  );
+
 
 
 })();

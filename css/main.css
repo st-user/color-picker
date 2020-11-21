@@ -1,3 +1,9 @@
+@charset "utf-8";
+
+#imageData {
+  border: 1px solid #333334;
+}
+
 #viewColor {
   float: left;
   border: 1px solid black;
@@ -25,13 +31,13 @@
 }
 
 #circleBlack {
-  height: 20px;
   width: 20px;
+  height: 20px;
   border-color: black;
 }
 
 #circleWhite {
-  height: 24px;
   width: 24px;
+  height: 24px;
   border-color: white;
 }
