@@ -1,4 +1,4 @@
-import HsvRgbConverter from "./color.js";
+import HsvRgbConverter from "./HsvRgbConverter.js";
 
 const toHex = d => {
   const val = Number(d).toString(16);

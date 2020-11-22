@@ -1,4 +1,4 @@
-import HsvRgbConverter from "./color.js";
+import HsvRgbConverter from "./HsvRgbConverter.js";
 
 const assertEquals = (expected, actual) => {
   if (expected === actual) {
