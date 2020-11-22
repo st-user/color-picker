@@ -212,10 +212,13 @@ export default class ChangeColorController {
     this.setColorValuesFromRgb(r, g, b);
   }
 
-  getSliders() {
+  getColorControllers() {
     return [
+      this.#$rgbColorCode,
+      this.#$rgbText_r, this.#$rgbText_g, this.#$rgbText_b,
       this.#$rgbSilder_r, this.#$rgbSilder_g, this.#$rgbSilder_b,
       this.#$hsvSilder_h, this.#$hsvSilder_s, this.#$hsvSilder_v,
+      this.#$hsvText_h, this.#$hsvText_s, this.#$hsvText_v,
     ];
   }
 

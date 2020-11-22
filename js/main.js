@@ -140,7 +140,7 @@ export default function main() {
 
   });
 
-  changeColorController.getSliders().forEach($slider => {
+  changeColorController.getColorControllers().forEach($slider => {
     $slider.addEventListener('focus',
       () => shouldPreventCircleFromMovingByArrow = true
     );
