@@ -7,8 +7,8 @@ export default class CanvasHandler {
   constructor() {
     const $canvas = document.querySelector('#imageData');
 
-    $canvas.width = Constants.CANVAS_DEFAULT_WIDTH;
-    $canvas.height = Constants.CANVAS_DEFAULT_HEIGHT;
+    $canvas.width = 160;
+    $canvas.height = 90;
 
     this.#$canvas = $canvas;
   }

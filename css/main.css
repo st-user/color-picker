@@ -1,5 +1,9 @@
 @charset "utf-8";
 
+body {
+  color: #54636E;
+}
+
 .margin-bottom {
   margin-bottom: 12px;
 }
@@ -8,25 +12,62 @@
   margin-right: 12px;
 }
 
+.clear {
+  clear: both;
+}
+
 .clearfixContainer:after {
   content: "";
   display: block;
   clear: both;
 }
 
-#imageData {
-  border: 1px solid #333334;
+.shadow {
+  box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.2);
+}
+
+#viewColorWrapper {
+  float: left;
+  padding: 6px;
+  margin: 0 24px 0 12px;
 }
 
 #viewColor {
-  float: left;
-  border: 1px solid black;
-  width: 250px;
-  height: 270px;
+  border: 1px solid #333334;
+  border-radius: 6px;
+  width: 120px;
+  height: 120px;
+  transition: background-color 0.3s ease-in-out;
 }
 
 #editColor {
   float: left;
+}
+
+#rgbaSliderArea {
+  margin-right: 24px;
+  float: left;
+}
+
+#hsvSliderArea {
+  float: left;
+}
+
+.silderTitle {
+  display: inline-block;
+  width: 12px;
+}
+
+.historyUpdates {
+  float: right;
+}
+
+#imageFileArea {
+  border-radius: 6px;
+}
+
+#imageData {
+  border: 1px solid #333334;
 }
 
 .clickedPoint {
@@ -48,12 +89,8 @@
   border-color: white;
 }
 
-#addHistoryRow {
-  text-align: right;
-}
-
 #colorCodeHistoryArea {
-  max-width: 500px;
+  border-radius: 6px;
 }
 
 #historyControllers {
@@ -67,9 +104,17 @@
   float: left;
   cursor: pointer;
   border: 1px solid #333334;
+  border-radius: 3px;
   width: 100px;
   margin-right: 6px;
   margin-bottom: 24px;
+  animation: expand 0.8s;
+  overflow: hidden;
+}
+
+@keyframes expand {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
 }
 
 .historyColorBar > div {
@@ -81,8 +126,10 @@
 .historyColorView {
   width: 20px;
   height: 18px;
+  border-right: 1px solid #333334;
 }
 
 .historyColorCode {
-  width: 80px;
+  width: 79px;
+  text-align: center;
 }

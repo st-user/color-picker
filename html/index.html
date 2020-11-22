@@ -2,82 +2,122 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>カラーコード作成ツール</title>
   </head>
   <body>
 
-    <div id="imageFileArea" class="margin-bottom">
+    <h1>カラーコード作成ツール</h1>
+
+    <ul>
+      <li>RGB/HSVをスラーダーバーで調整してカラーコードを作成できます。</li>
+      <li>「画像から色を抽出する」を利用し、画像から色を抽出しすることができます。抽出した色はRGB/HSVのスライダーバーで編集できます。</li>
+      <li>画像上を、クリックする/Ctrlキーを押しながらマウスを動かす/矢印キーを動かす、ことにより任意の位置の色が抽出できます。</li>
+      <li>画像の処理はブラウザ上で完結するので、画像データがインターネット上に送信されることはありません。</li>
+      <li>「履歴」には編集したカラーコードが保存されます。「履歴」はブラウザ(localStorage)に、新しいものから最大30個まで保存されます。</li>
+      <li>ブラウザは、Google Chrome, Firefox, Microsoft Edge(Chromium版)を使用してくだい。</li>
+    </ul>
+
+
+
+
+
+    <div id="colorControlArea" class="clearfixContainer">
+
+      <div id="viewColorWrapper">
+        <div id="viewColor" class="shadow"></div>
+      </div>
+
+      <div id="editColor">
+
+        <div class="margin-bottom">
+          カラーコード:
+          <input type="text" size="8" maxlength="7" name="rgbColorCode" id="rgbColorCode"/>
+        </div>
+
+        <div id="rgbaSliderArea" class="margin-right">
+
+          <div>
+            <span class="silderTitle">R:</span>
+            <input type="range" min="0" max="255" value="0" id="rgbSilder_r">
+            <input type="text" size="3" maxlength="3" id="rgbText_r"/>
+          </div>
+          <div>
+            <span class="silderTitle">G:</span>
+            <input type="range" min="0" max="255" value="0" id="rgbSilder_g">
+            <input type="text" size="3" maxlength="3" id="rgbText_g"/>
+          </div>
+          <div class="margin-bottom">
+            <span class="silderTitle">B:</span>
+            <input type="range" min="0" max="255" value="0" id="rgbSilder_b">
+            <input type="text" size="3" maxlength="3" id="rgbText_b"/>
+          </div>
+
+        </div>
+
+        <div id="hsvSliderArea">
+
+          <div>
+            <span class="silderTitle">H:</span>
+            <input type="range" min="0" max="360" value="0" id="hsvSilder_h">
+            <input type="text" size="3" maxlength="3" id="hsvText_h"/>
+          </div>
+          <div>
+            <span class="silderTitle">S:</span>
+            <input type="range" min="0" max="100" value="0" id="hsvSilder_s">
+            <input type="text" size="3" maxlength="3" id="hsvText_s"/>
+          </div>
+          <div>
+            <span class="silderTitle">V:</span>
+            <input type="range" min="0" max="100" value="0" id="hsvSilder_v">
+            <input type="text" size="3" maxlength="3" id="hsvText_v"/>
+          </div>
+
+        </div>
+
+        <div class="clear clearfixContainer">
+          <div class="historyUpdates">
+            <button type="button" id="addHistory">履歴に追加</button>
+          </div>
+          <div class="historyUpdates margin-right">
+            <label>
+              <input type="checkbox" name="storeHistoriesAutomatically" id="storeHistoriesAutomatically" checked/>履歴に自動反映
+            <label>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+
+
+    <fieldset id="imageFileArea" class="shadow margin-bottom">
+
+      <legend>画像から色を抽出する</legend>
+
+      <div>
+        <label><input type="radio" name="needsToResize" value="0" checked/>必要に応じて画像サイズを変える</label>
+        <label><input type="radio" name="needsToResize" value="1"/>元の画像サイズを維持する</label>
+      </div>
+
       <canvas id="imageData"></canvas>
       <div>
         <input type="file" name="imageFile" id="imageFile"/>
       </div>
-      <div>
-        <label><input type="radio" name="needsToResize" value="0" checked/> 必要に応じて画像サイズを変える</label>
-        <label><input type="radio" name="needsToResize" value="1"/> 元の画像サイズを維持する</label>
-      </div>
-    </div>
-
-    <div id="colorControlArea" class="clearfixContainer">
-
-      <div id="viewColor" class="margin-bottom margin-right"></div>
-
-      <div id="editColor">
-        <fieldset id="rgbaSliderArea" class="margin-bottom">
-
-          <legend>RGB</legend>
-
-          <div>
-            Color code : <input type="text" size="10" maxlength="7" name="rgbColorCode" id="rgbColorCode"/>
-          </div>
-            R : <input type="range" min="0" max="255" value="0" id="rgbSilder_r">
-            <input type="text" size="3" maxlength="3" id="rgbText_r"/>
-          <div>
-            G : <input type="range" min="0" max="255" value="0" id="rgbSilder_g">
-            <input type="text" size="3" maxlength="3" id="rgbText_g"/>
-          </div>
-          <div class="margin-bottom">
-            B : <input type="range" min="0" max="255" value="0" id="rgbSilder_b">
-            <input type="text" size="3" maxlength="3" id="rgbText_b"/>
-          </div>
-          <div id="addHistoryRow">
-            <button type="button" id="addHistory">履歴に追加</button>
-          </div>
-
-        </fieldset>
+    </fieldset>
 
 
-        <fieldset id="hsvSliderArea">
 
-          <legend>HSV</legend>
 
-          <div>
-            H : <input type="range" min="0" max="360" value="0" id="hsvSilder_h">
-            <input type="text" size="3" maxlength="3" id="hsvText_h"/>
-          </div>
-          <div>
-            S : <input type="range" min="0" max="100" value="0" id="hsvSilder_s">
-            <input type="text" size="3" maxlength="3" id="hsvText_s"/>
-          </div>
-          <div>
-            V : <input type="range" min="0" max="100" value="0" id="hsvSilder_v">
-            <input type="text" size="3" maxlength="3" id="hsvText_v"/>
-          </div>
 
-        </fieldset>
-      </div>
-
-    </div>
-
-    <fieldset id="colorCodeHistoryArea">
+    <fieldset id="colorCodeHistoryArea" class="shadow">
 
       <legend>履歴</legend>
 
       <div>
         <ul id="historyControllers">
-          <li>
-            <label><input type="checkbox" name="storeHistoriesAutomatically" id="storeHistoriesAutomatically" checked/>
-            自動反映<label>
-          </li>
           <li><button type="button" id="clearHistories">クリア</button></li>
         </ul>
 
@@ -86,6 +126,10 @@
       </div>
 
     </fieldset>
+
+
+
+
 
     <div id="circleBlack" class="clickedPoint"></div>
     <div id="circleWhite" class="clickedPoint"></div>

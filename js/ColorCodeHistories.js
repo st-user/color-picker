@@ -2,13 +2,14 @@ import StorageAccessor from './StorageAccessor.js';
 
 const template = data => {
   return `
-    <div class="historyColorBar clearfixContainer" data-color-code="${data.colorCode}">
+    <div class="historyColorBar shadow clearfixContainer" data-color-code="${data.colorCode}">
       <div style="background-color: ${data.colorCode};" class="historyColorView"></div>
       <div class="historyColorCode">${data.colorCode}</div>
     </div>
   `
 }
 
+const HISTORY_MAX_SIZE = 30;
 const STORAGE_KEY = 'colorCodeHistories';
 
 export default class ColorCodeHistories {
@@ -74,10 +75,18 @@ export default class ColorCodeHistories {
       return;
     }
 
+    const $allHistories = this.#$historiesListArea.querySelectorAll('.historyColorBar');
+    if (colorCodes.length === HISTORY_MAX_SIZE) {
+      colorCodes.shift();
+      $allHistories[$allHistories.length - 1].remove();
+    }
+
     colorCodes.push(newColorCode);
     this.#$historiesListArea.insertAdjacentHTML('afterbegin',
       template({ colorCode: newColorCode })
     );
+
+
     const $newHistory = this.#$historiesListArea.querySelectorAll('.historyColorBar')[0];
     $newHistory.addEventListener('click', event => {
       const customEvent = new CustomEvent('historyClick',

@@ -196,7 +196,7 @@ export default class ChangeColorController {
       _onColorCodeChangeWithAlert();
     });
 
-    this.setColorValuesFromRgb(255, 255, 255);
+    this.setColorValuesFromRgb(151, 179, 237);
   }
 
   setColorValuesFromRgb(r, g, b) {
