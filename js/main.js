@@ -3,6 +3,8 @@ import ColorPointerCircles from "./ColorPointerCircles.js";
 import LoadedImageHolder from "./LoadedImageHolder.js";
 import CurrentEventXY from "./CurrentEventXY.js";
 import ChangeColorController from "./ChangeColorController.js";
+import ColorCodeHistories from "./ColorCodeHistories.js";
+
 
 
 
@@ -13,14 +15,26 @@ export default function main() {
   const currentEventXY = new CurrentEventXY(canvasHandler);
   const loadedImageHolder = new LoadedImageHolder();
   const changeColorController = new ChangeColorController();
+  const colorCodeHistories = new ColorCodeHistories();
 
   const $needsToResize = document.querySelectorAll('input[name="needsToResize"]');
 
   /*
    * RGB, HSVのスライダー関係のイベントハンドラーの設定
    */
-  changeColorController.setUpEvents();
+  changeColorController.setUpEvents(
+    colorCode => colorCodeHistories.addColorCode(colorCode, true),
+    colorCode => colorCodeHistories.addColorIfAutomatic(colorCode)
+  );
+  colorCodeHistories.setUpEvents();
 
+  colorCodeHistories.onChangeAutomationState(isAutomatic => {
+    changeColorController.changeAddHistoryControlState(isAutomatic);
+  });
+  colorCodeHistories.onClickHistory(colorCode => {
+    changeColorController.setColorValuesFromValidColorCode(colorCode);
+  });
+  changeColorController.changeAddHistoryControlState(true);
 
   /*
    * 画像ファイル関係のイベントハンドラーの設定

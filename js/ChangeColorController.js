@@ -8,6 +8,9 @@ const toHex = d => {
   return val;
 };
 const toNumber = hex => parseInt(hex, 16);
+const colorCodeToR = code => toNumber(code.substring(1, 3));
+const colorCodeToG = code => toNumber(code.substring(3, 5));
+const colorCodeToB = code => toNumber(code.substring(5, 7));
 
 const InputChecker = (() => {
 
@@ -51,6 +54,21 @@ const InputChecker = (() => {
 })();
 
 
+const debounce = (func, wait) => {
+  let timeout;
+
+  return function() {
+    const context = this, thisArgs = arguments;
+    const execute = () => {
+      timeout = null;
+      func.apply(context, thisArgs);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(execute, wait);
+  };
+};
+
+const DEBOUNCE_MILLIS = 300;
 
 export default class ChangeColorController {
 
@@ -71,6 +89,8 @@ export default class ChangeColorController {
   #$hsvSilder_v;
   #$hsvText_v;
 
+  #$addHistory;
+
   constructor() {
     this.#$viewColor = document.querySelector('#viewColor');
 
@@ -88,18 +108,31 @@ export default class ChangeColorController {
     this.#$hsvText_s = document.querySelector('#hsvText_s');
     this.#$hsvSilder_v = document.querySelector('#hsvSilder_v');
     this.#$hsvText_v = document.querySelector('#hsvText_v');
+
+    this.#$addHistory = document.querySelector('#addHistory');
   }
 
-  setUpEvents() {
+  setUpEvents(onColorCodeChangeWithAlert, onColorCodeChangeWithoutAlert) {
+
+    const _onColorCodeChangeWithAlert = () => onColorCodeChangeWithAlert(
+      this.#$rgbColorCode.value
+    );
+    const _onColorCodeChangeWithoutAlert = debounce(() => onColorCodeChangeWithoutAlert(
+      this.#$rgbColorCode.value
+    ), DEBOUNCE_MILLIS);
 
     const setHandlerOnRgbSilderChange = element => {
-      element.addEventListener('change', () => this.#setColorValuesFromRgbSilder());
+      element.addEventListener('change', () => {
+        this.#setColorValuesFromRgbSilder();
+        _onColorCodeChangeWithoutAlert();
+      });
     };
 
     const setHandlerOnRgbTextChange = element => {
       element.addEventListener('change', () => {
         if(this.#checkRgbInputRangeAll()) {
-          this.#setColorValuesFromRgbText()
+          this.#setColorValuesFromRgbText();
+          _onColorCodeChangeWithoutAlert();
         } else {
           this.#setColorValuesFromRgbSilder();
         }
@@ -110,12 +143,13 @@ export default class ChangeColorController {
       element.addEventListener('change', () => {
 
         const newCode = this.#$rgbColorCode.value;
-        const r = toNumber(newCode.substring(1, 3));
-        const g = toNumber(newCode.substring(3, 5));
-        const b = toNumber(newCode.substring(5, 7));
+        const r = colorCodeToR(newCode);
+        const g = colorCodeToG(newCode);
+        const b = colorCodeToB(newCode);
 
         if(InputChecker.checkColorCodeRgbAll(r, g, b)) {
           this.setColorValuesFromRgb(r, g, b);
+          _onColorCodeChangeWithoutAlert();
         } else {
           this.#setColorValuesFromRgbSilder();
         }
@@ -123,13 +157,17 @@ export default class ChangeColorController {
     };
 
     const setHandlerOnHsvSilderChange = element => {
-      element.addEventListener('change', () => this.#setColorValuesFromHsvSilder());
+      element.addEventListener('change', () => {
+        this.#setColorValuesFromHsvSilder();
+        _onColorCodeChangeWithoutAlert();
+      });
     };
 
     const setHandlerOnHsvTextChange = element => {
       element.addEventListener('change', () => {
         if (this.#checkHsvInputRangeAll()) {
           this.#setColorValuesFromHsvText();
+          _onColorCodeChangeWithoutAlert();
         } else {
           this.#setColorValuesFromHsvSilder();
         }
@@ -154,6 +192,10 @@ export default class ChangeColorController {
     setHandlerOnHsvTextChange(this.#$hsvText_s);
     setHandlerOnHsvTextChange(this.#$hsvText_v);
 
+    this.#$addHistory.addEventListener('click', () => {
+      _onColorCodeChangeWithAlert();
+    });
+
     this.setColorValuesFromRgb(255, 255, 255);
   }
 
@@ -163,11 +205,22 @@ export default class ChangeColorController {
     this.#setHsvColorToHsvSilder(hsv.h, hsv.s, hsv.v);
   }
 
+  setColorValuesFromValidColorCode(newCode) {
+    const r = colorCodeToR(newCode);
+    const g = colorCodeToG(newCode);
+    const b = colorCodeToB(newCode);
+    this.setColorValuesFromRgb(r, g, b);
+  }
+
   getSliders() {
     return [
       this.#$rgbSilder_r, this.#$rgbSilder_g, this.#$rgbSilder_b,
       this.#$hsvSilder_h, this.#$hsvSilder_s, this.#$hsvSilder_v,
     ];
+  }
+
+  changeAddHistoryControlState(disabled) {
+    this.#$addHistory.disabled = disabled;
   }
 
   #setColorValuesFromRgbSilder() {

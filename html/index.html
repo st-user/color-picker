@@ -28,6 +28,7 @@
 
           <div>
             Color code : <input type="text" size="10" maxlength="7" name="rgbColorCode" id="rgbColorCode"/>
+            <button type="button" id="addHistory">履歴に追加</button>
           </div>
             R : <input type="range" min="0" max="255" value="0" id="rgbSilder_r">
             <input type="text" size="3" maxlength="3" id="rgbText_r"/>
@@ -64,6 +65,25 @@
       </div>
 
     </div>
+
+    <fieldset>
+
+      <legend>履歴</legend>
+
+      <div>
+        <ul>
+          <li>
+            <input type="checkbox" name="storeHistoriesAutomatically" id="storeHistoriesAutomatically" checked/>
+            自動反映
+          </li>
+          <li><button type="button" id="clearHistories">クリア</button></li>
+        </ul>
+
+        <div id="historiesListArea">
+        </div>
+      </div>
+
+    </fieldset>
 
     <div id="circleBlack" class="clickedPoint"></div>
     <div id="circleWhite" class="clickedPoint"></div>
