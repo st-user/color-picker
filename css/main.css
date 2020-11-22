@@ -1,5 +1,19 @@
 @charset "utf-8";
 
+.margin-bottom {
+  margin-bottom: 12px;
+}
+
+.margin-right {
+  margin-right: 12px;
+}
+
+.clearfixContainer:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
 #imageData {
   border: 1px solid #333334;
 }
@@ -13,14 +27,6 @@
 
 #editColor {
   float: left;
-}
-
-.margin-bottom {
-  margin-bottom: 12px;
-}
-
-.margin-right {
-  margin-right: 12px;
 }
 
 .clickedPoint {
@@ -42,11 +48,41 @@
   border-color: white;
 }
 
+#addHistoryRow {
+  text-align: right;
+}
+
+#colorCodeHistoryArea {
+  max-width: 500px;
+}
+
+#historyControllers {
+  margin: 0;
+  margin-bottom: 12px;
+  padding: 0;
+  list-style: none;
+}
+
 .historyColorBar {
+  float: left;
+  cursor: pointer;
   border: 1px solid #333334;
+  width: 100px;
+  margin-right: 6px;
+  margin-bottom: 24px;
+}
+
+.historyColorBar > div {
+  float: left;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.historyColorView {
+  width: 20px;
+  height: 18px;
 }
 
 .historyColorCode {
-  width: 20px;
-  height: 20px;
+  width: 80px;
 }

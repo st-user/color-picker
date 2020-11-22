@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <div id="colorControlArea">
+    <div id="colorControlArea" class="clearfixContainer">
 
       <div id="viewColor" class="margin-bottom margin-right"></div>
 
@@ -28,7 +28,6 @@
 
           <div>
             Color code : <input type="text" size="10" maxlength="7" name="rgbColorCode" id="rgbColorCode"/>
-            <button type="button" id="addHistory">履歴に追加</button>
           </div>
             R : <input type="range" min="0" max="255" value="0" id="rgbSilder_r">
             <input type="text" size="3" maxlength="3" id="rgbText_r"/>
@@ -36,9 +35,12 @@
             G : <input type="range" min="0" max="255" value="0" id="rgbSilder_g">
             <input type="text" size="3" maxlength="3" id="rgbText_g"/>
           </div>
-          <div>
+          <div class="margin-bottom">
             B : <input type="range" min="0" max="255" value="0" id="rgbSilder_b">
             <input type="text" size="3" maxlength="3" id="rgbText_b"/>
+          </div>
+          <div id="addHistoryRow">
+            <button type="button" id="addHistory">履歴に追加</button>
           </div>
 
         </fieldset>
@@ -66,20 +68,20 @@
 
     </div>
 
-    <fieldset>
+    <fieldset id="colorCodeHistoryArea">
 
       <legend>履歴</legend>
 
       <div>
-        <ul>
+        <ul id="historyControllers">
           <li>
-            <input type="checkbox" name="storeHistoriesAutomatically" id="storeHistoriesAutomatically" checked/>
-            自動反映
+            <label><input type="checkbox" name="storeHistoriesAutomatically" id="storeHistoriesAutomatically" checked/>
+            自動反映<label>
           </li>
           <li><button type="button" id="clearHistories">クリア</button></li>
         </ul>
 
-        <div id="historiesListArea">
+        <div id="historiesListArea" class="clearfixContainer">
         </div>
       </div>
 

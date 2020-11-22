@@ -2,9 +2,9 @@ import StorageAccessor from './StorageAccessor.js';
 
 const template = data => {
   return `
-    <div class="historyColorBar" data-color-code="${data.colorCode}">
-      <div style="background-color: ${data.colorCode};" class="historyColorCode"></div>
-      <div>${data.colorCode}</div>
+    <div class="historyColorBar clearfixContainer" data-color-code="${data.colorCode}">
+      <div style="background-color: ${data.colorCode};" class="historyColorView"></div>
+      <div class="historyColorCode">${data.colorCode}</div>
     </div>
   `
 }
