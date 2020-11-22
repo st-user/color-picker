@@ -4,6 +4,10 @@ body {
   color: #54636E;
 }
 
+h1 {
+  text-align: center;
+}
+
 .margin-bottom {
   margin-bottom: 12px;
 }
@@ -24,6 +28,10 @@ body {
 
 .shadow {
   box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.2);
+}
+
+#explanations {
+  margin-bottom: 48px;
 }
 
 #viewColorWrapper {

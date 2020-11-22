@@ -2,13 +2,15 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <meta name="description" content="RGB/HSVをスラーダーバーで調整してカラーコードを作成できます。画像から色を抽出したり、編集したカラーコードを保存できます。" />
+    <meta name="keywords" content="カラーコード,RGB,HSV,HSB,画像,Color code" />
     <title>カラーコード作成ツール</title>
   </head>
   <body>
 
     <h1>カラーコード作成ツール</h1>
 
-    <ul>
+    <ul id="explanations">
       <li>RGB/HSVをスラーダーバーで調整してカラーコードを作成できます。</li>
       <li>「画像から色を抽出する」を利用し、画像から色を抽出しすることができます。抽出した色はRGB/HSVのスライダーバーで編集できます。</li>
       <li>画像上を、クリックする/Ctrlキーを押しながらマウスを動かす/矢印キーを動かす、ことにより任意の位置の色が抽出できます。</li>
@@ -81,7 +83,7 @@
           <div class="historyUpdates margin-right">
             <label>
               <input type="checkbox" name="storeHistoriesAutomatically" id="storeHistoriesAutomatically" checked/>履歴に自動反映
-            <label>
+            </label>
           </div>
         </div>
 
@@ -98,8 +100,8 @@
       <legend>画像から色を抽出する</legend>
 
       <div>
-        <label><input type="radio" name="needsToResize" value="0" checked/>必要に応じて画像サイズを変える</label>
-        <label><input type="radio" name="needsToResize" value="1"/>元の画像サイズを維持する</label>
+        <label><input type="radio" name="needsToResize" value="0" checked/>表示領域にあわせて画像サイズを調整</label>
+        <label><input type="radio" name="needsToResize" value="1"/>元の画像サイズを維持</label>
       </div>
 
       <canvas id="imageData"></canvas>
