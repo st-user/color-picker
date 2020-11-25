@@ -20,6 +20,22 @@ export default function main() {
   const $needsToResize = document.querySelectorAll('input[name="needsToResize"]');
 
   /*
+   * // TEMP:
+  */
+  const $showExplanations = document.querySelector('#showExplanations');
+  const $explanations = document.querySelector('#explanations');
+  const toggleExplanations = () => {
+    const display = $explanations.style.display;
+    if (display === 'none') {
+      $explanations.style.display = 'block';
+    } else {
+      $explanations.style.display = 'none';
+    }
+  }
+  $showExplanations.addEventListener('click', toggleExplanations);
+  toggleExplanations();
+
+  /*
    * RGB, HSVのスライダー関係のイベントハンドラーの設定
    */
   changeColorController.setUpEvents(

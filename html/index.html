@@ -8,11 +8,17 @@
   </head>
   <body>
 
-    <h1>カラーコード作成ツール</h1>
+    <header class="clearfixContainer">
+      <h1>カラーコード作成ツール</h1>
+      <div id="showExplanationsWrapper">
+        <div id="showExplanations" class="shadow">?</div>
+      </div>
+    </header>
 
-    <ul id="explanations">
+
+    <ul id="explanations" class="shadow">
       <li>RGB/HSVをスライダーバーで調整してカラーコードを作成できます。</li>
-      <li>「画像から色を抽出する」を利用し、画像から色を抽出することができます。抽出した色はRGB/HSVのスライダーバーで編集できます。</li>
+      <li>「画像から抽出」を利用し、画像から色を抽出することができます。抽出した色はRGB/HSVのスライダーバーで編集できます。</li>
       <li>画像上を、クリックする/Ctrlキーを押しながらマウスを動かす/矢印キーを動かす、ことにより任意の位置の色が抽出できます。</li>
       <li>画像の処理はブラウザ上で完結するので、画像データがインターネット上に送信されることはありません。</li>
       <li>「履歴」には編集したカラーコードが保存されます。「履歴」はブラウザ(localStorage)に、新しいものから最大30個まで保存されます。</li>
@@ -37,7 +43,7 @@
           <input type="text" size="8" maxlength="7" name="rgbColorCode" id="rgbColorCode"/>
         </div>
 
-        <div id="rgbaSliderArea" class="margin-right">
+        <div id="rgbaSliderArea">
 
           <div>
             <span class="silderTitle">R:</span>
@@ -92,30 +98,37 @@
 
     </div>
 
+    <div id="toolArea">
 
+      <input id="imageFileAreaTabTitle" type="radio" name="toolTabItem" checked>
+      <label class="toolTabItem" for="imageFileAreaTabTitle">画像から抽出</label>
 
+      <input id="colorDesignTabTitle" type="radio" name="toolTabItem">
+      <label class="toolTabItem" for="colorDesignTabTitle">配色チェック</label>
 
+      <div class="toolTabContent" id="imageFileArea">
+        <ul>
+          <li><label><input type="radio" name="needsToResize" value="0" checked/>表示領域にあわせて画像サイズを調整</label></li>
+          <li><label><input type="radio" name="needsToResize" value="1"/>元の画像サイズを維持</label></li>
+        </ul>
 
-    <fieldset id="imageFileArea" class="shadow margin-bottom">
-
-      <legend>画像から色を抽出する</legend>
-
-      <div>
-        <label><input type="radio" name="needsToResize" value="0" checked/>表示領域にあわせて画像サイズを調整</label>
-        <label><input type="radio" name="needsToResize" value="1"/>元の画像サイズを維持</label>
+        <canvas id="imageData"></canvas>
+        <div>
+          <input type="file" name="imageFile" id="imageFile"/>
+        </div>
       </div>
 
-      <canvas id="imageData"></canvas>
-      <div>
-        <input type="file" name="imageFile" id="imageFile"/>
+      <div class="toolTabContent" id="colorDesignArea">
+
       </div>
-    </fieldset>
+    </div>
 
 
 
 
 
-    <fieldset id="colorCodeHistoryArea" class="shadow">
+
+    <fieldset id="colorCodeHistoryArea">
 
       <legend>履歴</legend>
 
