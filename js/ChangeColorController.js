@@ -253,14 +253,15 @@ export default class ChangeColorController {
     });
 
     this.setColorValuesFromRgb(151, 179, 237);
-    this.#changeRgbColorBarStateFromSilder();
-    this.#changeHsvColorBarStateFromSilder();
   }
 
   setColorValuesFromRgb(r, g, b) {
     this.#setRgbColorToRgbSilder(r, g, b);
     const hsv = HsvRgbConverter.rgbToHsv(r, g, b);
     this.#setHsvColorToHsvSilder(hsv.h, hsv.s, hsv.v);
+
+    this.#changeRgbColorBarStateFromSilder();
+    this.#changeHsvColorBarStateFromSilder();
   }
 
   setColorValuesFromValidColorCode(newCode) {
@@ -268,8 +269,6 @@ export default class ChangeColorController {
     const g = colorCodeToG(newCode);
     const b = colorCodeToB(newCode);
     this.setColorValuesFromRgb(r, g, b);
-    this.#changeRgbColorBarStateFromSilder();
-    this.#changeHsvColorBarStateFromSilder();
   }
 
   getColorControllers() {
