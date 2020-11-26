@@ -46,19 +46,25 @@
         <div id="rgbaSliderArea">
 
           <div>
-            <span class="silderTitle">R:</span>
-            <input type="range" min="0" max="255" value="0" id="rgbSilder_r">
-            <input type="text" size="3" maxlength="3" id="rgbText_r"/>
+            <div>
+              <span class="silderTitle">R:</span>
+              <input type="range" min="0" max="255" value="0" id="rgbSilder_r">
+              <input type="text" size="3" maxlength="3" id="rgbText_r"/>
+            </div>
+            <div>
+              <span class="silderTitle">G:</span>
+              <input type="range" min="0" max="255" value="0" id="rgbSilder_g">
+              <input type="text" size="3" maxlength="3" id="rgbText_g"/>
+            </div>
+            <div class="margin-bottom">
+              <span class="silderTitle">B:</span>
+              <input type="range" min="0" max="255" value="0" id="rgbSilder_b">
+              <input type="text" size="3" maxlength="3" id="rgbText_b"/>
+            </div>
           </div>
+
           <div>
-            <span class="silderTitle">G:</span>
-            <input type="range" min="0" max="255" value="0" id="rgbSilder_g">
-            <input type="text" size="3" maxlength="3" id="rgbText_g"/>
-          </div>
-          <div class="margin-bottom">
-            <span class="silderTitle">B:</span>
-            <input type="range" min="0" max="255" value="0" id="rgbSilder_b">
-            <input type="text" size="3" maxlength="3" id="rgbText_b"/>
+            <canvas id="rgbColorBar"></canvas>
           </div>
 
         </div>
@@ -66,19 +72,25 @@
         <div id="hsvSliderArea">
 
           <div>
-            <span class="silderTitle">H:</span>
-            <input type="range" min="0" max="360" value="0" id="hsvSilder_h">
-            <input type="text" size="3" maxlength="3" id="hsvText_h"/>
+            <div>
+              <span class="silderTitle">H:</span>
+              <input type="range" min="0" max="360" value="0" id="hsvSilder_h">
+              <input type="text" size="3" maxlength="3" id="hsvText_h"/>
+            </div>
+            <div>
+              <span class="silderTitle">S:</span>
+              <input type="range" min="0" max="100" value="0" id="hsvSilder_s">
+              <input type="text" size="3" maxlength="3" id="hsvText_s"/>
+            </div>
+            <div>
+              <span class="silderTitle">V:</span>
+              <input type="range" min="0" max="100" value="0" id="hsvSilder_v">
+              <input type="text" size="3" maxlength="3" id="hsvText_v"/>
+            </div>
           </div>
+
           <div>
-            <span class="silderTitle">S:</span>
-            <input type="range" min="0" max="100" value="0" id="hsvSilder_s">
-            <input type="text" size="3" maxlength="3" id="hsvText_s"/>
-          </div>
-          <div>
-            <span class="silderTitle">V:</span>
-            <input type="range" min="0" max="100" value="0" id="hsvSilder_v">
-            <input type="text" size="3" maxlength="3" id="hsvText_v"/>
+            <canvas id="hsvColorBar"></canvas>
           </div>
 
         </div>

@@ -35,6 +35,9 @@ export default function main() {
   $showExplanations.addEventListener('click', toggleExplanations);
   toggleExplanations();
 
+
+
+
   /*
    * RGB, HSVのスライダー関係のイベントハンドラーの設定
    */

@@ -1,4 +1,5 @@
 import HsvRgbConverter from "./HsvRgbConverter.js";
+import { RgbColorBar, HsvColorBar } from "./ColorBar.js";
 
 const toHex = d => {
   const val = Number(d).toString(16);
@@ -91,6 +92,9 @@ export default class ChangeColorController {
 
   #$addHistory;
 
+  #rgbColorBar;
+  #hsvColorBar;
+
   constructor() {
     this.#$viewColor = document.querySelector('#viewColor');
 
@@ -110,6 +114,9 @@ export default class ChangeColorController {
     this.#$hsvText_v = document.querySelector('#hsvText_v');
 
     this.#$addHistory = document.querySelector('#addHistory');
+
+    this.#rgbColorBar = new RgbColorBar('#rgbColorBar');
+    this.#hsvColorBar = new HsvColorBar('#hsvColorBar');
   }
 
   setUpEvents(onColorCodeChangeWithAlert, onColorCodeChangeWithoutAlert) {
@@ -121,6 +128,9 @@ export default class ChangeColorController {
       this.#$rgbColorCode.value
     ), DEBOUNCE_MILLIS);
 
+    const rgbColorBar = this.#rgbColorBar;
+    const hsvColorBar = this.#hsvColorBar;
+
     const setHandlerOnRgbSilderChange = element => {
       element.addEventListener('change', () => {
         this.#setColorValuesFromRgbSilder();
@@ -128,8 +138,24 @@ export default class ChangeColorController {
       });
     };
 
-    const setHandlerOnRgbTextChange = element => {
+    const setHandlerOnRValueChange = element => {
       element.addEventListener('change', () => {
+        rgbColorBar.changePointerPosition(parseInt(element.value));
+        this.#changeHsvColorBarStateFromSilder();
+      });
+    };
+
+    const setHandlerOnGbValueChange = element => {
+      element.addEventListener('change', () => {
+        const g = parseInt(this.#$rgbSilder_g.value);
+        const b = parseInt(this.#$rgbSilder_b.value);
+        rgbColorBar.changeGradient(g, b);
+        this.#changeHsvColorBarStateFromSilder();
+      });
+    };
+
+    const setHandlerOnRgbTextChange = element => {
+      element.addEventListener('change', event => {
         if(this.#checkRgbInputRangeAll()) {
           this.#setColorValuesFromRgbText();
           _onColorCodeChangeWithoutAlert();
@@ -150,6 +176,8 @@ export default class ChangeColorController {
         if(InputChecker.checkColorCodeRgbAll(r, g, b)) {
           this.setColorValuesFromRgb(r, g, b);
           _onColorCodeChangeWithoutAlert();
+          rgbColorBar.changeBaseState(r, g, b);
+          this.#changeHsvColorBarStateFromSilder();
         } else {
           this.#setColorValuesFromRgbSilder();
         }
@@ -160,6 +188,22 @@ export default class ChangeColorController {
       element.addEventListener('change', () => {
         this.#setColorValuesFromHsvSilder();
         _onColorCodeChangeWithoutAlert();
+      });
+    };
+
+    const setHandlerOnHValueChange = element => {
+      element.addEventListener('change', () => {
+        hsvColorBar.changePointerPosition(parseInt(element.value));
+        this.#changeRgbColorBarStateFromSilder();
+      });
+    };
+
+    const setHandlerOnSvValueChange = element => {
+      element.addEventListener('change', () => {
+        const s = parseInt(this.#$hsvSilder_s.value);
+        const v = parseInt(this.#$hsvSilder_v.value);
+        hsvColorBar.changeGradient(s, v);
+        this.#changeRgbColorBarStateFromSilder();
       });
     };
 
@@ -175,28 +219,42 @@ export default class ChangeColorController {
     };
 
     setHandlerOnRgbSilderChange(this.#$rgbSilder_r);
+    setHandlerOnRValueChange(this.#$rgbSilder_r);
     setHandlerOnRgbSilderChange(this.#$rgbSilder_g);
+    setHandlerOnGbValueChange(this.#$rgbSilder_g);
     setHandlerOnRgbSilderChange(this.#$rgbSilder_b);
+    setHandlerOnGbValueChange(this.#$rgbSilder_b);
 
     setHandlerOnRgbTextChange(this.#$rgbText_r);
+    setHandlerOnRValueChange(this.#$rgbText_r);
     setHandlerOnRgbTextChange(this.#$rgbText_g);
+    setHandlerOnGbValueChange(this.#$rgbText_g);
     setHandlerOnRgbTextChange(this.#$rgbText_b);
+    setHandlerOnGbValueChange(this.#$rgbText_b);
 
     setHandlerOnColorCodeChange(this.#$rgbColorCode);
 
     setHandlerOnHsvSilderChange(this.#$hsvSilder_h);
+    setHandlerOnHValueChange(this.#$hsvSilder_h);
     setHandlerOnHsvSilderChange(this.#$hsvSilder_s);
+    setHandlerOnSvValueChange(this.#$hsvSilder_s);
     setHandlerOnHsvSilderChange(this.#$hsvSilder_v);
+    setHandlerOnSvValueChange(this.#$hsvSilder_v);
 
     setHandlerOnHsvTextChange(this.#$hsvText_h);
+    setHandlerOnHValueChange(this.#$hsvText_h);
     setHandlerOnHsvTextChange(this.#$hsvText_s);
+    setHandlerOnSvValueChange(this.#$hsvText_s);
     setHandlerOnHsvTextChange(this.#$hsvText_v);
+    setHandlerOnSvValueChange(this.#$hsvText_v);
 
     this.#$addHistory.addEventListener('click', () => {
       _onColorCodeChangeWithAlert();
     });
 
     this.setColorValuesFromRgb(151, 179, 237);
+    this.#changeRgbColorBarStateFromSilder();
+    this.#changeHsvColorBarStateFromSilder();
   }
 
   setColorValuesFromRgb(r, g, b) {
@@ -210,6 +268,8 @@ export default class ChangeColorController {
     const g = colorCodeToG(newCode);
     const b = colorCodeToB(newCode);
     this.setColorValuesFromRgb(r, g, b);
+    this.#changeRgbColorBarStateFromSilder();
+    this.#changeHsvColorBarStateFromSilder();
   }
 
   getColorControllers() {
@@ -289,6 +349,22 @@ export default class ChangeColorController {
     this.#setHsvColorToHsvSilder(h, s, v);
     const rgb = HsvRgbConverter.hsvToRgb(h % 360, s / 100, v / 100);
     this.#setRgbColorToRgbSilder(rgb.r, rgb.g, rgb.b);
+  }
+
+  #changeRgbColorBarStateFromSilder() {
+    this.#rgbColorBar.changeBaseState(
+      parseInt(this.#$rgbSilder_r.value),
+      parseInt(this.#$rgbSilder_g.value),
+      parseInt(this.#$rgbSilder_b.value)
+    );
+  }
+
+  #changeHsvColorBarStateFromSilder() {
+    this.#hsvColorBar.changeBaseState(
+      parseInt(this.#$hsvSilder_h.value),
+      parseInt(this.#$hsvSilder_s.value),
+      parseInt(this.#$hsvSilder_v.value)
+    );
   }
 
 }
