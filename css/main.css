@@ -116,7 +116,7 @@ h1 {
 
 
 
-
+/* tool tab control start */
 .toolTabItem {
   display: block;
   float: left;
@@ -140,7 +140,7 @@ input[name="toolTabItem"] {
   background-color: #54636E;
   color: #fff;
 }
-
+/* tool tab control end */
 
 
 
@@ -224,6 +224,39 @@ input[name="toolTabItem"] {
   position: relative;
 }
 
+
+
+
+
+/* history tab control start */
+.historyTabItem {
+  display: block;
+  float: left;
+}
+
+input[name="historyTabItem"] {
+  display: none;
+}
+
+.historyTabContent {
+  display: none;
+  clear: both;
+}
+
+#colorCodeHistoryTabTitle:checked ~ #colorCodeHistoryArea,
+#colorDesignHistoryTabTitle:checked ~ #colorDesignHistoryArea {
+  display: block;
+}
+
+#colorInfoHistoryArea input:checked + .historyTabItem {
+  background-color: #54636E;
+  color: #fff;
+}
+/* history tab control end */
+
+
+
+
 #colorCodeHistoryArea {
   border-radius: 6px;
 }
@@ -235,16 +268,19 @@ input[name="toolTabItem"] {
   list-style: none;
 }
 
-.historyColorBar {
+.historyBar {
   float: left;
   cursor: pointer;
   border: 1px solid #333334;
   border-radius: 3px;
+  animation: expand 0.8s;
+  overflow: hidden;
+}
+
+.historyColorBar {
   width: 100px;
   margin-right: 6px;
   margin-bottom: 24px;
-  animation: expand 0.8s;
-  overflow: hidden;
 }
 
 @keyframes expand {
@@ -267,4 +303,21 @@ input[name="toolTabItem"] {
 .historyColorCode {
   width: 79px;
   text-align: center;
+}
+
+.historyColorDesignBar {
+  width: 200px;
+  margin-right: 3px;
+  margin-bottom: 12px;
+}
+
+.historyColorDesignName {
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.historyColorDesignGradient {
+  width: 200px;
+  height: 16px;
 }

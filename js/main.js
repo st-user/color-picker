@@ -5,6 +5,7 @@ import CurrentEventXY from "./CurrentEventXY.js";
 import ChangeColorController from "./ChangeColorController.js";
 import ColorCodeHistories from "./ColorCodeHistories.js";
 import ColorDesignCheck from "./ColorDesignCheck.js";
+import ColorDesignHistories from "./ColorDesignHistories.js";
 
 
 
@@ -18,6 +19,7 @@ export default function main() {
   const loadedImageHolder = new LoadedImageHolder();
   const colorDesignCheck = new ColorDesignCheck();
   const colorCodeHistories = new ColorCodeHistories();
+  const colorDesignHistories = new ColorDesignHistories();
 
   const $needsToResize = document.querySelectorAll('input[name="needsToResize"]');
 
@@ -36,9 +38,6 @@ export default function main() {
   }
   $showExplanations.addEventListener('click', toggleExplanations);
   toggleExplanations();
-
-  colorDesignCheck.setUpEvents();
-
 
   /*
    * RGB, HSVのスライダー関係のイベントハンドラーの設定
@@ -78,6 +77,13 @@ export default function main() {
   );
 
 
+  colorDesignCheck.setUpEvents(data => {
+    colorDesignHistories.addHistoryIfPatternNameIsValid(data);
+  });
+  colorDesignHistories.setUpEvents();
+  colorDesignHistories.onClickHistory(patternInfo => {
+    colorDesignCheck.setColorInfoFromPatternInfoIfConfirmed(patternInfo);
+  });
 
   /*
    * キーボード、マウス操作によるイメージの色取得関係のイベントハンドドラーの設定

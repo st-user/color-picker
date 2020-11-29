@@ -147,6 +147,12 @@
           <div id="colorDesignChart"></div>
         </div>
 
+        <div>
+          配色名:<input type="text" size="20" maxlength="10" name="colorDesignPatternName" id="colorDesignPatternName"/>
+          <button type="button" id="addColorDesignPattern">履歴に追加</button>
+          <div id="colorDesignPatternNameError"></div>
+        </div>
+
       </div>
 
     </div>
@@ -154,21 +160,45 @@
 
 
 
+    <div id="colorInfoHistoryArea">
 
-    <fieldset id="colorCodeHistoryArea">
+      <h2>履歴</h2>
 
-      <legend>履歴</legend>
+      <input id="colorCodeHistoryTabTitle" type="radio" name="historyTabItem" checked>
+      <label class="historyTabItem" for="colorCodeHistoryTabTitle">色</label>
 
-      <div>
-        <ul id="historyControllers">
-          <li><button type="button" id="clearHistories">クリア</button></li>
-        </ul>
+      <input id="colorDesignHistoryTabTitle" type="radio" name="historyTabItem">
+      <label class="historyTabItem" for="colorDesignHistoryTabTitle">配色</label>
 
-        <div id="historiesListArea" class="clearfixContainer">
+
+      <div class="historyTabContent" id="colorCodeHistoryArea">
+
+        <div>
+          <ul id="historyControllers">
+            <li><button type="button" id="clearHistories">クリア</button></li>
+          </ul>
+
+          <div id="historiesListArea" class="clearfixContainer">
+          </div>
         </div>
+
       </div>
 
-    </fieldset>
+
+      <div class="historyTabContent" id="colorDesignHistoryArea">
+
+        <ul id="colorDesignHistoryControllers">
+          <li><button type="button" id="clearColorDesignHistories">クリア</button></li>
+        </ul>
+        <div id="colorDesignHistoriesListArea" class="clearfixContainer">
+        </div>
+        
+      </div>
+
+
+    </div>
+
+
 
 
 

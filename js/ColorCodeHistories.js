@@ -2,7 +2,7 @@ import StorageAccessor from './StorageAccessor.js';
 
 const template = data => {
   return `
-    <div class="historyColorBar shadow clearfixContainer" data-color-code="${data.colorCode}" draggable="true">
+    <div class="historyColorBar historyBar shadow clearfixContainer" data-color-code="${data.colorCode}" draggable="true">
       <div style="background-color: ${data.colorCode};" class="historyColorView"></div>
       <div class="historyColorCode">${data.colorCode}</div>
     </div>
@@ -15,14 +15,17 @@ const STORAGE_KEY = 'colorCodeHistories';
 export default class ColorCodeHistories {
 
   #$historiesListArea;
+  #$tabInput;
   #$storeHistoriesAutomatically;
   #$clearHistories;
+
   #colorCodes;
 
   #$observerOnClickHistory;
 
   constructor() {
     this.#$historiesListArea = document.querySelector('#historiesListArea');
+    this.#$tabInput = document.querySelector('#colorCodeHistoryTabTitle');
     this.#$storeHistoriesAutomatically = document.querySelector('#storeHistoriesAutomatically');
     this.#$clearHistories = document.querySelector('#clearHistories');
     this.#colorCodes = [];
@@ -99,6 +102,7 @@ export default class ColorCodeHistories {
       e.dataTransfer.setData('text/plain', newColorCode);
     });
     StorageAccessor.setObject(STORAGE_KEY, this.#colorCodes);
+    this.#$tabInput.checked = true;
   }
 
 }
