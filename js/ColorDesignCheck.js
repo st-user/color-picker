@@ -18,6 +18,7 @@ export default class ColorDesignCheck {
 
   #$colorDesignListOfColors;
   #$colorDesignListOfColorsText;
+  #$tabInput;
 
   #droppedBarCounter;
   #droppedColorInfoMap;
@@ -33,6 +34,7 @@ export default class ColorDesignCheck {
 
     this.#$colorDesignListOfColors = document.querySelector('#colorDesignListOfColors');
     this.#$colorDesignListOfColorsText = document.querySelector('#colorDesignListOfColorsText');
+    this.#$tabInput = document.querySelector('#colorDesignAreaTabTitle');
 
     this.#droppedBarCounter = 0;
     this.#droppedColorInfoMap = {};
@@ -85,7 +87,7 @@ export default class ColorDesignCheck {
       }
 
       if (charRegExp.test(inputName)) {
-        error = '配色名に<,>,&,\",\',\\を使用することはできません';
+        error = '配色名に「<」「>」「&」「\"」「\'」「\\」を使用することはできません';
       }
 
       if (error) {
@@ -127,6 +129,7 @@ export default class ColorDesignCheck {
       patternInfo.colorInfoList.forEach(colorInfo => this.#setColorInfo(colorInfo));
       this.#$colorDesignPatternName.disabled = false;
       this.#$colorDesignPatternName.value = patternInfo.patternName;
+      this.#$colorDesignPatternNameError.textContent = '';
       this.#$addColorDesignPattern.disabled = false;
     }
   }
@@ -196,6 +199,7 @@ export default class ColorDesignCheck {
     });
 
     this.#toggleListOfColorsText();
+    this.#$tabInput.checked = true;
   }
 
   #generateBarId() {

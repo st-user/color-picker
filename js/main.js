@@ -6,7 +6,7 @@ import ChangeColorController from "./ChangeColorController.js";
 import ColorCodeHistories from "./ColorCodeHistories.js";
 import ColorDesignCheck from "./ColorDesignCheck.js";
 import ColorDesignHistories from "./ColorDesignHistories.js";
-
+import debounce from "./Debounce.js";
 
 
 
@@ -182,5 +182,8 @@ export default function main() {
     }
   });
 
+  window.addEventListener('resize', debounce(event => {
+    colorPointerCircles.hide();
+  }, 500));
 
 };

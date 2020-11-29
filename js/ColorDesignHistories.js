@@ -50,7 +50,7 @@ export default class ColorDesignHistories {
     });
     const storedPatterns = StorageAccessor.getObject(STORAGE_KEY);
     if (storedPatterns) {
-      storedPatterns.forEach(p => this.#addHistory(p));
+      storedPatterns.forEach(p => this.#addHistory(p, false));
     }
   }
 
@@ -62,12 +62,10 @@ export default class ColorDesignHistories {
   }
 
   addHistoryIfPatternNameIsValid(patternData) {
-
-
-    this.#addHistory(patternData);
+    this.#addHistory(patternData, true);
   }
 
-  #addHistory(patternInfo) {
+  #addHistory(patternInfo, selectTab) {
 
     const patternId = this.#generatePatternId();
     this.#patternMap[patternId] = patternInfo;
@@ -87,7 +85,7 @@ export default class ColorDesignHistories {
     });
 
     StorageAccessor.setObject(STORAGE_KEY, Object.values(this.#patternMap));
-    this.#$tabInput.checked = true;
+    this.#$tabInput.checked = selectTab;
   }
 
   #generatePatternId() {

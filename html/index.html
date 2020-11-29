@@ -47,55 +47,57 @@
           <input type="text" size="8" maxlength="7" name="rgbColorCode" id="rgbColorCode"/>
         </div>
 
-        <div id="rgbaSliderArea">
+        <div id="rgbaSliderArea" class="groupBackground">
 
           <div>
             <div>
               <span class="silderTitle">R:</span>
-              <input type="range" min="0" max="255" value="0" id="rgbSilder_r">
+              <input type="range" min="0" max="255" value="0" id="rgbSilder_r" class="sliderInput">
               <input type="text" size="3" maxlength="3" id="rgbText_r"/>
             </div>
-            <div>
+            <div class="margin-bottom">
+              <canvas id="rgbColorBar"></canvas>
+            </div>
+
+            <div class="margin-bottom">
               <span class="silderTitle">G:</span>
-              <input type="range" min="0" max="255" value="0" id="rgbSilder_g">
+              <input type="range" min="0" max="255" value="0" id="rgbSilder_g" class="sliderInput">
               <input type="text" size="3" maxlength="3" id="rgbText_g"/>
             </div>
-            <div class="margin-bottom">
+            <div>
               <span class="silderTitle">B:</span>
-              <input type="range" min="0" max="255" value="0" id="rgbSilder_b">
+              <input type="range" min="0" max="255" value="0" id="rgbSilder_b" class="sliderInput">
               <input type="text" size="3" maxlength="3" id="rgbText_b"/>
             </div>
           </div>
 
-          <div>
-            <canvas id="rgbColorBar"></canvas>
-          </div>
-
         </div>
 
-        <div id="hsvSliderArea">
+        <div id="hsvSliderArea" class="groupBackground margin-bottom">
 
           <div>
             <div>
               <span class="silderTitle">H:</span>
-              <input type="range" min="0" max="360" value="0" id="hsvSilder_h">
+              <input type="range" min="0" max="360" value="0" id="hsvSilder_h" class="sliderInput">
               <input type="text" size="3" maxlength="3" id="hsvText_h"/>
             </div>
-            <div>
+            <div class="margin-bottom">
+              <canvas id="hsvColorBar"></canvas>
+            </div>
+
+            <div class="margin-bottom">
               <span class="silderTitle">S:</span>
-              <input type="range" min="0" max="100" value="0" id="hsvSilder_s">
+              <input type="range" min="0" max="100" value="0" id="hsvSilder_s" class="sliderInput">
               <input type="text" size="3" maxlength="3" id="hsvText_s"/>
             </div>
             <div>
               <span class="silderTitle">V:</span>
-              <input type="range" min="0" max="100" value="0" id="hsvSilder_v">
+              <input type="range" min="0" max="100" value="0" id="hsvSilder_v" class="sliderInput">
               <input type="text" size="3" maxlength="3" id="hsvText_v"/>
             </div>
           </div>
 
-          <div>
-            <canvas id="hsvColorBar"></canvas>
-          </div>
+
 
         </div>
 
@@ -103,7 +105,7 @@
           <div class="historyUpdates">
             <button type="button" id="addHistory">履歴に追加</button>
           </div>
-          <div class="historyUpdates margin-right">
+          <div class="historyUpdates margin-right font-small">
             <label>
               <input type="checkbox" name="storeHistoriesAutomatically" id="storeHistoriesAutomatically" checked/>履歴に自動反映
             </label>
@@ -117,16 +119,17 @@
 
 
 
-    <div id="toolArea">
+    <div id="toolArea" class="tabArea">
 
       <input id="imageFileAreaTabTitle" type="radio" name="toolTabItem" checked>
-      <label class="toolTabItem" for="imageFileAreaTabTitle">画像から抽出</label>
+      <label class="toolTabItem tabItem" for="imageFileAreaTabTitle">画像から抽出</label>
 
       <input id="colorDesignAreaTabTitle" type="radio" name="toolTabItem">
-      <label class="toolTabItem" for="colorDesignAreaTabTitle">配色チェック</label>
+      <label class="toolTabItem tabItem" for="colorDesignAreaTabTitle">配色チェック</label>
 
-      <div class="toolTabContent" id="imageFileArea">
-        <ul>
+      <div class="toolTabContent tabContent groupBackground" id="imageFileArea">
+
+        <ul id="howToResizeImage" class="font-small">
           <li><label><input type="radio" name="needsToResize" value="0" checked/>表示領域にあわせて画像サイズを調整</label></li>
           <li><label><input type="radio" name="needsToResize" value="1"/>元の画像サイズを維持</label></li>
         </ul>
@@ -135,22 +138,29 @@
         <div>
           <input type="file" name="imageFile" id="imageFile"/>
         </div>
+
+        <div id="circleBlack" class="clickedPoint"></div>
+        <div id="circleWhite" class="clickedPoint"></div>
+
       </div>
 
-      <div class="toolTabContent" id="colorDesignArea">
+      <div class="toolTabContent tabContent groupBackground clearfixContainer" id="colorDesignArea">
 
-        <div id="colorDesignListOfColors">
-          <span id="colorDesignListOfColorsText">編集中の色または、履歴上の色をDrag&Dropして色を追加してください</span>
-        </div>
+        <div id="colorDesignContainer">
+          <div id="colorDesignListOfColors" class="margin-right">
+            <div id="colorDesignListOfColorsText">編集中の色または、履歴上の色をDrag&Dropして色を追加してください</div>
+          </div>
 
-        <div id="colorDesignChartArea">
-          <div id="colorDesignChart"></div>
-        </div>
+          <div id="colorDesignChartArea" class="margin-bottom">
+            <div id="colorDesignChart"></div>
+          </div>
 
-        <div>
-          配色名:<input type="text" size="20" maxlength="10" name="colorDesignPatternName" id="colorDesignPatternName"/>
-          <button type="button" id="addColorDesignPattern">履歴に追加</button>
-          <div id="colorDesignPatternNameError"></div>
+          <div id="colorDesignPatternUpdates" class="clear">
+            <span class="font-small">配色名:</span>
+            <input type="text" size="20" maxlength="10" name="colorDesignPatternName" id="colorDesignPatternName"/>
+            <button type="button" id="addColorDesignPattern">履歴に追加</button>
+            <div id="colorDesignPatternNameError"></div>
+          </div>
         </div>
 
       </div>
@@ -160,21 +170,21 @@
 
 
 
-    <div id="colorInfoHistoryArea">
+    <div id="colorInfoHistoryArea" class="tabArea">
 
-      <h2>履歴</h2>
+      <h2 class="margin-bottom">履歴</h2>
 
       <input id="colorCodeHistoryTabTitle" type="radio" name="historyTabItem" checked>
-      <label class="historyTabItem" for="colorCodeHistoryTabTitle">色</label>
+      <label class="historyTabItem tabItem" for="colorCodeHistoryTabTitle">色</label>
 
       <input id="colorDesignHistoryTabTitle" type="radio" name="historyTabItem">
-      <label class="historyTabItem" for="colorDesignHistoryTabTitle">配色</label>
+      <label class="historyTabItem tabItem" for="colorDesignHistoryTabTitle">配色</label>
 
 
-      <div class="historyTabContent" id="colorCodeHistoryArea">
+      <div class="historyTabContent tabContent groupBackground" id="colorCodeHistoryArea">
 
         <div>
-          <ul id="historyControllers">
+          <ul id="historyControllers" class="margin-bottom">
             <li><button type="button" id="clearHistories">クリア</button></li>
           </ul>
 
@@ -185,14 +195,14 @@
       </div>
 
 
-      <div class="historyTabContent" id="colorDesignHistoryArea">
+      <div class="historyTabContent tabContent groupBackground" id="colorDesignHistoryArea">
 
-        <ul id="colorDesignHistoryControllers">
+        <ul id="colorDesignHistoryControllers" class="margin-bottom">
           <li><button type="button" id="clearColorDesignHistories">クリア</button></li>
         </ul>
         <div id="colorDesignHistoriesListArea" class="clearfixContainer">
         </div>
-        
+
       </div>
 
 
@@ -203,8 +213,7 @@
 
 
 
-    <div id="circleBlack" class="clickedPoint"></div>
-    <div id="circleWhite" class="clickedPoint"></div>
+
 
     <script src="./js/main.js?q=1.0.4"></script>
   </body>

@@ -1,5 +1,6 @@
 import HsvRgbConverter from "./HsvRgbConverter.js";
 import { RgbColorBar, HsvColorBar } from "./ColorBar.js";
+import debounce from "./Debounce.js";
 
 const toHex = d => {
   const val = Number(d).toString(16);
@@ -49,21 +50,6 @@ const InputChecker = (() => {
     }
   }
 })();
-
-
-const debounce = (func, wait) => {
-  let timeout;
-
-  return function() {
-    const context = this, thisArgs = arguments;
-    const execute = () => {
-      timeout = null;
-      func.apply(context, thisArgs);
-    };
-    clearTimeout(timeout);
-    timeout = setTimeout(execute, wait);
-  };
-};
 
 const DEBOUNCE_MILLIS = 300;
 

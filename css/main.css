@@ -1,28 +1,5 @@
 @charset "utf-8";
 
-
-.margin-bottom {
-  margin-bottom: 12px;
-}
-
-.margin-right {
-  margin-right: 12px;
-}
-
-.clear {
-  clear: both;
-}
-
-.clearfixContainer:after {
-  content: "";
-  display: block;
-  clear: both;
-}
-
-.shadow {
-  box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.2);
-}
-
 body {
   font-size: 16px;
   font-family: 'Meiryo', 'Meiryo UI', 'Yu Gothic', 'YuGothic', sans-serif;
@@ -42,6 +19,71 @@ h1 {
   width: 90%;
 }
 
+h2 {
+  font-size: 18px;
+}
+
+
+
+/* 汎用的なスタイル */
+.margin-bottom {
+  margin-bottom: 12px;
+}
+
+.margin-right {
+  margin-right: 12px;
+}
+
+.font-small {
+  font-size: 12px;
+}
+
+.clear {
+  clear: both;
+}
+
+.clearfixContainer:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.shadow {
+  box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.2);
+}
+
+.groupBackground {
+  padding: 6px;
+  background-color: #F0F3FC;
+}
+
+.tabArea {
+  margin-left: 8%;
+  margin-right: 8%;
+  min-width: 586px;
+}
+
+.tabItem {
+  display: block;
+  float: left;
+
+  transition: all 0.2s ease;
+  background-color: #E0E0E0;
+  padding: 6px;
+}
+
+.tabItem:hover {
+  opacity: 0.8;
+}
+
+.tabContent {
+  display: none;
+  clear: both;
+}
+
+
+
+/* 説明 */
 #showExplanationsWrapper {
   float: left;
   width: 10%;
@@ -78,10 +120,18 @@ h1 {
   line-height: 1.5;
 }
 
+
+
+/* カラーコード作成スライダーバーエリア */
+#colorControlArea {
+  margin: auto;
+  width: 564px;
+}
+
 #viewColorWrapper {
   float: left;
   padding: 6px;
-  margin: 0 24px 0 12px;
+  margin: 36px 24px 0 12px;
 }
 
 #viewColor {
@@ -97,11 +147,12 @@ h1 {
 }
 
 #rgbaSliderArea {
-  margin-right: 24px;
+  margin-bottom: 24px;
 }
 
-#hsvSliderArea {
-
+#rgbColorBar,
+#hsvColorBar {
+  margin-left: 16px;
 }
 
 .silderTitle {
@@ -109,26 +160,26 @@ h1 {
   width: 12px;
 }
 
+.sliderInput {
+  width: 310px;
+}
+
 .historyUpdates {
   float: right;
+  height: 24px;
+  line-height: 24px;
 }
 
 
 
-
+/* ツールエリア */
+#toolArea {
+  margin-bottom: 24px;
+  position: static;
+}
 /* tool tab control start */
-.toolTabItem {
-  display: block;
-  float: left;
-}
-
 input[name="toolTabItem"] {
   display: none;
-}
-
-.toolTabContent {
-  display: none;
-  clear: both;
 }
 
 #imageFileAreaTabTitle:checked ~ #imageFileArea,
@@ -138,19 +189,15 @@ input[name="toolTabItem"] {
 
 #toolArea input:checked + .toolTabItem {
   background-color: #54636E;
-  color: #fff;
+  color: #FFFFFF;
 }
 /* tool tab control end */
 
 
-
-
-
-
-
-
+/* 画像から抽出 */
 #imageFileArea {
   border-radius: 6px;
+  position: static;
 }
 
 #imageData {
@@ -176,15 +223,24 @@ input[name="toolTabItem"] {
   border-color: white;
 }
 
+
+
+
+/* 配色チェック */
 #colorDesignListOfColors {
+  float: left;
   border: 1px solid #333334;
   width: 200px;
-  height: 300px;
+  min-height: 360px;
   background-color   : #FFFFFF;
   background-image   : radial-gradient(#000000 1%, transparent 10%),
                        radial-gradient(#000000 1%, transparent 10%);
   background-position: 0 0, 6px 6px;
   background-size    : 12px 12px;
+}
+
+#colorDesignListOfColorsText {
+  margin: 6px;
 }
 
 .colorDesignPickedColorBar {
@@ -220,27 +276,44 @@ input[name="toolTabItem"] {
   color: #333334;
 }
 
+#colorDesignChartArea {
+  float: left;
+  height: 360px;
+  background-color: #FFFFFF;
+}
+
+#colorDesignContainer {
+  width: 586px;
+  margin: auto;
+}
+
 #colorDesignChart {
   position: relative;
 }
 
+#colorDesignPatternUpdates {
+  float: right;
+  width: 300px;
+}
+
+#colorDesignPatternNameError {
+  color: #A63838;
+}
 
 
 
+/* 履歴 */
+#colorInfoHistoryArea {
+  margin: 8%;
+}
+
+#colorInfoHistoryArea h2 {
+  margin-bottom: 6px;
+}
 
 /* history tab control start */
-.historyTabItem {
-  display: block;
-  float: left;
-}
-
 input[name="historyTabItem"] {
   display: none;
-}
-
-.historyTabContent {
-  display: none;
-  clear: both;
 }
 
 #colorCodeHistoryTabTitle:checked ~ #colorCodeHistoryArea,
@@ -255,17 +328,16 @@ input[name="historyTabItem"] {
 /* history tab control end */
 
 
-
-
 #colorCodeHistoryArea {
   border-radius: 6px;
 }
 
 #historyControllers {
-  margin: 0;
-  margin-bottom: 12px;
-  padding: 0;
   list-style: none;
+}
+
+#historyControllers > li {
+  text-align: right;
 }
 
 .historyBar {
@@ -275,6 +347,7 @@ input[name="historyTabItem"] {
   border-radius: 3px;
   animation: expand 0.8s;
   overflow: hidden;
+  background-color: #FFFFFF;
 }
 
 .historyColorBar {
@@ -303,6 +376,10 @@ input[name="historyTabItem"] {
 .historyColorCode {
   width: 79px;
   text-align: center;
+}
+
+#colorDesignHistoryControllers > li {
+  text-align: right;
 }
 
 .historyColorDesignBar {
