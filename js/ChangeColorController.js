@@ -8,10 +8,6 @@ const toHex = d => {
   }
   return val;
 };
-const toNumber = hex => parseInt(hex, 16);
-const colorCodeToR = code => toNumber(code.substring(1, 3));
-const colorCodeToG = code => toNumber(code.substring(3, 5));
-const colorCodeToB = code => toNumber(code.substring(5, 7));
 
 const InputChecker = (() => {
 
@@ -169,9 +165,9 @@ export default class ChangeColorController {
       element.addEventListener('change', () => {
 
         const newCode = this.#$rgbColorCode.value;
-        const r = colorCodeToR(newCode);
-        const g = colorCodeToG(newCode);
-        const b = colorCodeToB(newCode);
+        const r = HsvRgbConverter.colorCodeToR(newCode);
+        const g = HsvRgbConverter.colorCodeToG(newCode);
+        const b = HsvRgbConverter.colorCodeToB(newCode);
 
         if(InputChecker.checkColorCodeRgbAll(r, g, b)) {
           this.setColorValuesFromRgb(r, g, b);
@@ -248,6 +244,11 @@ export default class ChangeColorController {
     setHandlerOnHsvTextChange(this.#$hsvText_v);
     setHandlerOnSvValueChange(this.#$hsvText_v);
 
+    this.#$viewColor.addEventListener('dragstart', e => {
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', this.#$rgbColorCode.value);
+    });
+
     this.#$addHistory.addEventListener('click', () => {
       _onColorCodeChangeWithAlert();
     });
@@ -265,9 +266,9 @@ export default class ChangeColorController {
   }
 
   setColorValuesFromValidColorCode(newCode) {
-    const r = colorCodeToR(newCode);
-    const g = colorCodeToG(newCode);
-    const b = colorCodeToB(newCode);
+    const r = HsvRgbConverter.colorCodeToR(newCode);
+    const g = HsvRgbConverter.colorCodeToG(newCode);
+    const b = HsvRgbConverter.colorCodeToB(newCode);
     this.setColorValuesFromRgb(r, g, b);
   }
 

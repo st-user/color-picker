@@ -1,6 +1,12 @@
 const HsvRgbConverter = (() => {
 
+  const toNumber = hex => parseInt(hex, 16);
+
   return {
+
+    colorCodeToR: code => toNumber(code.substring(1, 3)),
+    colorCodeToG: code => toNumber(code.substring(3, 5)),
+    colorCodeToB: code => toNumber(code.substring(5, 7)),
 
     rgbToHsv: (r, g, b) => {
 
@@ -82,6 +88,26 @@ const HsvRgbConverter = (() => {
         r: Math.round((_r + m) * 255),
         g: Math.round((_g + m) * 255),
         b: Math.round((_b + m) * 255)
+      };
+    },
+
+    hsvToHsl: (h, s, v) => {
+
+      const l = (2 - s) * v / 2;
+
+      if (l != 0) {
+        if (l == 1) {
+          s = 0;
+        } else if (l < 0.5) {
+          s = s * v / (l * 2);
+        } else {
+          s = s * v / (2 - l * 2);
+        }
+      }
+      return {
+        h: h,
+        s: Math.round(s * 100),
+        l: Math.round(l * 100)
       };
     }
 

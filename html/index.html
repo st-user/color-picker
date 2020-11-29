@@ -8,12 +8,17 @@
   </head>
   <body>
 
+
+
+
     <header class="clearfixContainer">
       <h1>カラーコード作成ツール</h1>
       <div id="showExplanationsWrapper">
         <div id="showExplanations" class="shadow">?</div>
       </div>
     </header>
+
+
 
 
     <ul id="explanations" class="shadow">
@@ -29,11 +34,10 @@
 
 
 
-
     <div id="colorControlArea" class="clearfixContainer">
 
       <div id="viewColorWrapper">
-        <div id="viewColor" class="shadow"></div>
+        <div id="viewColor" class="shadow" draggable="true"></div>
       </div>
 
       <div id="editColor">
@@ -110,13 +114,16 @@
 
     </div>
 
+
+
+
     <div id="toolArea">
 
       <input id="imageFileAreaTabTitle" type="radio" name="toolTabItem" checked>
       <label class="toolTabItem" for="imageFileAreaTabTitle">画像から抽出</label>
 
-      <input id="colorDesignTabTitle" type="radio" name="toolTabItem">
-      <label class="toolTabItem" for="colorDesignTabTitle">配色チェック</label>
+      <input id="colorDesignAreaTabTitle" type="radio" name="toolTabItem">
+      <label class="toolTabItem" for="colorDesignAreaTabTitle">配色チェック</label>
 
       <div class="toolTabContent" id="imageFileArea">
         <ul>
@@ -132,9 +139,17 @@
 
       <div class="toolTabContent" id="colorDesignArea">
 
-      </div>
-    </div>
+        <div id="colorDesignListOfColors">
+          <span id="colorDesignListOfColorsText">編集中の色または、履歴上の色をDrag&Dropして色を追加してください</span>
+        </div>
 
+        <div id="colorDesignChartArea">
+          <div id="colorDesignChart"></div>
+        </div>
+
+      </div>
+
+    </div>
 
 
 
@@ -158,10 +173,9 @@
 
 
 
-
     <div id="circleBlack" class="clickedPoint"></div>
     <div id="circleWhite" class="clickedPoint"></div>
 
-  <script src="./js/main.js?q=1.0.4"></script>
+    <script src="./js/main.js?q=1.0.4"></script>
   </body>
 </html>

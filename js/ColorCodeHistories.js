@@ -2,7 +2,7 @@ import StorageAccessor from './StorageAccessor.js';
 
 const template = data => {
   return `
-    <div class="historyColorBar shadow clearfixContainer" data-color-code="${data.colorCode}">
+    <div class="historyColorBar shadow clearfixContainer" data-color-code="${data.colorCode}" draggable="true">
       <div style="background-color: ${data.colorCode};" class="historyColorView"></div>
       <div class="historyColorCode">${data.colorCode}</div>
     </div>
@@ -93,6 +93,10 @@ export default class ColorCodeHistories {
         { detail: newColorCode }
       );
       this.#$observerOnClickHistory.dispatchEvent(customEvent);
+    });
+    $newHistory.addEventListener('dragstart', e => {
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', newColorCode);
     });
     StorageAccessor.setObject(STORAGE_KEY, this.#colorCodes);
   }

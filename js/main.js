@@ -4,17 +4,19 @@ import LoadedImageHolder from "./LoadedImageHolder.js";
 import CurrentEventXY from "./CurrentEventXY.js";
 import ChangeColorController from "./ChangeColorController.js";
 import ColorCodeHistories from "./ColorCodeHistories.js";
+import ColorDesignCheck from "./ColorDesignCheck.js";
 
 
 
 
 export default function main() {
 
+  const changeColorController = new ChangeColorController();
   const canvasHandler = new CanvasHandler();
   const colorPointerCircles = new ColorPointerCircles();
   const currentEventXY = new CurrentEventXY(canvasHandler);
   const loadedImageHolder = new LoadedImageHolder();
-  const changeColorController = new ChangeColorController();
+  const colorDesignCheck = new ColorDesignCheck();
   const colorCodeHistories = new ColorCodeHistories();
 
   const $needsToResize = document.querySelectorAll('input[name="needsToResize"]');
@@ -35,7 +37,7 @@ export default function main() {
   $showExplanations.addEventListener('click', toggleExplanations);
   toggleExplanations();
 
-
+  colorDesignCheck.setUpEvents();
 
 
   /*

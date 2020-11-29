@@ -1,3 +1,4 @@
+import HsvRgbConverter from "./HsvRgbConverter.js";
 
 const POINTER_AREA_HEIGHT = 16;
 const GRADIENT_AREA_WIDTH = 400;
@@ -80,23 +81,7 @@ class RgbColorBar extends ColorBar {
   }
 }
 
-const hsv_to_hsl = (h, _s, _v) => {
 
-    let s = _s / 100;
-    const v = _v / 100;
-    const l = (2 - s) * v / 2;
-
-    if (l != 0) {
-        if (l == 1) {
-            s = 0
-        } else if (l < 0.5) {
-            s = s * v / (l * 2)
-        } else {
-            s = s * v / (2 - l * 2)
-        }
-    }
-    return [h, Math.round(s * 100), Math.round(l * 100)]
-};
 
 class HsvColorBar extends ColorBar {
 
@@ -105,8 +90,8 @@ class HsvColorBar extends ColorBar {
   }
 
   createColorStopValue(h, s, v) {
-    const hsl = hsv_to_hsl(h, s, v);
-    return `hsla(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%, 1)`;
+    const hsl = HsvRgbConverter.hsvToHsl(h, s / 100, v / 100);
+    return `hsla(${hsl.h}, ${hsl.s}%, ${hsl.l}%, 1)`;
   }
 }
 
