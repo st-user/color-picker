@@ -291,6 +291,45 @@ input[name="toolTabItem"] {
   position: relative;
 }
 
+.colorDesignChartCircle {
+  animation-name: colorDesignChartCircleSlideIn;
+  animation-duration: 1s;
+  opacity: 0.7;
+}
+
+@keyframes colorDesignChartCircleSlideIn {
+  0% {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(20px);
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 0.7;
+  }
+}
+
+#colorDesignChartTooltip {
+  position: absolute;
+  background-color: #FFFFFF;
+  border: 1px solid #333334;
+  border-radius: 2px;
+  padding: 6px;
+}
+
+.colorDesignChartTooltipLineColor {
+  display: inline-block;;
+  width: 12px;
+  height: 12px;
+}
+
+.colorDesignChartTooltipLineHsv {
+  display: block;
+  padding-left: 18px;
+}
+
 #colorDesignPatternUpdates {
   float: right;
   width: 300px;

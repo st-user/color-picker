@@ -5,6 +5,23 @@ const AREA_HEIGHT = 360;
 const MARGIN = { TOP: 10, RIGHT: 30, BOTTOM: 50, LEFT: 60 };
 const WIDTH = AREA_WIDTH - MARGIN.LEFT - MARGIN.RIGHT;
 const HEIGHT = AREA_HEIGHT - MARGIN.TOP - MARGIN.BOTTOM;
+const X_DOMAIN = [0, 100];
+const Y_DOMAIN = [0, 100];
+const TICKS_COUNT_X = 10;
+const TICKS_COUNT_Y = 10;
+const CIRCLE_R = 8;
+
+const eachToolTipLineTemplate = datum => {
+  return `
+    <div class="colorDesignChartTooltipLine">
+      <div>
+        <span class="colorDesignChartTooltipLineColor" style="background-color: ${datum.colorCode}"></span>
+        <span class="colorDesignChartTooltipLineColorCode font-small">${datum.colorCode}</span>
+      </div>
+      <span class="colorDesignChartTooltipLineHsv font-small">hsv(${datum.hsv.h}°,${datum.hsv.s}%,${datum.hsv.v}%)</span>
+    </div>
+  `
+}
 
 export default class ScatterChart {
 
@@ -14,6 +31,7 @@ export default class ScatterChart {
   #y;
 
   #dataMap;
+  #tooltipMap;
 
   constructor() {
 
@@ -25,21 +43,23 @@ export default class ScatterChart {
                   .attr('transform', `translate(${MARGIN.LEFT},${MARGIN.TOP})`);
 
     const x = d3.scaleLinear()
-                  .domain([0, 100])
+                  .domain(X_DOMAIN)
                   .range([0, WIDTH]);
     svg.append('g')
          .attr('transform', `translate(0, ${HEIGHT})`)
-         .call(d3.axisBottom(x));
+         .call(d3.axisBottom(x).ticks(TICKS_COUNT_X));
+
     svg.append('text')
          .attr('transform', `translate(${WIDTH / 2}, ${HEIGHT + MARGIN.TOP + 30})`)
          .style('text-anchor', 'middel')
          .text('彩度(S)');
 
     let y = d3.scaleLinear()
-                .domain([0, 100])
+                .domain(Y_DOMAIN)
                 .range([HEIGHT, 0]);
     svg.append('g')
-          .call(d3.axisLeft(y));
+          .call(d3.axisLeft(y).ticks(TICKS_COUNT_Y));
+
     svg.append('text')
          .attr('transform', 'rotate(-90)')
          .attr('y', -40)
@@ -47,21 +67,40 @@ export default class ScatterChart {
          .style('text-anchor', 'middle')
          .text('明度(V)');
 
-    const tooltip = d3.select('#colorDesignChart')
-                        .append('div')
-                        .style('opacity', 0)
-                        .attr('class', 'tooltip')
-                        .style('background-color', 'white')
-                        .style('border', 'solid')
-                        .style('border-width', '1px')
-                        .style('border-radius', '5px')
-                        .style('padding', '10px');
+    const xTickInterval = (X_DOMAIN[1] - X_DOMAIN[0]) / TICKS_COUNT_X;
+    for (let grid_i = 1; grid_i < TICKS_COUNT_X; grid_i++) {
+      svg.append('g')
+           .append('line')
+           .attr('x1', x(grid_i * xTickInterval))
+           .attr('y1', 0)
+           .attr('x2', x(grid_i * xTickInterval))
+           .attr('y2', HEIGHT)
+           .attr('stroke', '#111111')
+           .style('opacity', 0.1);
+    }
+
+    const yTickInterval = (Y_DOMAIN[1] - Y_DOMAIN[0]) / TICKS_COUNT_Y;
+    for (let grid_i = 1; grid_i < TICKS_COUNT_Y; grid_i++) {
+      svg.append('g')
+           .append('line')
+           .attr('x1', 0)
+           .attr('y1', y(grid_i * yTickInterval))
+           .attr('x2', WIDTH)
+           .attr('y2', y(grid_i * yTickInterval))
+           .attr('stroke', '#111111')
+           .style('opacity', 0.1);
+    }
+
+
+    const tooltip = d3.select('#colorDesignChartTooltip')
+                        .style('opacity', 0);
 
     this.#svg = svg;
     this.#tooltip = tooltip;
     this.#x = x;
     this.#y = y;
     this.#dataMap = {};
+    this.#tooltipMap = {};
   }
 
   appendData(datum) {
@@ -76,8 +115,10 @@ export default class ScatterChart {
                .attr('fill', d => d['colorCode'])
                .attr('cy', d => this.#y(d.hsv.v))
                .attr('cx', d => this.#x(d.hsv.s))
-               .attr('r', 8)
-               .attr('opacity', 0.7)
+               .attr('r', CIRCLE_R)
+               .attr('stroke', '#333334')
+               .attr('stroke-width', 1)
+               .attr('class', 'colorDesignChartCircle')
                .on('mouseover', (e, d) => this.#mouseover(e, d))
                .on('mousemove', (e, d) => this.#mousemove(e, d))
                .on('mouseleave', (e, d) => this.#mouseleave(e, d));
@@ -86,28 +127,50 @@ export default class ScatterChart {
   removeData(id) {
 
     delete this.#dataMap[id];
+    delete this.#tooltipMap[id];
 
     this.#svg.selectAll('circle')
                .filter(d => d.id === id)
                .remove();
   }
 
-  #mouseover(event, data) {
-    console.log(`over ${data.colorCode}`);
+  #mouseover(event, datum) {
     this.#tooltip.style('opacity', 1);
   }
 
-  #mousemove(event, data) {
-    console.log(`over ${data.colorCode}`);
+  #mousemove(event, datum) {
+
+    let toolTipHtml = this.#tooltipMap[datum.id]
+
+    if (!toolTipHtml) {
+      const collectOverlappedCircle = () => {
+        const data = Object.values(this.#dataMap);
+        const squaredR = CIRCLE_R * CIRCLE_R;
+        const dataGroup = [];
+        for (const existingDatum of data) {
+          const squaredDistance = Math.pow(existingDatum.hsv.s - datum.hsv.s, 2)
+                            + Math.pow(existingDatum.hsv.v - datum.hsv.v, 2)
+          if (squaredDistance < squaredR) {
+            dataGroup.push(existingDatum);
+          }
+        }
+        return dataGroup;
+      }
+      const dataGroup = collectOverlappedCircle();
+      toolTipHtml = '';
+      for(const row of dataGroup) {
+        toolTipHtml += eachToolTipLineTemplate(row);
+      }
+      this.#tooltipMap[datum.id] = toolTipHtml;
+    }
+
     this.#tooltip
-            .html(data.colorCode)
-            .style('position', 'absolute')
-            .style('left', (this.#x(data.hsv.s)+90) + 'px')
-            .style('top', this.#y(data.hsv.v) + 'px');
+            .html(toolTipHtml)
+            .style('left', (this.#x(datum.hsv.s)+90) + 'px')
+            .style('top', this.#y(datum.hsv.v) + 'px');
   }
 
-  #mouseleave(event, data) {
-    console.log(`over ${data.colorCode}`);
+  #mouseleave(event, datum) {
     this.#tooltip.transition()
                    .duration(200)
                    .style('opacity', 0);
