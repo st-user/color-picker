@@ -81,7 +81,12 @@ h2 {
   clear: both;
 }
 
-
+#remarkAboutBrowser {
+  margin: auto;
+  margin-bottom: 12px;
+  width: 564px;
+  font-size: 12px;
+}
 
 /* 説明 */
 #showExplanationsWrapper {

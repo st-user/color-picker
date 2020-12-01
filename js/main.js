@@ -179,4 +179,7 @@ export default function main() {
     colorPointerCircles.hide();
   }, 500));
 
+
+  const $remark = document.querySelector('#remarkAboutBrowser');
+  $remark.setAttribute('style', '');
 };
