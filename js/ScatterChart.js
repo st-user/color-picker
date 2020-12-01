@@ -93,7 +93,7 @@ export default class ScatterChart {
 
 
     const tooltip = d3.select('#colorDesignChartTooltip')
-                        .style('opacity', 0);
+                        .style('display', 'none');
 
     this.#svg = svg;
     this.#tooltip = tooltip;
@@ -135,7 +135,7 @@ export default class ScatterChart {
   }
 
   #mouseover(event, datum) {
-    this.#tooltip.style('opacity', 1);
+    this.#tooltip.style('display', 'block');
   }
 
   #mousemove(event, datum) {
@@ -173,6 +173,6 @@ export default class ScatterChart {
   #mouseleave(event, datum) {
     this.#tooltip.transition()
                    .duration(200)
-                   .style('opacity', 0);
+                   .style('display', 'none');
   }
 }

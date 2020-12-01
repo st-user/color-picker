@@ -3,18 +3,26 @@ import Constants from "./Constants.js";
 export default class CanvasHandler {
 
   #$canvas;
+  #$noImageData;
 
   constructor() {
     const $canvas = document.querySelector('#imageData');
+    const $noImageData = document.querySelector('#noImageData');
 
     $canvas.width = 160;
     $canvas.height = 90;
 
     this.#$canvas = $canvas;
+    this.#$noImageData = $noImageData;
+    this.#changeStyleDisplay($noImageData, $canvas);
   }
 
   drawImageWithSpecificSize(image, width, height) {
+    if (!image) {
+      return;
+    }
     const $canvas = this.#$canvas;
+    this.#changeStyleDisplay($canvas, this.#$noImageData);
 
     $canvas.width = width;
     $canvas.height = height;
@@ -57,5 +65,10 @@ export default class CanvasHandler {
     const min = $canvas.offsetTop;
     const max = min + $canvas.height;
     return min <= y && y <= max;
+  }
+
+  #changeStyleDisplay($toBlock, $toNone) {
+    $toBlock.style.display = 'block';
+    $toNone.style.display = 'none';
   }
 }

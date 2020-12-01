@@ -30,6 +30,8 @@ export default class ColorDesignCheck {
   #$addColorDesignPattern;
   #$colorDesignPatternNameError;
 
+  #completeSettingColorInfo;
+
   constructor() {
 
     this.#$colorDesignListOfColors = document.querySelector('#colorDesignListOfColors');
@@ -44,6 +46,8 @@ export default class ColorDesignCheck {
     this.#$colorDesignPatternName = document.querySelector('#colorDesignPatternName');
     this.#$addColorDesignPattern = document.querySelector('#addColorDesignPattern');
     this.#$colorDesignPatternNameError = document.querySelector('#colorDesignPatternNameError');
+
+    this.#completeSettingColorInfo = true;
   }
 
   setUpEvents(onAddColorDesignPattern) {
@@ -54,24 +58,34 @@ export default class ColorDesignCheck {
 
     this.#$colorDesignListOfColors.addEventListener('drop', e => {
 
-      const colorCode = e.dataTransfer.getData('text/plain');
-      if (!colorCode) {
+      const dataTransferred = e.dataTransfer.getData('text/plain');
+      if (!dataTransferred) {
         return;
       }
-      const r = HsvRgbConverter.colorCodeToR(colorCode);
-      const g = HsvRgbConverter.colorCodeToG(colorCode);
-      const b = HsvRgbConverter.colorCodeToB(colorCode);
-      const hsv = HsvRgbConverter.rgbToHsv(r, g, b);
-      const hsl = HsvRgbConverter.hsvToHsl(hsv.h, hsv.s / 100, hsv.v / 100);
 
-      const colorInfo = {
-        id: this.#generateBarId(),
-        colorCode: colorCode,
-        rgb: { r: r, g: b, b: b },
-        hsv: hsv,
-        hsl: hsl
-      };
-      this.#setColorInfo(colorInfo);
+      if (dataTransferred.indexOf('#') === 0) {
+
+        const colorCode = dataTransferred;
+        const r = HsvRgbConverter.colorCodeToR(colorCode);
+        const g = HsvRgbConverter.colorCodeToG(colorCode);
+        const b = HsvRgbConverter.colorCodeToB(colorCode);
+        const hsv = HsvRgbConverter.rgbToHsv(r, g, b);
+        const hsl = HsvRgbConverter.hsvToHsl(hsv.h, hsv.s / 100, hsv.v / 100);
+
+        const colorInfoWithoutId = {
+          colorCode: colorCode,
+          rgb: { r: r, g: b, b: b },
+          hsv: hsv,
+          hsl: hsl
+        };
+        this.#setColorInfo(colorInfoWithoutId);
+
+      } else {
+
+        const patternInfo = JSON.parse(dataTransferred);
+        this.setColorInfoFromPatternInfoIfConfirmed(patternInfo);
+      }
+
     });
 
     this.#$colorDesignPatternName.addEventListener('keyup', e => {
@@ -119,14 +133,35 @@ export default class ColorDesignCheck {
     });
   }
 
+  getControllersUsingWithArrowKey() {
+    return [ this.#$colorDesignPatternName ];
+  }
+
   setColorInfoFromPatternInfoIfConfirmed(patternInfo) {
 
-    if (Object.values(this.#droppedColorInfoMap).length === 0
-          || confirm('現在編集中の配色を破棄してクリックした履歴を読み込みますか？')) {
+    if (!this.#completeSettingColorInfo) {
+      return;
+    }
 
+    if (Object.values(this.#droppedColorInfoMap).length === 0
+          || confirm('現在編集中の配色を破棄して選択した配色を読み込みますか？')) {
+
+      this.#completeSettingColorInfo = false;
       const $bars = this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar');
       $bars.forEach($bar => this.#removeColorInfo($bar));
-      patternInfo.colorInfoList.forEach(colorInfo => this.#setColorInfo(colorInfo));
+      let colorInfoIndex = 0;
+      const setColorInfoWithDelay = () => {
+        const colorInfo = patternInfo.colorInfoList[colorInfoIndex];
+        this.#setColorInfo(colorInfo);
+        colorInfoIndex++;
+        if (colorInfoIndex === patternInfo.colorInfoList.length) {
+          this.#completeSettingColorInfo = true;
+          return;
+        }
+        setTimeout(setColorInfoWithDelay, 200);
+      }
+      setColorInfoWithDelay();
+
       this.#$colorDesignPatternName.disabled = false;
       this.#$colorDesignPatternName.value = patternInfo.patternName;
       this.#$colorDesignPatternNameError.textContent = '';
@@ -136,7 +171,9 @@ export default class ColorDesignCheck {
 
   #setColorInfo(colorInfo) {
 
-    this.#droppedColorInfoMap[colorInfo.id] = colorInfo;
+    const id = this.#generateBarId();
+    colorInfo.id = id;
+    this.#droppedColorInfoMap[id] = colorInfo;
     const colorBar = colorTemplate(colorInfo);
     this.#$colorDesignListOfColors.insertAdjacentHTML('beforeend', colorBar);
     const bars = this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar');

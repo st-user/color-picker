@@ -258,7 +258,7 @@ export default class ChangeColorController {
     this.setColorValuesFromRgb(r, g, b);
   }
 
-  getColorControllers() {
+  getControllersUsingWithArrowKey() {
     return [
       this.#$rgbColorCode,
       this.#$rgbText_r, this.#$rgbText_g, this.#$rgbText_b,

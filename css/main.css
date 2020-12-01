@@ -54,7 +54,7 @@ h2 {
 
 .groupBackground {
   padding: 6px;
-  background-color: #F0F3FC;
+  background-color: #FAF7F8;
 }
 
 .tabArea {
@@ -110,7 +110,7 @@ h2 {
   width: 80%;
   left: 10%;
   background-color: #FFFFFF;
-  list-style:initial;
+  list-style: disc;
   padding: 24px 24px 24px 36px;
   border-radius: 4px;
   box-shadow: 3px 3px 3px 3px rgba(0,0,0,0.2);
@@ -118,6 +118,11 @@ h2 {
 
 #explanations li {
   line-height: 1.5;
+}
+
+.explanationsInner {
+  list-style: circle;
+  padding: 0 0 0 24px;
 }
 
 
@@ -202,6 +207,15 @@ input[name="toolTabItem"] {
 
 #imageData {
   border: 1px solid #333334;
+}
+
+#noImageData {
+  border: 1px solid #333334;
+  padding: 6px 6px 6px 24px;
+  line-height: 1.5;
+  list-style: disc;
+  width: 320px;
+  height: 180px;
 }
 
 .clickedPoint {
@@ -343,7 +357,9 @@ input[name="toolTabItem"] {
 
 /* 履歴 */
 #colorInfoHistoryArea {
-  margin: 8%;
+  margin-left: 8%;
+  margin-right: 8%;
+  margin-bottom: 48px;
 }
 
 #colorInfoHistoryArea h2 {

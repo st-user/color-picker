@@ -23,10 +23,14 @@
 
     <ul id="explanations" class="shadow">
       <li>RGB/HSVをスライダーバーで調整してカラーコードを作成できます。</li>
-      <li>「画像から抽出」を利用し、画像から色を抽出することができます。抽出した色はRGB/HSVのスライダーバーで編集できます。</li>
-      <li>画像上を、クリックする/Ctrlキーを押しながらマウスを動かす/矢印キーを動かす、ことにより任意の位置の色が抽出できます。</li>
-      <li>画像の処理はブラウザ上で完結するので、画像データがインターネット上に送信されることはありません。</li>
-      <li>「履歴」には編集したカラーコードが保存されます。「履歴」はブラウザ(localStorage)に、新しいものから最大30個まで保存されます。</li>
+      <li>「画像から抽出」を使用し、画像から色を抽出することができます。抽出した色はRGB/HSVのスライダーバーで編集できます。
+        <ul class="explanationsInner margin-bottom">
+          <li>画像上を、クリックする/Ctrlキーを押しながらマウスを動かす/矢印キーを動かすことにより任意の位置の色が抽出できます。</li>
+          <li>画像の処理はブラウザ上で完結するので、画像データがインターネット上に送信されることはありません。</li>
+        </ul>
+      </li>
+      <li>「配色チェック」を使用し、複数の色をリストアップして、色の組み合わせを確認できます。リストアップした配色は後述する「履歴」に保存することも可能です。</li>
+      <li>「履歴」には編集したカラーコード（「色」タブ）、配色（「配色」タブ）が保存されます。「履歴」はブラウザ(localStorage)に、新しいものから最大30個まで保存されます。</li>
       <li>ブラウザは、Google Chrome, Firefox, Microsoft Edge(Chromium版)を使用してください。</li>
       <li>(興味ある人向け)ソースコード、不具合報告などは<a target="_blank" rel="noopener noreferrer" href="https://github.com/st-user/color-picker">こちら</a></li>
     </ul>
@@ -129,12 +133,17 @@
 
       <div class="toolTabContent tabContent groupBackground" id="imageFileArea">
 
-        <ul id="howToResizeImage" class="font-small">
+        <ul id="howToResizeImage" class="font-small margin-bottom">
           <li><label><input type="radio" name="needsToResize" value="0" checked/>表示領域にあわせて画像サイズを調整</label></li>
           <li><label><input type="radio" name="needsToResize" value="1"/>元の画像サイズを維持</label></li>
         </ul>
 
         <canvas id="imageData"></canvas>
+        <ul id="noImageData" class="font-small margin-bottom">
+          <li>画像ファイルを選択し、色を抽出することができます。抽出した色はRGB/HSVのスライダーバーで編集できます。</li>
+          <li>画像上を、クリックする/Ctrlキーを押しながらマウスを動かす/矢印キーを動かす、ことにより任意の位置の色が抽出できます。</li>
+          <li>画像の処理はブラウザ上で完結するので、画像データがインターネット上に送信されることはありません。</li>
+        </ul>
         <div>
           <input type="file" name="imageFile" id="imageFile"/>
         </div>

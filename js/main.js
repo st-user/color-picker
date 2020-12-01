@@ -1,3 +1,4 @@
+import Explanations from "./Explanations.js";
 import CanvasHandler from "./CanvasHandler.js";
 import ColorPointerCircles from "./ColorPointerCircles.js";
 import LoadedImageHolder from "./LoadedImageHolder.js";
@@ -12,6 +13,7 @@ import debounce from "./Debounce.js";
 
 export default function main() {
 
+  const explanations = new Explanations();
   const changeColorController = new ChangeColorController();
   const canvasHandler = new CanvasHandler();
   const colorPointerCircles = new ColorPointerCircles();
@@ -23,21 +25,7 @@ export default function main() {
 
   const $needsToResize = document.querySelectorAll('input[name="needsToResize"]');
 
-  /*
-   * // TEMP:
-  */
-  const $showExplanations = document.querySelector('#showExplanations');
-  const $explanations = document.querySelector('#explanations');
-  const toggleExplanations = () => {
-    const display = $explanations.style.display;
-    if (display === 'none') {
-      $explanations.style.display = 'block';
-    } else {
-      $explanations.style.display = 'none';
-    }
-  }
-  $showExplanations.addEventListener('click', toggleExplanations);
-  toggleExplanations();
+  explanations.setUpEvents();
 
   /*
    * RGB, HSVのスライダー関係のイベントハンドラーの設定
@@ -77,8 +65,11 @@ export default function main() {
   );
 
 
+  /*
+   * 配色チェック関係のイベントハンドラーの設定
+   */
   colorDesignCheck.setUpEvents(data => {
-    colorDesignHistories.addHistoryIfPatternNameIsValid(data);
+    colorDesignHistories.addHistoryThenShowColorDesignTab(data);
   });
   colorDesignHistories.setUpEvents();
   colorDesignHistories.onClickHistory(patternInfo => {
@@ -167,11 +158,13 @@ export default function main() {
 
   });
 
-  changeColorController.getColorControllers().forEach($slider => {
-    $slider.addEventListener('focus',
+  const $controllersUsingWithArrowKey = changeColorController.getControllersUsingWithArrowKey()
+                                          .concat(colorDesignCheck.getControllersUsingWithArrowKey());
+  $controllersUsingWithArrowKey.forEach($controller => {
+    $controller.addEventListener('focus',
       () => shouldPreventCircleFromMovingByArrow = true
     );
-    $slider.addEventListener('blur',
+    $controller.addEventListener('blur',
       () => shouldPreventCircleFromMovingByArrow = false
     );
   })

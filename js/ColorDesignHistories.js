@@ -9,7 +9,7 @@ const template = data => {
     background = `background-color: ${data.colorInfoList[0].colorCode}`;
   }
   return `
-    <div class="historyColorDesignBar historyBar shadow" data-pattern-id="${data.patternId}">
+    <div class="historyColorDesignBar historyBar shadow" data-pattern-id="${data.patternId}" draggable="true">
       <div class="historyColorDesignName">${data.patternName}</div>
       <div class="historyColorDesignGradient" style="${background}"></div>
     </div>
@@ -61,7 +61,7 @@ export default class ColorDesignHistories {
     });
   }
 
-  addHistoryIfPatternNameIsValid(patternData) {
+  addHistoryThenShowColorDesignTab(patternData) {
     this.#addHistory(patternData, true);
   }
 
@@ -69,6 +69,14 @@ export default class ColorDesignHistories {
 
     const patternId = this.#generatePatternId();
     this.#patternMap[patternId] = patternInfo;
+
+    const $histories = this.#$colorDesignHistoriesListArea.querySelectorAll('.historyColorDesignBar');
+    if (HISTORY_MAX_SIZE <= $histories.length) {
+      const $oldest = $histories[$histories.length - 1];
+      const oldestId = $oldest.dataset.dataPatternId;
+      delete this.#patternMap[oldestId];
+      $oldest.remove();
+    }
 
     this.#$colorDesignHistoriesListArea.insertAdjacentHTML('afterbegin', template({
       patternId: patternId,
@@ -83,7 +91,10 @@ export default class ColorDesignHistories {
       );
       this.#$observerOnClickHistory.dispatchEvent(customEvent);
     });
-
+    $newHistory.addEventListener('dragstart', e => {
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', JSON.stringify(patternInfo));
+    });
     StorageAccessor.setObject(STORAGE_KEY, Object.values(this.#patternMap));
     this.#$tabInput.checked = selectTab;
   }
