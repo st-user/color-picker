@@ -182,4 +182,6 @@ export default function main() {
 
   const $remark = document.querySelector('#remarkAboutBrowser');
   $remark.setAttribute('style', '');
+
+  window.isMainScriptLoadedSuccessfully = true;
 };

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
     <meta charset="utf-8">
-    <meta name="description" content="RGB/HSVをスライダーバーで調整してカラーコードを作成できます。画像から色を抽出したり、編集したカラーコードを保存できます。" />
-    <meta name="keywords" content="カラーコード,RGB,HSV,HSB,画像,Color code" />
+    <meta name="keywords" content="カラーコード,RGB,HSV,HSB,画像,Color code,配色" />
+    <meta name="description" content="RGB/HSVをスライダーバーで調整してカラーコードを作成できます。画像から色を抽出したり、複数の色をリストアップして配色のチェックもできます。編集したカラーコードや配色は端末上(ブラウザ)に保存できます。" />
     <title>カラーコード作成ツール</title>
   </head>
   <body>
@@ -17,7 +17,7 @@
         <div id="showExplanations" class="shadow">?</div>
       </div>
     </header>
-    <div id="remarkAboutBrowser" style="font-size: 24px; color: #A13B44;">
+    <div id="remarkAboutBrowser" style="font-size: 16px; color: #3845A6; display: none;">
       ブラウザは、Google Chrome, Firefox, Microsoft Edge(Chromium版), Safariの、できるだけ最新に近いバージョンを使用してください。
       これら意外のブラウザでは動作しない可能性があります。
     </div>
@@ -35,7 +35,7 @@
       <li>「配色チェック」を使用し、複数の色をリストアップして、色の組み合わせを確認できます。リストアップした配色は後述する「履歴」に保存することも可能です。</li>
       <li>「履歴」には編集したカラーコード（「色」タブ）、配色（「配色」タブ）が保存されます。「履歴」はブラウザ(localStorage)に、新しいものから最大30個まで保存されます。</li>
       <li>ブラウザは、Google Chrome, Firefox, Microsoft Edge(Chromium版), Safariを使用してください。</li>
-      <li>(興味ある人向け)ソースコード、不具合報告などは<a target="_blank" rel="noopener noreferrer" href="https://github.com/st-user/color-picker">こちら</a></li>
+      <li>ソースコード、不具合報告などは<a target="_blank" rel="noopener noreferrer" href="https://github.com/st-user/color-picker">こちら</a></li>
     </ul>
 
 
@@ -224,7 +224,23 @@
 
 
 
+    <script type="text/javascript">
+      var isMainScriptLoadedSuccessfully = false;
+      (function() {
+        var totalTime = 0;
+        var checkDuration = 100;
 
+        setTimeout(function checkState() {
+          totalTime += checkDuration;
+          if (!isMainScriptLoadedSuccessfully && totalTime < 1000) {
+            setTimeout(checkState, checkDuration);
+          } else {
+            var $remark = document.getElementById('remarkAboutBrowser');
+            $remark.style.display = 'block';
+          }
+        }, checkDuration);
+      })();
+    </script>
     <script type="text/javascript">
       var SCRIPT_SRC = './js/main.js?q=1.0.4';
 
