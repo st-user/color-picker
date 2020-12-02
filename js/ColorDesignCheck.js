@@ -85,6 +85,8 @@ export default class ColorDesignCheck {
         const patternInfo = JSON.parse(dataTransferred);
         this.setColorInfoFromPatternInfoIfConfirmed(patternInfo);
       }
+      
+      e.preventDefault();
 
     });
 
@@ -209,6 +211,8 @@ export default class ColorDesignCheck {
         this.#setUpBarElement($newBar);
         this.#$movingBar = undefined;
       }
+
+      e.preventDefault();
     });
 
     $newBar.addEventListener('dragenter', e => {
