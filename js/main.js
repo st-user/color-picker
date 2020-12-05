@@ -1,6 +1,6 @@
 import Explanations from "./Explanations.js";
 import CanvasHandler from "./CanvasHandler.js";
-import ColorPointerCircles from "./ColorPointerCircles.js";
+import ColorPointerPin from "./ColorPointerPin.js";
 import LoadedImageHolder from "./LoadedImageHolder.js";
 import CurrentEventXY from "./CurrentEventXY.js";
 import ChangeColorController from "./ChangeColorController.js";
@@ -16,7 +16,7 @@ export default function main() {
   const explanations = new Explanations();
   const changeColorController = new ChangeColorController();
   const canvasHandler = new CanvasHandler();
-  const colorPointerCircles = new ColorPointerCircles();
+  const colorPointerPin = new ColorPointerPin();
   const currentEventXY = new CurrentEventXY(canvasHandler);
   const loadedImageHolder = new LoadedImageHolder();
   const colorDesignCheck = new ColorDesignCheck();
@@ -52,7 +52,7 @@ export default function main() {
     canvasHandler.drawImageWithSpecificSize(
       currentLoadedImage, imageWidth, imageHeight
     );
-    colorPointerCircles.hide();
+    colorPointerPin.hide();
 
   };
 
@@ -63,6 +63,7 @@ export default function main() {
       () => loadedImageHolder.consumeCurrentImageInfo(drawCurrentLoadedImage)
     )
   );
+  colorPointerPin.setUpEvent();
 
 
   /*
@@ -83,7 +84,7 @@ export default function main() {
   const pickUpColorFromSelectedPx = () => {
 
     if (currentEventXY.exists()) {
-      colorPointerCircles.show(currentEventXY.x(), currentEventXY.y());
+      colorPointerPin.show(currentEventXY.x(), currentEventXY.y());
       const rgbaData = canvasHandler.extractRgb(currentEventXY.x(), currentEventXY.y());
       changeColorController.setColorValuesFromRgb(rgbaData[0], rgbaData[1], rgbaData[2]);
     }
@@ -176,7 +177,7 @@ export default function main() {
   });
 
   window.addEventListener('resize', debounce(event => {
-    colorPointerCircles.hide();
+    colorPointerPin.hide();
   }, 500));
 
 

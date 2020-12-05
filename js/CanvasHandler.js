@@ -45,6 +45,7 @@ export default class CanvasHandler {
 
   onMousedown(handler) {
     this.#$canvas.addEventListener('mousedown', handler);
+    this.#$canvas.addEventListener('click', handler);
   }
 
   onMousemove(handler) {

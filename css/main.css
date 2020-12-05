@@ -238,16 +238,8 @@ input[name="toolTabItem"] {
   border-radius: 50%;
 }
 
-#circleBlack {
-  width: 20px;
-  height: 20px;
-  border-color: black;
-}
-
-#circleWhite {
-  width: 24px;
-  height: 24px;
-  border-color: white;
+#colorPointerPin {
+  position: absolute;
 }
 
 
