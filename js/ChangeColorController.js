@@ -1,6 +1,7 @@
 import HsvRgbConverter from "./HsvRgbConverter.js";
 import { RgbColorBar, HsvColorBar } from "./ColorBar.js";
 import debounce from "./Debounce.js";
+import CustomEventNames from './CustomEventNames.js';
 
 const toHex = d => {
   const val = Number(d).toString(16);
@@ -237,6 +238,12 @@ export default class ChangeColorController {
 
     this.#$addHistory.addEventListener('click', () => {
       _onColorCodeChangeWithAlert();
+    });
+
+    document.addEventListener(CustomEventNames.COLOR_PICKER__IMAGE_DATA_POINTED, event => {
+      const detail = event.detail;
+      const rgbaData = detail.rgbaData;
+      this.setColorValuesFromRgb(rgbaData[0], rgbaData[1], rgbaData[2]);
     });
 
     this.setColorValuesFromRgb(151, 179, 237);

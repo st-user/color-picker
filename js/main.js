@@ -1,5 +1,5 @@
 import Explanations from "./Explanations.js";
-import CanvasHandler from "./CanvasHandler.js";
+import ImageCanvasHandler from "./ImageCanvasHandler.js";
 import ColorPointerPin from "./ColorPointerPin.js";
 import LoadedImageHolder from "./LoadedImageHolder.js";
 import CurrentEventXY from "./CurrentEventXY.js";
@@ -7,6 +7,7 @@ import ChangeColorController from "./ChangeColorController.js";
 import ColorCodeHistories from "./ColorCodeHistories.js";
 import ColorDesignCheck from "./ColorDesignCheck.js";
 import ColorDesignHistories from "./ColorDesignHistories.js";
+import CustomEventNames from './CustomEventNames.js';
 import debounce from "./Debounce.js";
 
 
@@ -15,15 +16,12 @@ export default function main() {
 
   const explanations = new Explanations();
   const changeColorController = new ChangeColorController();
-  const canvasHandler = new CanvasHandler();
+  const imageCanvasHandler = new ImageCanvasHandler();
   const colorPointerPin = new ColorPointerPin();
-  const currentEventXY = new CurrentEventXY(canvasHandler);
   const loadedImageHolder = new LoadedImageHolder();
   const colorDesignCheck = new ColorDesignCheck();
   const colorCodeHistories = new ColorCodeHistories();
   const colorDesignHistories = new ColorDesignHistories();
-
-  const $needsToResize = document.querySelectorAll('input[name="needsToResize"]');
 
   explanations.setUpEvents();
 
@@ -47,22 +45,8 @@ export default function main() {
   /*
    * 画像ファイル関係のイベントハンドラーの設定
    */
-  const drawCurrentLoadedImage = (currentLoadedImage, imageWidth, imageHeight) => {
-
-    canvasHandler.drawImageWithSpecificSize(
-      currentLoadedImage, imageWidth, imageHeight
-    );
-    colorPointerPin.hide();
-
-  };
-
-  loadedImageHolder.init(drawCurrentLoadedImage);
-
-  $needsToResize.forEach(
-    element => element.addEventListener("change",
-      () => loadedImageHolder.consumeCurrentImageInfo(drawCurrentLoadedImage)
-    )
-  );
+  imageCanvasHandler.setUpEvent();
+  loadedImageHolder.setUpEvent();
   colorPointerPin.setUpEvent();
 
 
@@ -80,47 +64,15 @@ export default function main() {
   /*
    * キーボード、マウス操作によるイメージの色取得関係のイベントハンドドラーの設定
    */
-  let isControlKeyPressed, shouldPreventCircleFromMovingByArrow;
-  const pickUpColorFromSelectedPx = () => {
+  let shouldPreventCircleFromMovingByArrow;
 
-    if (currentEventXY.exists()) {
-      colorPointerPin.show(currentEventXY.x(), currentEventXY.y());
-      const rgbaData = canvasHandler.extractRgb(currentEventXY.x(), currentEventXY.y());
-      changeColorController.setColorValuesFromRgb(rgbaData[0], rgbaData[1], rgbaData[2]);
-    }
-
+  const dispatchArrowKeyPressedEvent = detail => {
+    const customEvent = new CustomEvent(
+      CustomEventNames.COLOR_PICKER__ARROW_KEY_PRESSED,
+      { detail: detail }
+    );
+    document.dispatchEvent(customEvent);
   };
-
-  canvasHandler.onMousedown(event => {
-
-    currentEventXY.set({
-      x: event.pageX,
-      y: event.pageY
-    });
-    pickUpColorFromSelectedPx();
-
-  });
-
-  canvasHandler.onMousemove(event => {
-
-    if (!isControlKeyPressed) {
-      return;
-    }
-    currentEventXY.set({
-      x: event.pageX,
-      y: event.pageY
-    });
-    pickUpColorFromSelectedPx();
-
-  });
-
-  document.addEventListener('keydown', event => {
-
-    if (event.key === 'Control') {
-      isControlKeyPressed = true;
-    }
-
-  });
 
   document.addEventListener('keydown', event => {
 
@@ -130,27 +82,19 @@ export default function main() {
     switch (event.key) {
       case "Down":
       case "ArrowDown":
-        if (currentEventXY.changeCurrentEventY(1)) {
-            pickUpColorFromSelectedPx();
-        }
+        dispatchArrowKeyPressedEvent({ y: 1 });
         break;
       case "Up":
       case "ArrowUp":
-        if (currentEventXY.changeCurrentEventY(-1)) {
-            pickUpColorFromSelectedPx();
-        }
+        dispatchArrowKeyPressedEvent({ y: -1 });
         break;
       case "Left":
       case "ArrowLeft":
-        if (currentEventXY.changeCurrentEventX(-1)) {
-            pickUpColorFromSelectedPx();
-        }
+        dispatchArrowKeyPressedEvent({ x: -1 });
         break;
       case "Right":
       case "ArrowRight":
-        if (currentEventXY.changeCurrentEventX(1)) {
-            pickUpColorFromSelectedPx();
-        }
+        dispatchArrowKeyPressedEvent({ x: 1 });
         break;
       default:
         return;
@@ -170,16 +114,22 @@ export default function main() {
     );
   })
 
-  document.addEventListener('keyup', event => {
+  const dispatchControlKeyPressedEvent = (event, state) => {
     if (event.key === 'Control') {
-      isControlKeyPressed = false;
+      const customEvent = new CustomEvent(
+        CustomEventNames.COLOR_PICKER__CONTROL_KEY_PRESSED,
+        { detail: { state: state } }
+      );
+      document.dispatchEvent(customEvent);
     }
-  });
+  };
+
+  document.addEventListener('keydown', event => dispatchControlKeyPressedEvent(event, true));
+  document.addEventListener('keyup', event => dispatchControlKeyPressedEvent(event, false));
 
   window.addEventListener('resize', debounce(event => {
     colorPointerPin.hide();
   }, 500));
-
 
   const $remark = document.querySelector('#remarkAboutBrowser');
   $remark.setAttribute('style', '');

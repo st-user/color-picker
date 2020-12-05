@@ -3,12 +3,6 @@ export default class CurrentEventXY {
   #currentEventX;
   #currentEventY;
 
-  #canvasHandler;
-
-  constructor(canvasHandler) {
-    this.#canvasHandler = canvasHandler;
-  }
-
   x() {
     return this.#currentEventX;
   }
@@ -30,28 +24,28 @@ export default class CurrentEventXY {
     }
   }
 
-  changeCurrentEventX(diff) {
+  changeCurrentEventX(diff, contains) {
     const currentEventX = this.#currentEventX;
 
     if (!currentEventX) {
       return false;
     }
     const newX = currentEventX + diff;
-    if (this.#canvasHandler.containsX(newX)) {
+    if (contains(newX)) {
       this.#currentEventX = newX;
       return true;
     }
     return false;
   }
 
-  changeCurrentEventY(diff) {
+  changeCurrentEventY(diff, contains) {
     const currentEventY = this.#currentEventY;
 
     if (!currentEventY) {
       return false;
     }
     const newY = currentEventY + diff;
-    if (this.#canvasHandler.containsY(newY)) {
+    if (contains(newY)) {
       this.#currentEventY = newY;
       return true;
     }

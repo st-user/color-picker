@@ -1,4 +1,5 @@
 import ElementUtil from './ElementUtil.js';
+import CustomEventNames from './CustomEventNames.js';
 
 const CENTER = [20, 20];
 const R = 16;
@@ -30,7 +31,7 @@ export default class ColorPointerPin {
     pointerCtx.fill();
     pointerCtx.stroke();
 
-    this.hide();
+    this.#hide();
   }
 
   setUpEvent() {
@@ -45,9 +46,18 @@ export default class ColorPointerPin {
         $element.dispatchEvent(newEvent);
       });
     });
+
+    document.addEventListener(CustomEventNames.COLOR_PICKER__IMAGE_DATA_POINTED, event => {
+      const detail = event.detail;
+      this.#show(detail.eventX, detail.eventY);
+    });
+
+    document.addEventListener(CustomEventNames.COLOR_PICKER__IMAGE_FILE_LOADED, () => {
+      this.#hide();
+    });
   }
 
-  show(x, y) {
+  #show(x, y) {
     const dX = x - (CENTER[0] + 1);
     const dY = y - (CENTER[1] + R * Math.cos(RAD) + PIN_LENGTH - 1);
     this.#$pointerCanvas.style.display = 'block';
@@ -55,7 +65,7 @@ export default class ColorPointerPin {
     this.#$pointerCanvas.style.top = dY + 'px';
   }
 
-  hide() {
+  #hide() {
     this.#$pointerCanvas.style.display = 'none';
   }
 }

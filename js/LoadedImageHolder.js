@@ -1,17 +1,26 @@
-import Constants from "./Constants.js";
+import Constants from './Constants.js';
+import CustomEventNames from './CustomEventNames.js';
 
 export default class LoadedImageHolder {
 
   #$imageFile;
   #currentLoadedImage;
 
+  #$needsToResize;
+
   constructor() {
-    const $imageFile = document.querySelector('#imageFile');
-    this.#$imageFile = $imageFile;
+    this.#$imageFile = document.querySelector('#imageFile');
+    this.#$needsToResize = document.querySelectorAll('input[name="needsToResize"]');
   }
 
-  init(onload) {
+  setUpEvent() {
     const currentLoadedImage = this.#currentLoadedImage;
+
+    this.#$needsToResize.forEach(
+      element => element.addEventListener("change",
+        () => this.#dispatchImageLoadedEvent()
+      )
+    );
 
     this.#$imageFile.addEventListener('change', e => {
 
@@ -30,7 +39,7 @@ export default class LoadedImageHolder {
 
         image.onload = () => {
           this.#currentLoadedImage = image;
-          this.consumeCurrentImageInfo(onload);
+          this.#dispatchImageLoadedEvent();
         };
 
       };
@@ -38,11 +47,20 @@ export default class LoadedImageHolder {
     });
   }
 
-  consumeCurrentImageInfo(consumer) {
+  #dispatchImageLoadedEvent() {
     const wh = this.#calcWidthAndHeight();
-    consumer(this.#currentLoadedImage, wh.width, wh.height);
+    const customEvent = new CustomEvent(
+      CustomEventNames.COLOR_PICKER__IMAGE_FILE_LOADED,
+      {
+        detail: {
+          image: this.#currentLoadedImage,
+          width: wh.width,
+          height: wh.height
+        }
+      }
+    );
+    document.dispatchEvent(customEvent);
   }
-
 
   #calcWidthAndHeight() {
     const currentLoadedImage = this.#currentLoadedImage;
