@@ -26,6 +26,11 @@
 
     <ul id="explanations" class="shadow">
       <li>RGB/HSVをスライダーバーで調整してカラーコードを作成できます。</li>
+      <li>「HSVチャートから抽出」を使用し、円状のチャートから色を抽出することができます。抽出した色はRGB/HSVのスライダーバーで編集できます。
+        <ul class="explanationsInner margin-bottom">
+          <li>チャート上を、クリックする/Ctrlキーを押しながらマウスを動かす/矢印キーを動かすことにより任意の位置の色が抽出できます。</li>
+        </ul>
+      </li>
       <li>「画像から抽出」を使用し、画像から色を抽出することができます。抽出した色はRGB/HSVのスライダーバーで編集できます。
         <ul class="explanationsInner margin-bottom">
           <li>画像上を、クリックする/Ctrlキーを押しながらマウスを動かす/矢印キーを動かすことにより任意の位置の色が抽出できます。</li>
@@ -127,7 +132,7 @@
     <div id="toolArea" class="tabArea">
 
       <input id="hsvCircleAreaTabTitle" type="radio" name="toolTabItem" value="0" checked/>
-      <label class="toolTabItem tabItem" for="hsvCircleAreaTabTitle">色相環から抽出</label>
+      <label class="toolTabItem tabItem" for="hsvCircleAreaTabTitle">HSVチャートから抽出</label>
 
       <input id="imageFileAreaTabTitle" type="radio" name="toolTabItem" value="1"/>
       <label class="toolTabItem tabItem" for="imageFileAreaTabTitle">画像から抽出</label>

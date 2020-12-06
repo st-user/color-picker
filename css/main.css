@@ -16,7 +16,7 @@ h1 {
   line-height: 2;
   text-align: center;
   height: 64px;
-  width: 90%;
+  width: 100%;
 }
 
 h2 {
@@ -94,9 +94,10 @@ h2 {
 
 /* 説明 */
 #showExplanationsWrapper {
-  float: left;
-  width: 10%;
-  position: relative;
+  width: 12%;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 #showExplanations {
@@ -219,7 +220,7 @@ input[name="toolTabItem"] {
 
 
 
-/*色相環から抽出*/
+/*HSVチャートから抽出*/
 #hsvCircleArea {
   position: static;
 }
