@@ -37,6 +37,9 @@ const rotate = (x, y, theta) => {
 
 export default class HsvCircleCanvasHandler extends CanvasHandler {
 
+  #$valueSliderPos;
+  #$valueSlider;
+  #$hsvCircleDataControlArea;
   #$tab;
 
   #currentSizeConfig;
@@ -53,8 +56,9 @@ export default class HsvCircleCanvasHandler extends CanvasHandler {
     this.#currentSizeConfig = DEFAULT_CIRCLE_SIZE_CONFIG;
     this.#currentArcStep = Math.PI / 180;
     this.#currentValue = DEFAULT_VALUE;
-
-    this.#drawHsvCircleFromConfigs()
+    this.#$valueSliderPos = document.querySelector('#hsvCircleDataValueSliderPositioning');
+    this.#$valueSlider = document.querySelector('#hsvCircleDataValueSlider');
+    this.#$hsvCircleDataControlArea = document.querySelector('#hsvCircleDataControlArea');
     this.#$tab = document.querySelector('#hsvCircleAreaTabTitle');
   }
 
@@ -89,6 +93,8 @@ export default class HsvCircleCanvasHandler extends CanvasHandler {
         CommonEventDispatcher.hideColorPointerPin();
       });
     });
+
+    this.#drawHsvCircleFromConfigs();
   }
 
   containsX(x) {
@@ -116,6 +122,11 @@ export default class HsvCircleCanvasHandler extends CanvasHandler {
   }
 
   #drawHsvCircleFromConfigs() {
+    const sliderLength = this.#currentSizeConfig.height;
+    this.#$valueSliderPos.style.height = (sliderLength) + 'px';
+    this.#$valueSlider.style.width = (sliderLength * 0.8) + 'px';
+    this.#$valueSlider.style.left = (-sliderLength * 0.8 / 2 + 16) + 'px';
+    this.#$hsvCircleDataControlArea.style.width = (this.#currentSizeConfig.width) + 'px';
     this.#drawHsvCircle(
       this.#currentSizeConfig.width,
       this.#currentSizeConfig.height,

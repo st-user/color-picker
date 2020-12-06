@@ -137,29 +137,36 @@
 
       <div class="toolTabContent tabContent groupBackground" id="hsvCircleArea">
 
-        <div>
-          <canvas id="hsvCircleData"></canvas>
-          <div>
-            <div>V(明度)</div>
-            <input type="range" min="0" max="100" id="hsvCircleDataValueSlider"/>
+        <div id="hsvCircleDataContainer">
+          <div id="hsvCircleDataWrapper">
+            <canvas id="hsvCircleData"></canvas>
+            <div class="hsvCircleDataCaption font-small">円の半径＝S(彩度)</div>
           </div>
-          <div>
-            <span>サイズ:</span>
-            <input id="hsvCircleSizeSwitchSmall" type="radio" name="hsvCircleSizeSwitch" value="0"/>
-            <label for="hsvCircleSizeSwitchSmall">小</label>
-            <input id="hsvCircleSizeSwitchMedium" type="radio" name="hsvCircleSizeSwitch" value="1" checked/>
-            <label for="hsvCircleSizeSwitchMedium">中</label>
-            <input id="hsvCircleSizeSwitchLarge" type="radio" name="hsvCircleSizeSwitch" value="2"/>
-            <label for="hsvCircleSizeSwitchLarge">大</label>
+          <div id="hsvCircleDataValueSliderWrapper">
+            <div id="hsvCircleDataValueSliderPositioning">
+              <input type="range" min="0" max="100" id="hsvCircleDataValueSlider" class="border-normal"/>
+            </div>
+            <div class="hsvCircleDataCaption font-small">V(明度)</div>
           </div>
-          <div>
-            <span>分割:</span>
-            <input id="hsvCircleDivisionCountSwitch10" type="radio" name="hsvCircleDivisionCountSwitch" value="10"/>
-            <label for="hsvCircleDivisionCountSwitch10">10</label>
-            <input id="hsvCircleDivisionCountSwitch20" type="radio" name="hsvCircleDivisionCountSwitch" value="20"/>
-            <label for="hsvCircleDivisionCountSwitch20">20</label>
-            <input id="hsvCircleDivisionCountSwitchNone" type="radio" name="hsvCircleDivisionCountSwitch" value="360" checked/>
-            <label for="hsvCircleDivisionCountSwitchNone">なし</label>
+          <div id="hsvCircleDataControlArea">
+            <div class="hsvCircleDataControlLine clear clearfixContainer margin-bottom">
+              <span class="hsvCircleDataControlTitle">サイズ:</span>
+              <input id="hsvCircleSizeSwitchSmall" type="radio" name="hsvCircleSizeSwitch" value="0"/>
+              <label for="hsvCircleSizeSwitchSmall" class="hsvCircleDataControlItem">小</label>
+              <input id="hsvCircleSizeSwitchMedium" type="radio" name="hsvCircleSizeSwitch" value="1" checked/>
+              <label for="hsvCircleSizeSwitchMedium" class="hsvCircleDataControlItem">中</label>
+              <input id="hsvCircleSizeSwitchLarge" type="radio" name="hsvCircleSizeSwitch" value="2"/>
+              <label for="hsvCircleSizeSwitchLarge" class="hsvCircleDataControlItem">大</label>
+            </div>
+            <div class="hsvCircleDataControlLine clearfixContainer">
+              <span class="hsvCircleDataControlTitle">分割:</span>
+              <input id="hsvCircleDivisionCountSwitch10" type="radio" name="hsvCircleDivisionCountSwitch" value="10"/>
+              <label for="hsvCircleDivisionCountSwitch10" class="hsvCircleDataControlItem">10</label>
+              <input id="hsvCircleDivisionCountSwitch20" type="radio" name="hsvCircleDivisionCountSwitch" value="20"/>
+              <label for="hsvCircleDivisionCountSwitch20" class="hsvCircleDataControlItem">20</label>
+              <input id="hsvCircleDivisionCountSwitchNone" type="radio" name="hsvCircleDivisionCountSwitch" value="360" checked/>
+              <label for="hsvCircleDivisionCountSwitchNone" class="hsvCircleDataControlItem">なし</label>
+            </div>
           </div>
         </div>
       </div>

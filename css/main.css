@@ -38,6 +38,10 @@ h2 {
   font-size: 12px;
 }
 
+.border-normal {
+  border: 1px solid #333334;
+}
+
 .clear {
   clear: both;
 }
@@ -212,10 +216,114 @@ input[name="toolTabItem"] {
 }
 /* tool tab control end */
 
+
+
+
 /*色相環から抽出*/
 #hsvCircleArea {
   position: static;
 }
+
+#hsvCircleDataContainer {
+  margin: auto;
+  width: 584px;
+}
+
+#hsvCircleDataWrapper {
+  float: left;
+}
+
+.hsvCircleDataCaption {
+  text-align: center;
+}
+
+#hsvCircleDataValueSliderWrapper {
+  float: left;
+  margin-left: 32px;
+  margin-bottom: 24px;
+}
+
+#hsvCircleDataValueSliderPositioning {
+  width: 32px;
+  position: relative;
+}
+
+#hsvCircleDataValueSlider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 32px;
+  background: linear-gradient(to left, white, black);
+  outline: none;
+  opacity: 0.8;
+
+  position: absolute;
+  top: 45%;
+  transform: rotate(270deg);
+}
+
+#hsvCircleDataValueSlider:hover {
+  opacity: 1;
+}
+
+#hsvCircleDataValueSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 32px;
+  width: 8px;
+  border-radius: 0;
+  cursor: pointer;
+  border: 1px solid #333334;
+  background-color: #FFFFFF;
+}
+
+#hsvCircleDataValueSlider::-moz-range-thumb {
+  height: 32px;
+  width: 8px;
+  border-radius: 0;
+  cursor: pointer;
+  border: 1px solid #333334;
+  background-color: #FFFFFF;
+}
+
+.hsvCircleDataControlTitle {
+  float: left;
+  display: inline-block;
+  width: 64px;
+  line-height: 1;
+}
+
+input[name="hsvCircleSizeSwitch"],
+input[name="hsvCircleDivisionCountSwitch"] {
+    display: none;
+}
+
+.hsvCircleDataControlItem {
+  display: block;
+  float: left;
+
+  transition: all 0.2s ease;
+  background-color: #FFFFFF;
+  padding: 3px;
+  width: 32px;
+  text-align: center;
+}
+
+.hsvCircleDataControlItem:hover {
+  opacity: 0.8;
+}
+
+.hsvCircleDataControlLine {
+  margin: auto;
+  width: 178px;
+}
+
+.hsvCircleDataControlLine input:checked + .hsvCircleDataControlItem {
+  background-color: #151F52;
+  color: #FFFFFF;
+}
+
+
+
 
 /* 画像から抽出 */
 #imageFileArea {
