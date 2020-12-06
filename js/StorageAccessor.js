@@ -1,5 +1,7 @@
 const COLOR_PICKER_NS = "color-picker/"
 
+const ERROR_MESSAGE = 'ローカルストレージへのアクセス中にエラーが発生しました。ブラウザの設定でローカルストレージが無効となっている可能性があります。';
+
 const StorageAccessor = (() => {
 
   return {
@@ -16,6 +18,7 @@ const StorageAccessor = (() => {
 
       } catch(e) {
         console.error(e);
+        alert(ERROR_MESSAGE);
       }
 
     },
@@ -28,6 +31,7 @@ const StorageAccessor = (() => {
 
       } catch(e) {
         console.error(e);
+        alert(ERROR_MESSAGE);
       }
 
     },
@@ -40,6 +44,7 @@ const StorageAccessor = (() => {
 
       } catch(e) {
         console.error(e);
+        alert(ERROR_MESSAGE);
       }
     }
 
