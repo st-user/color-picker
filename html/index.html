@@ -126,11 +126,43 @@
 
     <div id="toolArea" class="tabArea">
 
-      <input id="imageFileAreaTabTitle" type="radio" name="toolTabItem" checked>
+      <input id="hsvCircleAreaTabTitle" type="radio" name="toolTabItem" value="0" checked/>
+      <label class="toolTabItem tabItem" for="hsvCircleAreaTabTitle">色相環から抽出</label>
+
+      <input id="imageFileAreaTabTitle" type="radio" name="toolTabItem" value="1"/>
       <label class="toolTabItem tabItem" for="imageFileAreaTabTitle">画像から抽出</label>
 
-      <input id="colorDesignAreaTabTitle" type="radio" name="toolTabItem">
+      <input id="colorDesignAreaTabTitle" type="radio" name="toolTabItem" value="2"/>
       <label class="toolTabItem tabItem" for="colorDesignAreaTabTitle">配色チェック</label>
+
+      <div class="toolTabContent tabContent groupBackground" id="hsvCircleArea">
+
+        <div>
+          <canvas id="hsvCircleData"></canvas>
+          <div>
+            <div>V(明度)</div>
+            <input type="range" min="0" max="100" id="hsvCircleDataValueSlider"/>
+          </div>
+          <div>
+            <span>サイズ:</span>
+            <input id="hsvCircleSizeSwitchSmall" type="radio" name="hsvCircleSizeSwitch" value="0"/>
+            <label for="hsvCircleSizeSwitchSmall">小</label>
+            <input id="hsvCircleSizeSwitchMedium" type="radio" name="hsvCircleSizeSwitch" value="1" checked/>
+            <label for="hsvCircleSizeSwitchMedium">中</label>
+            <input id="hsvCircleSizeSwitchLarge" type="radio" name="hsvCircleSizeSwitch" value="2"/>
+            <label for="hsvCircleSizeSwitchLarge">大</label>
+          </div>
+          <div>
+            <span>分割:</span>
+            <input id="hsvCircleDivisionCountSwitch10" type="radio" name="hsvCircleDivisionCountSwitch" value="10"/>
+            <label for="hsvCircleDivisionCountSwitch10">10</label>
+            <input id="hsvCircleDivisionCountSwitch20" type="radio" name="hsvCircleDivisionCountSwitch" value="20"/>
+            <label for="hsvCircleDivisionCountSwitch20">20</label>
+            <input id="hsvCircleDivisionCountSwitchNone" type="radio" name="hsvCircleDivisionCountSwitch" value="360" checked/>
+            <label for="hsvCircleDivisionCountSwitchNone">なし</label>
+          </div>
+        </div>
+      </div>
 
       <div class="toolTabContent tabContent groupBackground" id="imageFileArea">
 

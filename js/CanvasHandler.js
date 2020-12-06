@@ -1,5 +1,6 @@
 import CustomEventNames from './CustomEventNames.js';
 import CurrentEventXY from './CurrentEventXY.js';
+import ElementUtil from './ElementUtil.js';
 
 export default class CanvasHandler {
 
@@ -9,7 +10,7 @@ export default class CanvasHandler {
   #shouldHandleMousemoveEvent;
 
   constructor(config) {
-    const $canvas = document.querySelector('#imageData');
+    const $canvas = document.querySelector(config.canvasSelector);
 
     $canvas.width = config.defaultWidth;
     $canvas.height = config.defaultHeight;
@@ -31,14 +32,22 @@ export default class CanvasHandler {
     document.addEventListener(
       CustomEventNames.COLOR_PICKER__CONTROL_KEY_PRESSED,
       event => this.#controlKeyPressed(event));
+
+
   }
 
   canvas() {
     return this.#$canvas;
   }
 
+  currentEventXY() {
+    return this.#currentEventXY;
+  }
+
   containsX(x) { return true; }
   containsY(y) { return true; }
+  containsXY(x, y) { return true; }
+  displayed() { return false }
 
   #dispatchEvent() {
     if (this.#currentEventXY.exists()) {
@@ -61,6 +70,15 @@ export default class CanvasHandler {
   }
 
   #dispatchPointEvent(event) {
+
+    if (!this.displayed()) {
+      return;
+    }
+
+    if (!this.containsXY(event.pageX, event.pageY)) {
+      return;
+    }
+
     this.#currentEventXY.set({
       x: event.pageX,
       y: event.pageY
@@ -69,12 +87,24 @@ export default class CanvasHandler {
   }
 
   #dispatchMoveEvent(event) {
+
+    if (!this.displayed()) {
+      return;
+    }
+
     if (this.#shouldHandleMousemoveEvent) {
+      if (!this.containsXY(event.pageX, event.pageY)) {
+        return;
+      }
       this.#dispatchPointEvent(event);
     }
   }
 
   #dispatchArrowKeyPressedEvent(event) {
+
+    if (!this.displayed()) {
+      return;
+    }
 
     const detail = event.detail;
     const xDiff = detail.x;
@@ -105,8 +135,9 @@ export default class CanvasHandler {
   #extractRgb(currentEventX, currentEventY) {
     const $canvas = this.#$canvas;
 
-    const canvasX = currentEventX - $canvas.offsetLeft;
-    const canvasY = currentEventY - $canvas.offsetTop;
+    const canvasPosition = ElementUtil.getElementPosition($canvas);
+    const canvasX = currentEventX - canvasPosition.left;
+    const canvasY = currentEventY - canvasPosition.top;
 
     const ctx = $canvas.getContext('2d');
     const imageData = ctx.getImageData(canvasX, canvasY, 1, 1);

@@ -1,5 +1,6 @@
 import ElementUtil from './ElementUtil.js';
 import CustomEventNames from './CustomEventNames.js';
+import debounce from "./Debounce.js";
 
 const CENTER = [20, 20];
 const R = 16;
@@ -13,7 +14,7 @@ export default class ColorPointerPin {
 
   constructor() {
     this.#$pointerCanvas = document.querySelector('#colorPointerPin');
-    this.#$pointedElements = ['#imageData']
+    this.#$pointedElements = ['#hsvCircleData', '#imageData']
                                 .map(selector => document.querySelector(selector));
 
     const pointerCtx = this.#$pointerCanvas.getContext('2d');
@@ -52,9 +53,12 @@ export default class ColorPointerPin {
       this.#show(detail.eventX, detail.eventY);
     });
 
-    document.addEventListener(CustomEventNames.COLOR_PICKER__IMAGE_FILE_LOADED, () => {
+    document.addEventListener(CustomEventNames.COLOR_PICKER__IMAGE_FILE_LOADED, () => this.#hide());
+    document.addEventListener(CustomEventNames.COLOR_PICKER__HIDE_COLOR_POINTER_PIN, () => this.#hide());
+
+    window.addEventListener('resize', debounce(event => {
       this.#hide();
-    });
+    }, 500));
   }
 
   #show(x, y) {

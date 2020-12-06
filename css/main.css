@@ -200,6 +200,7 @@ input[name="toolTabItem"] {
   display: none;
 }
 
+#hsvCircleAreaTabTitle:checked ~ #hsvCircleArea,
 #imageFileAreaTabTitle:checked ~ #imageFileArea,
 #colorDesignAreaTabTitle:checked ~ #colorDesignArea {
   display: block;
@@ -211,10 +212,13 @@ input[name="toolTabItem"] {
 }
 /* tool tab control end */
 
+/*色相環から抽出*/
+#hsvCircleArea {
+  position: static;
+}
 
 /* 画像から抽出 */
 #imageFileArea {
-  border-radius: 6px;
   position: static;
 }
 

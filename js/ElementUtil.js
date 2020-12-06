@@ -9,11 +9,12 @@ const ElementUtil = (() => {
             left += element.offsetLeft;
             top += element.offsetTop;
           } while(element = element.offsetParent);
+
+          return {
+            left: left,
+            top: top
+          };
       }
-      return {
-        left: left,
-        top: top
-      };
     }
   }
 

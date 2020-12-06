@@ -4,13 +4,19 @@ import CustomEventNames from './CustomEventNames.js';
 export default class ImageCanvasHandler extends CanvasHandler {
 
   #$noImageData;
+  #$tab;
 
   constructor() {
-    super({ defaultWidth: 160, defaultHeight: 90 });
+    super({
+      canvasSelector: '#imageData',
+      defaultWidth: 160,
+      defaultHeight: 90
+    });
     const $noImageData = document.querySelector('#noImageData');
     this.#changeStyleDisplay($noImageData, this.canvas());
 
     this.#$noImageData = $noImageData;
+    this.#$tab = document.querySelector('#imageFileAreaTabTitle');
   }
 
   setUpEvent() {
@@ -35,6 +41,10 @@ export default class ImageCanvasHandler extends CanvasHandler {
     const min = $canvas.offsetTop;
     const max = min + $canvas.height;
     return min <= y && y <= max;
+  }
+
+  displayed() {
+    return this.#$tab.checked;
   }
 
   #drawImageWithSpecificSize(image, width, height) {

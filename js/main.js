@@ -1,14 +1,16 @@
-import Explanations from "./Explanations.js";
-import ImageCanvasHandler from "./ImageCanvasHandler.js";
-import ColorPointerPin from "./ColorPointerPin.js";
-import LoadedImageHolder from "./LoadedImageHolder.js";
-import CurrentEventXY from "./CurrentEventXY.js";
-import ChangeColorController from "./ChangeColorController.js";
-import ColorCodeHistories from "./ColorCodeHistories.js";
-import ColorDesignCheck from "./ColorDesignCheck.js";
-import ColorDesignHistories from "./ColorDesignHistories.js";
+import Explanations from './Explanations.js';
+import ToolTabs from './ToolTabs.js';
+import HsvCircleCanvasHandler from './HsvCircleCanvasHandler.js';
+import ImageCanvasHandler from './ImageCanvasHandler.js';
+import ColorPointerPin from './ColorPointerPin.js';
+import LoadedImageHolder from './LoadedImageHolder.js';
+import CurrentEventXY from './CurrentEventXY.js';
+import ChangeColorController from './ChangeColorController.js';
+import ColorCodeHistories from './ColorCodeHistories.js';
+import ColorDesignCheck from './ColorDesignCheck.js';
+import ColorDesignHistories from './ColorDesignHistories.js';
 import CustomEventNames from './CustomEventNames.js';
-import debounce from "./Debounce.js";
+import debounce from './Debounce.js';
 
 
 
@@ -16,6 +18,8 @@ export default function main() {
 
   const explanations = new Explanations();
   const changeColorController = new ChangeColorController();
+  const toolTabs = new ToolTabs();
+  const hsvCircleCanvasHandler = new HsvCircleCanvasHandler();
   const imageCanvasHandler = new ImageCanvasHandler();
   const colorPointerPin = new ColorPointerPin();
   const loadedImageHolder = new LoadedImageHolder();
@@ -45,6 +49,8 @@ export default function main() {
   /*
    * 画像ファイル関係のイベントハンドラーの設定
    */
+  toolTabs.setUpEvent();
+  hsvCircleCanvasHandler.setUpEvent();
   imageCanvasHandler.setUpEvent();
   loadedImageHolder.setUpEvent();
   colorPointerPin.setUpEvent();
@@ -126,10 +132,6 @@ export default function main() {
 
   document.addEventListener('keydown', event => dispatchControlKeyPressedEvent(event, true));
   document.addEventListener('keyup', event => dispatchControlKeyPressedEvent(event, false));
-
-  window.addEventListener('resize', debounce(event => {
-    colorPointerPin.hide();
-  }, 500));
 
   const $remark = document.querySelector('#remarkAboutBrowser');
   $remark.setAttribute('style', '');
