@@ -110,7 +110,8 @@ export default function main() {
   });
 
   const $controllersUsingWithArrowKey = changeColorController.getControllersUsingWithArrowKey()
-                                          .concat(colorDesignCheck.getControllersUsingWithArrowKey());
+                                          .concat(colorDesignCheck.getControllersUsingWithArrowKey())
+                                          .concat(hsvCircleCanvasHandler.getControllersUsingWithArrowKey());
   $controllersUsingWithArrowKey.forEach($controller => {
     $controller.addEventListener('focus',
       () => shouldPreventCircleFromMovingByArrow = true

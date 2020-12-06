@@ -1,5 +1,6 @@
 import HsvRgbConverter from "./HsvRgbConverter.js";
 import ScatterChart from "./ScatterChart.js";
+import CommonEventDispatcher from './CommonEventDispatcher.js';
 
 const whitespaceRegExp = /^\s+$/;
 const charRegExp = /[<>&"'\\]/;
@@ -85,7 +86,7 @@ export default class ColorDesignCheck {
         const patternInfo = JSON.parse(dataTransferred);
         this.setColorInfoFromPatternInfoIfConfirmed(patternInfo);
       }
-      
+
       e.preventDefault();
 
     });
@@ -241,6 +242,7 @@ export default class ColorDesignCheck {
 
     this.#toggleListOfColorsText();
     this.#$tabInput.checked = true;
+    CommonEventDispatcher.hideColorPointerPin();
   }
 
   #generateBarId() {

@@ -97,6 +97,10 @@ export default class HsvCircleCanvasHandler extends CanvasHandler {
     this.#drawHsvCircleFromConfigs();
   }
 
+  getControllersUsingWithArrowKey() {
+    return [ this.#$valueSlider ];
+  }
+
   containsX(x) {
     return this.containsXY(x, this.currentEventXY().y());
   }
