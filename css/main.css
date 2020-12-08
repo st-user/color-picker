@@ -20,9 +20,12 @@ h1 {
 }
 
 h2 {
-  font-size: 18px;
+  font-size: 24px;
 }
 
+h3 {
+  font-size: 18px;
+}
 
 
 /* 汎用的なスタイル */
@@ -415,6 +418,8 @@ input[name="hsvCircleDivisionCountSwitch"] {
   color: #333334;
 }
 
+
+
 /* コントラスト比 */
 .contrastRatioPickedColor {
   width: 212px;
@@ -430,9 +435,62 @@ input[name="hsvCircleDivisionCountSwitch"] {
   float: left;
 }
 
-#contrastRatioForPickedColor {
-  width: 64px;
+#contrastRatioForPickedColorRatio {
+  padding-top: 16px;
+  width: 160px;
   height: 60px;
+  text-align: center;
+  font-weight: bold;
+  line-height: 48px;
+  font-size: 24px;
+}
+
+.contrastRatioCheckCriteriaTitle,
+.contrastRatioCheckCriteriaChecked,
+.contrastRatioCheckCriteriaSample {
+  float: left;
+  height: 48px;
+}
+
+.contrastRatioCheckCriteriaTitle {
+  width: 212px;
+  line-height: 48px;
+
+}
+
+.contrastRatioCheckCriteriaChecked {
+  width: 160px;
+}
+
+.contrastRatioCheckCriteriaCheckedTitle {
+  display: inline-block;
+  width: 112px;
+  line-height: 24px;
+}
+
+.contrastRatioCheckCriteriaSample {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.contrastRatioCheckText {
+  line-height: 48px;
+}
+
+.contrastRatioCheckCriteriaAA,
+.contrastRatioCheckCriteriaAAA {
+  font-weight: bold;
+}
+
+
+.contrastRatioCheckCriteriaAA.criteriaOK,
+.contrastRatioCheckCriteriaAAA.criteriaOK {
+  color: #30821B;
+}
+
+.contrastRatioCheckCriteriaAA.criteriaNG,
+.contrastRatioCheckCriteriaAAA.criteriaNG {
+  color: #821B1B;
 }
 
 #contrastRatioCheckCriteriaNormal .contrastRatioCheckTextNotBold {
@@ -459,18 +517,135 @@ input[name="hsvCircleDivisionCountSwitch"] {
   cursor: pointer;
 }
 
-.contrastRatioRangeSilder {
-  width: 180px;
+#contrastRatioExtractionCondition {
+  padding-left: 16px;
 }
+
+.contrastRatioExtractionConditionLine {
+  min-height: 24px;
+  margin-bottom: 24px;
+}
+
+.contrastRatioExtractionConditionLineTitle,
+.contrastRatioExtractionConditionLineContent {
+  float: left;
+}
+
+.contrastRatioExtractionConditionLineTitle {
+  width: 212px;
+}
+
+.contrastRatioRangeSilderTitle {
+  width: 32px;
+  display: inline-block;
+}
+
+.contrastRatioRangeSilder {
+  display: inline-block;
+  width: 180px;
+  height: 12px;
+}
+
+.contrastRatioRangeSliderCurrent {
+  display: inline-block;
+  width: 112px;
+  padding-left: 6px;
+}
+
+
+#contrastRatioRangeHsvColorBar {
+  margin-left: 27px;
+}
+
+#contrastRatioExtractionRange {
+  margin-left: 36px;
+}
+
+/* override noUi  :start*/
+..noUi-connect {
+  height: 18px;
+}
+
+.noUi-horizontal .noUi-handle {
+  width: 12px;
+  right: -5px;
+  height: 24px
+}
+
+.noUi-handle:before,
+.noUi-handle:after {
+  display: none;
+}
+/* override noUi  :end*/
+
 
 .contrastRatioExtractionCol {
   float: left;
 }
 
 #contrastRatioTargetColorList {
-  width: 200px;
-  min-height: 360px;
+  width: 212px;
+  min-height: 240px;
 }
+
+#contrastRatioExtractionBtnWrapper {
+  width: 160px;
+  margin-top: 32px;
+}
+
+#contrastRatioExtractHighestRatios {
+  margin: auto;
+  height: 64px;
+  width: 64px;
+  padding-top: 16px;
+  padding-left: 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  background-color: #D7DAE0;
+  opacity: 0.7;
+}
+
+#contrastRatioExtractHighestRatios.disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+#contrastRatioExtractHighestRatios:hover {
+  opacity: 1;
+}
+
+#contrastRatioExtractHighestRatios.disabled:hover {
+  opacity: 0.3;
+}
+
+#contrastRatioResultColorTable {
+  border-collapse: collapse;
+}
+
+#contrastRatioResultColorTable thead,
+#contrastRatioResultColorTable tbody {
+  display: block;
+}
+
+#contrastRatioResultColorTable tbody {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 215px;
+}
+
+#contrastRatioResultColorTable th,
+#contrastRatioResultColorTable td {
+  width: 106px;
+  height: 24px;
+  text-align: center;
+  line-height: 24px;
+  border: 1px solid #333334;
+}
+
+.contrastRatioResultColorBar {
+  cursor: move;
+}
+
 
 /* 配色チェック */
 #colorDesignListOfColors {

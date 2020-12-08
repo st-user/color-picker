@@ -16,7 +16,7 @@ const targetColorTemplate = data => {
 const resultColorTemplate = data => {
   return `
     <tr class="contrastRatioResultColorBar" draggable="true">
-      <td style="background-color: ${data.colorCode};">${data.colorCode}</td>
+      <td style="background-color: ${data.colorCode};" class="pickedColorText">${data.colorCode}</td>
       <td>${data.score}</td>
     </tr>
   `;
@@ -37,6 +37,7 @@ export default class ContrastRatioAutoExtraction {
   #animationOnExecutionTimer;
 
   #condition;
+  #isExecuting;
   #targetColorMap;
 
   #droppedBarCounter;
@@ -54,6 +55,7 @@ export default class ContrastRatioAutoExtraction {
     this.#$contrastRatioResultColorMessage = document.querySelector('#contrastRatioResultColorMessage');
 
     this.#condition = new ContrastRatioAutoExtractionCondition();
+    this.#isExecuting = false;
     this.#targetColorMap = {};
 
     this.#droppedBarCounter = 0;
@@ -95,7 +97,7 @@ export default class ContrastRatioAutoExtraction {
 
     this.#$contrastRatioExtractHighestRatios.addEventListener('click', event => {
 
-      if (!this.#checkCondition()) {
+      if (this.#isExecuting || !this.#checkCondition()) {
         return;
       }
       this.#showMessageOnExecution();
@@ -174,7 +176,7 @@ export default class ContrastRatioAutoExtraction {
 
       let markerCount = 0;
       const $animationText = this.#$contrastRatioResultColorExecuting.querySelector('.waitingAnimationText');
-      $animationText.textContent = '■';
+      $animationText.textContent = 'START!!';
       this.#animationOnExecutionTimer = setInterval(() => {
         if (markerCount % 10 === 0) {
           $animationText.textContent = '';
@@ -187,13 +189,20 @@ export default class ContrastRatioAutoExtraction {
   }
 
   #setResultMessageState(btnDisabled, tableDisplay, animationDisplay, messageDisplay) {
-    this.#$contrastRatioExtractHighestRatios.disabled = btnDisabled;
+
+    if (btnDisabled) {
+      this.#$contrastRatioExtractHighestRatios.classList.add('disabled');
+    } else {
+      this.#$contrastRatioExtractHighestRatios.classList.remove('disabled');
+    }
     this.#$contrastRatioResultColorTable.style.display = tableDisplay;
     this.#$contrastRatioResultColorExecuting.style.display = animationDisplay;
     this.#$contrastRatioResultColorMessage.style.display = messageDisplay;
   }
 
   #executeAutoExtraction() {
+
+    this.#isExecuting = true;
 
     const conditions = this.#condition.createConditionsForCalculators();
     let workerCount = conditions.length;
@@ -260,6 +269,8 @@ export default class ContrastRatioAutoExtraction {
   }
 
   #refleshResultState(resultCount) {
+
+    this.#isExecuting = false;
 
     this.#setResultMessageState(false, 'none', 'none', 'none');
     clearTimeout(this.#animationOnExecutionTimer);

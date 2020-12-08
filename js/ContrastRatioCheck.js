@@ -17,7 +17,7 @@ export default class ContrastRatioCheck {
 
   #$contrastRatioPickedColor1;
   #$contrastRatioPickedColor2;
-  #$contrastRatioForPickedColor;
+  #$contrastRatioForPickedColorRatio;
 
   #$contrastRatioCheckCriteriaNormal;
   #$contrastRatioCheckCriteriaLarge;
@@ -31,7 +31,7 @@ export default class ContrastRatioCheck {
   constructor() {
     this.#$contrastRatioPickedColor1 = document.querySelector('#contrastRatioPickedColor1');
     this.#$contrastRatioPickedColor2 = document.querySelector('#contrastRatioPickedColor2');
-    this.#$contrastRatioForPickedColor = document.querySelector('#contrastRatioForPickedColor');
+    this.#$contrastRatioForPickedColorRatio = document.querySelector('#contrastRatioForPickedColorRatio');
 
     this.#$contrastRatioCheckCriteriaNormal = document.querySelector('#contrastRatioCheckCriteriaNormal');
     this.#$contrastRatioCheckCriteriaLarge = document.querySelector('#contrastRatioCheckCriteriaLarge');
@@ -170,7 +170,7 @@ export default class ContrastRatioCheck {
   }
 
   #changeColor($element, bgColor, textColor) {
-    $element.querySelectorAll('.contrastRatioCheckText').forEach($text => {
+    $element.querySelectorAll('.contrastRatioCheckCriteriaSample').forEach($text => {
       $text.style.backgroundColor = bgColor;
       $text.style.color = textColor;
     });
@@ -187,7 +187,7 @@ export default class ContrastRatioCheck {
       r1 = 1, r2 = ratio;
     }
     const round2 = val => Math.round(val * 100) / 100;
-    this.#$contrastRatioForPickedColor.textContent = `${round2(r1)}:${round2(r2)}`;
+    this.#$contrastRatioForPickedColorRatio.textContent = `${round2(r1)} : ${round2(r2)}`;
 
     this.#checkSuccessCriteria(this.#$contrastRatioCheckCriteriaNormal, ratio, 4.5, 7);
     this.#checkSuccessCriteria(this.#$contrastRatioCheckCriteriaLarge, ratio, 3, 4.5);
@@ -195,11 +195,31 @@ export default class ContrastRatioCheck {
 
   #checkSuccessCriteria($element, ratio, criteriaAA, criteriaAAA) {
 
-    const resultAA = criteriaAA <= ratio ? 'OK' : 'NG';
-    const resultAAA = criteriaAAA <= ratio ? 'OK' : 'NG';
+    this.#checkSuccessCriteriaEach(
+      $element,
+      '.contrastRatioCheckCriteriaAA',
+      ratio,
+      criteriaAA
+    );
 
-    $element.querySelector('.contrastRatioCheckCriteriaAA').textContent = resultAA;
-    $element.querySelector('.contrastRatioCheckCriteriaAAA').textContent = resultAAA;
+    this.#checkSuccessCriteriaEach(
+      $element,
+      '.contrastRatioCheckCriteriaAAA',
+      ratio,
+      criteriaAAA
+    );
+  }
+
+  #checkSuccessCriteriaEach($element, elSelector, ratio, criteria) {
+
+    const result = criteria <= ratio ? 'OK' : 'NG';
+    const addClass = criteria <= ratio ? 'criteriaOK' : 'criteriaNG';
+    const removeClass = criteria <= ratio ? 'criteriaNG' : 'criteriaOK';
+
+    const $check = $element.querySelector(elSelector);
+    $check.textContent = result;
+    $check.classList.add(addClass);
+    $check.classList.remove(removeClass);
   }
 
   #generateBarId() {

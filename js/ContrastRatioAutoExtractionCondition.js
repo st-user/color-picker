@@ -6,7 +6,7 @@ const decimalStringToInteger = d => {
 }
 
 const currentRangeTemplate = data => {
-  return `${data[0]}以上 ${data[1]}以下`;
+  return `>${data[0]}以上 ${data[1]}以下`;
 };
 
 
@@ -96,7 +96,9 @@ export default class ContrastRatioAutoExtractionCondition {
       }
     });
 
-    this.#hsvColorBar = new HsvColorBar('#contrastRatioRangeHsvColorBar');
+    this.#hsvColorBar = new HsvColorBar('#contrastRatioRangeHsvColorBar', {
+      gradientAreaWidth: 180
+    });
     this.#hsvColorBar.changeGradient(100, 100);
 
     this.#isConditionOpend = true;
@@ -110,18 +112,22 @@ export default class ContrastRatioAutoExtractionCondition {
     });
 
     const setCurrentRange = (slider, $target) => {
-      slider.on('change', () => {
+      const text = currentRangeTemplate(this.#extractRangeFromNoSlider(slider));
+      $target.textContent = text;
+    };
 
-        const text = currentRangeTemplate(this.#extractRangeFromNoSlider(slider));
-        $target.textContent = text;
-
-      });
+    const setCurrentRangeOnChange = (slider, $target) => {
+      slider.on('change', () => setCurrentRange(slider, $target));
     };
 
     setCurrentRange(this.#slider_h, this.#$contrastRatioRangeSliderCurrent_h);
+    setCurrentRangeOnChange(this.#slider_h, this.#$contrastRatioRangeSliderCurrent_h);
     setCurrentRange(this.#slider_s, this.#$contrastRatioRangeSliderCurrent_s);
+    setCurrentRangeOnChange(this.#slider_s, this.#$contrastRatioRangeSliderCurrent_s);
     setCurrentRange(this.#slider_v, this.#$contrastRatioRangeSliderCurrent_v);
+    setCurrentRangeOnChange(this.#slider_v, this.#$contrastRatioRangeSliderCurrent_v);
     setCurrentRange(this.#extractionRangeSlider, this.#$contrastRatioRangeSliderCurrent_ratioRange);
+    setCurrentRangeOnChange(this.#extractionRangeSlider, this.#$contrastRatioRangeSliderCurrent_ratioRange);
 
   }
 

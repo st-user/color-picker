@@ -1,6 +1,6 @@
 require('../node_modules/nouislider/distribute/nouislider.css');
-import '../css/reset.css';
-import '../css/main.css';
+require('../css/reset.css');
+require('../css/main.css');
 
 import main from "./main.js";
 main();

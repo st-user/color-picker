@@ -207,14 +207,14 @@
 
       <div class="toolTabContent tabContent groupBackground" id="contrastRatioArea">
 
-        <div>
+        <div class="margin-bottom">
           <div class="contrastRatioPickedColorCol">
             <div>背景色</div>
             <div id="contrastRatioPickedColor1" class="contrastRatioPickedColor droppableAreaBg border-normal"></div>
           </div>
 
           <div class="contrastRatioPickedColorCol">
-            <div id="contrastRatioForPickedColor"></div>
+            <div id="contrastRatioForPickedColorRatio"></div>
           </div>
 
           <div class="contrastRatioPickedColorCol">
@@ -223,30 +223,38 @@
           </div>
 
           <div class="clear">
-            <div id="contrastRatioCheckCriteriaNormal">
-              <div>
+            <div id="contrastRatioCheckCriteriaNormal" class="margin-bottom clearfixContainer">
+              <div class="contrastRatioCheckCriteriaTitle">
                 Normal Text:
               </div>
-              <div>
-                <span>AA(4.5:1<=):</span><span class="contrastRatioCheckCriteriaAA"></span>
-                <span>AAA(7:1<=):</span><span class="contrastRatioCheckCriteriaAAA"></span>
+              <div class="contrastRatioCheckCriteriaChecked">
+                <div>
+                  <span class="contrastRatioCheckCriteriaCheckedTitle">AA(4.5:1<=):</span><span class="contrastRatioCheckCriteriaAA"></span>
+                </div>
+                <div>
+                  <span class="contrastRatioCheckCriteriaCheckedTitle">AAA(7:1<=):</span><span class="contrastRatioCheckCriteriaAAA"></span>
+                </div>
               </div>
-              <div>
+              <div class="contrastRatioCheckCriteriaSample">
                 <span class="contrastRatioCheckText contrastRatioCheckTextNotBold">あいう&nbsp;abc</span>
                 <span class="contrastRatioCheckText contrastRatioCheckTextBold">あいう&nbsp;abc</span>
               </div>
             </div>
-            <div id="contrastRatioCheckCriteriaLarge">
-              <div>
+            <div id="contrastRatioCheckCriteriaLarge" class="clearfixContainer">
+              <div class="contrastRatioCheckCriteriaTitle">
                 Large Text:
               </div>
-              <div>
-                <span>AA(3:1<=):</span><span class="contrastRatioCheckCriteriaAA"></span>
-                <span>AAA(4.5:1<=):</span><span class="contrastRatioCheckCriteriaAAA"></span>
+              <div class="contrastRatioCheckCriteriaChecked">
+                <div>
+                  <span class="contrastRatioCheckCriteriaCheckedTitle">AA(3:1<=):</span><span class="contrastRatioCheckCriteriaAA"></span>
+                </div>
+                <div>
+                  <span class="contrastRatioCheckCriteriaCheckedTitle">AAA(4.5:1<=):</span><span class="contrastRatioCheckCriteriaAAA"></span>
+                </div>
               </div>
-              <div>
-                <span class="contrastRatioCheckText contrastRatioCheckTextNotBold">あいう&nbsp;&nbsp;abc</span>
-                <span class="contrastRatioCheckText contrastRatioCheckTextBold">あいう&nbsp;&nbsp;abc</span>
+              <div class="contrastRatioCheckCriteriaSample">
+                <span class="contrastRatioCheckText contrastRatioCheckTextNotBold">あいう&nbsp;abc</span>
+                <span class="contrastRatioCheckText contrastRatioCheckTextBold">あいう&nbsp;abc</span>
               </div>
             </div>
           </div>
@@ -254,17 +262,17 @@
         </div>
 
         <div>
-          <h3>自動抽出</h3>
+          <h3 class="margin-bottom">自動抽出</h3>
 
-          <div>
-            <div id="contrastRatioExtractionConditionTitle">
+          <div class="margin-bottom">
+            <div id="contrastRatioExtractionConditionTitle" class="margin-bottom">
               <span class="openCloseTriangle triangleClose">▲</span>
               条件
             </div>
             <div id="contrastRatioExtractionCondition">
-              <div>
-                <div>抽出する色の数</div>
-                <div>
+              <div class="contrastRatioExtractionConditionLine clearfixContainer">
+                <div class="contrastRatioExtractionConditionLineTitle">抽出する色の数:</div>
+                <div class="contrastRatioExtractionConditionLineContent">
                   <select name="contrastRatioExtractionCount" id="contrastRatioExtractionCount">
                     <option value="10">10</option>
                     <option value="20">20</option>
@@ -272,46 +280,46 @@
                   </select>
                 </div>
               </div>
-              <div>
-                <div>HSVの範囲</div>
-                <div>
+              <div class="contrastRatioExtractionConditionLine clearfixContainer">
+                <div class="contrastRatioExtractionConditionLineTitle">HSVの範囲:</div>
+                <div class="contrastRatioExtractionConditionLineContent">
 
                   <div>
-                    <span class="silderTitle">H:</span>
+                    <span class="contrastRatioRangeSilderTitle">H:</span>
                     <div id="contrastRatioRangeHsvSilder_h" class="contrastRatioRangeSilder"></div>
-                    <span id="contrastRatioRangeSliderCurrent_h"></span>
+                    <span id="contrastRatioRangeSliderCurrent_h" class="contrastRatioRangeSliderCurrent font-small"></span>
                   </div>
                   <div class="margin-bottom">
                     <canvas id="contrastRatioRangeHsvColorBar"></canvas>
                   </div>
 
                   <div class="margin-bottom">
-                    <span class="silderTitle">S:</span>
+                    <span class="contrastRatioRangeSilderTitle">S:</span>
                     <div id="contrastRatioRangeHsvSilder_s" class="contrastRatioRangeSilder"></div>
-                    <span id="contrastRatioRangeSliderCurrent_s"></span>
+                    <span id="contrastRatioRangeSliderCurrent_s" class="contrastRatioRangeSliderCurrent font-small"></span>
                   </div>
                   <div>
-                    <span class="silderTitle">V:</span>
+                    <span class="contrastRatioRangeSilderTitle">V:</span>
                     <div id="contrastRatioRangeHsvSilder_v" class="contrastRatioRangeSilder"></div>
-                    <span id="contrastRatioRangeSliderCurrent_v"></span>
+                    <span id="contrastRatioRangeSliderCurrent_v" class="contrastRatioRangeSliderCurrent font-small"></span>
                   </div>
 
                 </div>
               </div>
-              <div>
-                <div>コントラスト比の範囲</div>
-                <div>
+              <div class="contrastRatioExtractionConditionLine clearfixContainer">
+                <div class="contrastRatioExtractionConditionLineTitle">コントラスト比の範囲:</div>
+                <div class="contrastRatioExtractionConditionLineContent">
                   <div>
 
                     <div id="contrastRatioExtractionRange" class="contrastRatioRangeSilder"></div>
-                    <span id="contrastRatioRangeSliderCurrent_ratioRange"></span>
+                    <span id="contrastRatioRangeSliderCurrent_ratioRange" class="contrastRatioRangeSliderCurrent font-small"></span>
 
                   </div>
                 </div>
               </div>
-              <div>
-                <div>スレッド数</div>
-                <div>
+              <div class="contrastRatioExtractionConditionLine clearfixContainer">
+                <div class="contrastRatioExtractionConditionLineTitle">スレッド数:</div>
+                <div class="contrastRatioExtractionConditionLineContent">
                   <select name="contrastRatioExtractionThreadCount" id="contrastRatioExtractionThreadCount">
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -324,14 +332,17 @@
             </div>
           </div>
 
-          <div class="clearfixContainer">
+          <div class="clearfixContainer margin-bottom">
 
             <div id="contrastRatioTargetColorList" class="contrastRatioExtractionCol droppableAreaBg border-normal">
-
             </div>
 
-            <div class="contrastRatioExtractionCol">
-              <button id="contrastRatioExtractHighestRatios">抽出</button>
+            <div id="contrastRatioExtractionBtnWrapper" class="contrastRatioExtractionCol">
+              <div id="contrastRatioExtractHighestRatios" class="shadow">
+                <div>→→</div>
+                <div>抽出</div>
+                <div>→→</div>
+              </div>
             </div>
 
             <div id="contrastRatioResultColorList" class="contrastRatioExtractionCol">
