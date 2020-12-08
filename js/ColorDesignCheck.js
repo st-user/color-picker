@@ -7,9 +7,9 @@ const charRegExp = /[<>&"'\\]/;
 
 const colorTemplate = data => {
   return `
-    <div class="colorDesignPickedColorBar" data-color-info-id="${data.id}" draggable="true">
-      <span class="colorDesignPickedColorText">${data.colorCode}</span>
-      <span class="colorDesignPickedColorDel">×</span>
+    <div class="colorDesignPickedColorBar pickedColorBar" data-color-info-id="${data.id}" draggable="true">
+      <span class="pickedColorText">${data.colorCode}</span>
+      <span class="colorDesignPickedColorDel pickedColorDel">×</span>
     </div>
   `;
 };

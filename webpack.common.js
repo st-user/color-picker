@@ -4,7 +4,8 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   entry: {
-    main: './js/index.js'
+    main: './js/index.js',
+    'contrast-ratio-auto-extraction-worker': './js/contrast-ratio-auto-extraction-worker-index.js'
   },
   output: {
     filename: './js/[name].js',

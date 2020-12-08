@@ -11,6 +11,7 @@
 
 
 
+<!-- title -->
     <header class="clearfixContainer">
       <h1>カラーコード作成ツール</h1>
       <div id="showExplanationsWrapper">
@@ -24,6 +25,8 @@
 
 
 
+
+<!-- explanations -->
     <ul id="explanations" class="shadow">
       <li>RGB/HSVをスライダーバーで調整してカラーコードを作成できます。</li>
       <li>「HSVチャートから抽出」を使用し、円状のチャートから色を抽出することができます。抽出した色はRGB/HSVのスライダーバーで編集できます。
@@ -46,6 +49,7 @@
 
 
 
+<!-- color control area -->
     <div id="colorControlArea" class="clearfixContainer">
 
       <div id="viewColorWrapper">
@@ -129,6 +133,7 @@
 
 
 
+<!-- tool area -->
     <div id="toolArea" class="tabArea">
 
       <input id="hsvCircleAreaTabTitle" type="radio" name="toolTabItem" value="0" checked/>
@@ -137,7 +142,10 @@
       <input id="imageFileAreaTabTitle" type="radio" name="toolTabItem" value="1"/>
       <label class="toolTabItem tabItem" for="imageFileAreaTabTitle">画像から抽出</label>
 
-      <input id="colorDesignAreaTabTitle" type="radio" name="toolTabItem" value="2"/>
+      <input id="contrastRatioTabTitle" type="radio" name="toolTabItem" value="2"/>
+      <label class="toolTabItem tabItem" for="contrastRatioTabTitle">コントラスト比</label>
+
+      <input id="colorDesignAreaTabTitle" type="radio" name="toolTabItem" value="3"/>
       <label class="toolTabItem tabItem" for="colorDesignAreaTabTitle">配色チェック</label>
 
       <div class="toolTabContent tabContent groupBackground" id="hsvCircleArea">
@@ -176,6 +184,7 @@
         </div>
       </div>
 
+
       <div class="toolTabContent tabContent groupBackground" id="imageFileArea">
 
         <ul id="howToResizeImage" class="font-small margin-bottom">
@@ -195,10 +204,167 @@
 
       </div>
 
+
+      <div class="toolTabContent tabContent groupBackground" id="contrastRatioArea">
+
+        <div>
+          <div class="contrastRatioPickedColorCol">
+            <div>背景色</div>
+            <div id="contrastRatioPickedColor1" class="contrastRatioPickedColor droppableAreaBg border-normal"></div>
+          </div>
+
+          <div class="contrastRatioPickedColorCol">
+            <div id="contrastRatioForPickedColor"></div>
+          </div>
+
+          <div class="contrastRatioPickedColorCol">
+            <div>文字色</div>
+            <div id="contrastRatioPickedColor2" class="contrastRatioPickedColor droppableAreaBg border-normal"></div>
+          </div>
+
+          <div class="clear">
+            <div id="contrastRatioCheckCriteriaNormal">
+              <div>
+                Normal Text:
+              </div>
+              <div>
+                <span>AA(4.5:1<=):</span><span class="contrastRatioCheckCriteriaAA"></span>
+                <span>AAA(7:1<=):</span><span class="contrastRatioCheckCriteriaAAA"></span>
+              </div>
+              <div>
+                <span class="contrastRatioCheckText contrastRatioCheckTextNotBold">あいう&nbsp;abc</span>
+                <span class="contrastRatioCheckText contrastRatioCheckTextBold">あいう&nbsp;abc</span>
+              </div>
+            </div>
+            <div id="contrastRatioCheckCriteriaLarge">
+              <div>
+                Large Text:
+              </div>
+              <div>
+                <span>AA(3:1<=):</span><span class="contrastRatioCheckCriteriaAA"></span>
+                <span>AAA(4.5:1<=):</span><span class="contrastRatioCheckCriteriaAAA"></span>
+              </div>
+              <div>
+                <span class="contrastRatioCheckText contrastRatioCheckTextNotBold">あいう&nbsp;&nbsp;abc</span>
+                <span class="contrastRatioCheckText contrastRatioCheckTextBold">あいう&nbsp;&nbsp;abc</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div>
+          <h3>自動抽出</h3>
+
+          <div>
+            <div id="contrastRatioExtractionConditionTitle">
+              <span class="openCloseTriangle triangleClose">▲</span>
+              条件
+            </div>
+            <div id="contrastRatioExtractionCondition">
+              <div>
+                <div>抽出する色の数</div>
+                <div>
+                  <select name="contrastRatioExtractionCount" id="contrastRatioExtractionCount">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <div>HSVの範囲</div>
+                <div>
+
+                  <div>
+                    <span class="silderTitle">H:</span>
+                    <div id="contrastRatioRangeHsvSilder_h" class="contrastRatioRangeSilder"></div>
+                    <span id="contrastRatioRangeSliderCurrent_h"></span>
+                  </div>
+                  <div class="margin-bottom">
+                    <canvas id="contrastRatioRangeHsvColorBar"></canvas>
+                  </div>
+
+                  <div class="margin-bottom">
+                    <span class="silderTitle">S:</span>
+                    <div id="contrastRatioRangeHsvSilder_s" class="contrastRatioRangeSilder"></div>
+                    <span id="contrastRatioRangeSliderCurrent_s"></span>
+                  </div>
+                  <div>
+                    <span class="silderTitle">V:</span>
+                    <div id="contrastRatioRangeHsvSilder_v" class="contrastRatioRangeSilder"></div>
+                    <span id="contrastRatioRangeSliderCurrent_v"></span>
+                  </div>
+
+                </div>
+              </div>
+              <div>
+                <div>コントラスト比の範囲</div>
+                <div>
+                  <div>
+
+                    <div id="contrastRatioExtractionRange" class="contrastRatioRangeSilder"></div>
+                    <span id="contrastRatioRangeSliderCurrent_ratioRange"></span>
+
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div>スレッド数</div>
+                <div>
+                  <select name="contrastRatioExtractionThreadCount" id="contrastRatioExtractionThreadCount">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="clearfixContainer">
+
+            <div id="contrastRatioTargetColorList" class="contrastRatioExtractionCol droppableAreaBg border-normal">
+
+            </div>
+
+            <div class="contrastRatioExtractionCol">
+              <button id="contrastRatioExtractHighestRatios">抽出</button>
+            </div>
+
+            <div id="contrastRatioResultColorList" class="contrastRatioExtractionCol">
+
+              <table id="contrastRatioResultColorTable">
+                <thead>
+                  <th>色</th><th>スコア</th>
+                </thead>
+                <tbody id="contrastRatioResultColorListBody">
+
+                </tbody>
+              </table>
+
+              <div id="contrastRatioResultColorExecuting">
+                <div>処理中です。しばらくお待ちください。</div>
+                <div class="waitingAnimationText"></div>
+              </div>
+
+              <div id="contrastRatioResultColorMessage">
+                表示対象がありません
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
       <div class="toolTabContent tabContent groupBackground clearfixContainer" id="colorDesignArea">
 
         <div id="colorDesignContainer">
-          <div id="colorDesignListOfColors" class="margin-right">
+          <div id="colorDesignListOfColors" class="droppableAreaBg margin-right">
             <div id="colorDesignListOfColorsText">編集中の色または、履歴上の色をDrag&Dropして色を追加してください</div>
           </div>
 
@@ -224,6 +390,7 @@
 
 
 
+<!-- history area -->
     <div id="colorInfoHistoryArea" class="tabArea">
 
       <h2 class="margin-bottom">履歴</h2>
@@ -267,6 +434,7 @@
 
 
     <script type="text/javascript">
+      var APP_VERSION = '1.2.2';
       var isMainScriptLoadedSuccessfully = false;
       (function() {
         var totalTime = 0;
@@ -284,7 +452,7 @@
       })();
     </script>
     <script type="text/javascript">
-      var SCRIPT_SRC = './js/main.js?q=1.2.2';
+      var SCRIPT_SRC = './js/main.js?q=' + APP_VERSION;
 
       function checkEs6() {
         'use strict';

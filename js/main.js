@@ -8,6 +8,8 @@ import CurrentEventXY from './CurrentEventXY.js';
 import ChangeColorController from './ChangeColorController.js';
 import ColorCodeHistories from './ColorCodeHistories.js';
 import ColorDesignCheck from './ColorDesignCheck.js';
+import ContrastRatioCheck from './ContrastRatioCheck.js';
+import ContrastRatioAutoExtraction from './ContrastRatioAutoExtraction.js';
 import ColorDesignHistories from './ColorDesignHistories.js';
 import CustomEventNames from './CustomEventNames.js';
 import debounce from './Debounce.js';
@@ -23,6 +25,8 @@ export default function main() {
   const imageCanvasHandler = new ImageCanvasHandler();
   const colorPointerPin = new ColorPointerPin();
   const loadedImageHolder = new LoadedImageHolder();
+  const contrastRatioCheck = new ContrastRatioCheck();
+  const contrastRatioAutoExtraction = new ContrastRatioAutoExtraction();
   const colorDesignCheck = new ColorDesignCheck();
   const colorCodeHistories = new ColorCodeHistories();
   const colorDesignHistories = new ColorDesignHistories();
@@ -52,6 +56,8 @@ export default function main() {
   toolTabs.setUpEvent();
   hsvCircleCanvasHandler.setUpEvent();
   imageCanvasHandler.setUpEvent();
+  contrastRatioCheck.setUpEvent();
+  contrastRatioAutoExtraction.setUpEvent();
   loadedImageHolder.setUpEvent();
   colorPointerPin.setUpEvent();
 

@@ -85,6 +85,19 @@ h2 {
   clear: both;
 }
 
+.openCloseTriangle {
+  display: inline-block;
+
+}
+
+.triangleClose {
+  transform: rotate(90deg);
+}
+
+.triangleOpen {
+  transform: rotate(180deg);
+}
+
 #remarkAboutBrowser {
   margin: auto;
   margin-bottom: 36px;
@@ -209,6 +222,7 @@ input[name="toolTabItem"] {
 
 #hsvCircleAreaTabTitle:checked ~ #hsvCircleArea,
 #imageFileAreaTabTitle:checked ~ #imageFileArea,
+#contrastRatioTabTitle:checked ~ #contrastRatioArea,
 #colorDesignAreaTabTitle:checked ~ #colorDesignArea {
   display: block;
 }
@@ -359,44 +373,34 @@ input[name="hsvCircleDivisionCountSwitch"] {
 }
 
 
-
-
-/* 配色チェック */
-#colorDesignListOfColors {
-  float: left;
-  border: 1px solid #333334;
-  width: 200px;
-  min-height: 360px;
+/* 色のDrag&drop系共通 */
+.droppableAreaBg {
   background-color   : #FFFFFF;
-  background-image   : radial-gradient(#000000 1%, transparent 10%),
-                       radial-gradient(#000000 1%, transparent 10%);
   background-position: 0 0, 6px 6px;
   background-size    : 12px 12px;
+  background-image   : radial-gradient(#000000 1%, transparent 10%),
+                       radial-gradient(#000000 1%, transparent 10%);
 }
 
-#colorDesignListOfColorsText {
-  margin: 6px;
-}
-
-.colorDesignPickedColorBar {
+.pickedColorBar {
   position: relative;
   width: 200px;
   height: 32px;
-  cursor: move;
   text-align: center;
   line-height: 32px;
+  cursor: move;
 }
 
-.colorDesignPickedColorText {
-  text-shadow: 1px 1px 0 #FFFFFF;
-}
-
-.colorDesignPickedColorBar.over,
-.colorDesignPickedColorBar.dragging {
+.pickedColorBar.over,
+.pickedColorBar.dragging {
   opacity: 0.4;
 }
 
-.colorDesignPickedColorDel {
+.pickedColorText {
+  text-shadow: 1px 1px 0 #FFFFFF;
+}
+
+.pickedColorDel {
   height: 16px;
   width: 16px;
   border: 1px solid #333334;
@@ -409,6 +413,75 @@ input[name="hsvCircleDivisionCountSwitch"] {
   text-align: center;
   line-height: 14px;
   color: #333334;
+}
+
+/* コントラスト比 */
+.contrastRatioPickedColor {
+  width: 212px;
+  height: 44px;
+}
+
+.contrastRatioPickedColorBar {
+  margin: auto;
+  margin-top: 6px;
+}
+
+.contrastRatioPickedColorCol {
+  float: left;
+}
+
+#contrastRatioForPickedColor {
+  width: 64px;
+  height: 60px;
+}
+
+#contrastRatioCheckCriteriaNormal .contrastRatioCheckTextNotBold {
+  font-weight: normal;
+  font-size: 16pt;
+}
+
+#contrastRatioCheckCriteriaNormal .contrastRatioCheckTextBold {
+  font-weight: bold;
+  font-size: 12pt;
+}
+
+#contrastRatioCheckCriteriaLarge .contrastRatioCheckTextNotBold {
+  font-weight: normal;
+  font-size: 20pt;
+}
+
+#contrastRatioCheckCriteriaLarge .contrastRatioCheckTextBold {
+  font-weight: bold;
+  font-size: 16pt;
+}
+
+#contrastRatioExtractionConditionTitle {
+  cursor: pointer;
+}
+
+.contrastRatioRangeSilder {
+  width: 180px;
+}
+
+.contrastRatioExtractionCol {
+  float: left;
+}
+
+#contrastRatioTargetColorList {
+  width: 200px;
+  min-height: 360px;
+}
+
+/* 配色チェック */
+#colorDesignListOfColors {
+  float: left;
+  border: 1px solid #333334;
+  width: 200px;
+  min-height: 360px;
+}
+
+#colorDesignListOfColorsText {
+  margin: 6px;
 }
 
 #colorDesignChartArea {

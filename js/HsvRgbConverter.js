@@ -1,8 +1,19 @@
 const HsvRgbConverter = (() => {
 
   const toNumber = hex => parseInt(hex, 16);
+  const toHex = d => {
+    const val = Number(d).toString(16);
+    if (val.length === 1) {
+      return '0' + val;
+    }
+    return val;
+  };
 
   return {
+
+    rgbToColorCode: (r, g, b) => {
+      return `#${toHex(r)}${toHex(g)}${toHex(b)}`.toUpperCase();
+    },
 
     colorCodeToR: code => toNumber(code.substring(1, 3)),
     colorCodeToG: code => toNumber(code.substring(3, 5)),
