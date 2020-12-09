@@ -12,12 +12,18 @@ RGB/HSVをスライダーバーで調整してカラーコードを作成する�
 git clone https://github.com/st-user/color-picker.git
 cd color-picker
 npm install
-npm run build
+npm run start
 ```
 
 gitをインストールしていない場合、zipをダウンロードし、同様に上記コマンドを実行してください。
 
-以上により、`color-picker/dist/color-picker/index.html`にブラウザからアクセスできるようになります。
+以上により、`http://localhost:8080/color-picker/index.html`にアクセスできるようになります。
+プロダクション版（ウェブサーバーのドキュメントルートなどに配置する版）をビルドする場合は
+```
+npm run build
+```
+を実行してください。
+
 
 ### 参考サイト
 ###### RGB,HSVの相互変換
@@ -26,3 +32,8 @@ gitをインストールしていない場合、zipをダウンロードし、�
 
 ###### HSV to HSLの変換
 - https://stackoverflow.com/questions/3423214/convert-hsb-hsv-color-to-hsl
+
+
+### 使用ライブラリのライセンス
+- [noUiSlider](https://github.com/leongersen/noUiSlider/blob/master/LICENSE.md)
+- [d3](https://github.com/d3/d3/blob/master/LICENSE)
