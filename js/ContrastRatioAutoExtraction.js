@@ -2,7 +2,7 @@
 import ContrastRatioCalculator from './ContrastRatioCalculator.js';
 import HsvRgbConverter from './HsvRgbConverter.js';
 import ContrastRatioAutoExtractionCondition from './ContrastRatioAutoExtractionCondition.js';
-
+import ContrastRatioExplanations from './ContrastRatioExplanations.js';
 
 const targetColorTemplate = data => {
   return `
@@ -25,7 +25,9 @@ const resultColorTemplate = data => {
 
 export default class ContrastRatioAutoExtraction {
 
-  #$contrastRatioExtractionArea;
+  #explanations;
+
+  #$contrastRatioExtractionAreaContents;
   #$contrastRatioExtractionTitle;
   #isOpened;
 
@@ -50,7 +52,13 @@ export default class ContrastRatioAutoExtraction {
 
   constructor() {
 
-    this.#$contrastRatioExtractionArea = document.querySelector('#contrastRatioExtractionArea');
+    this.#explanations = new ContrastRatioExplanations(
+      '#contrastRatioExtractionTitle .contrastRatioExplanationClose',
+      '#contrastRatioExtractionTitle .contrastRatioExplanationOpen',
+      '#contrastRatioAutoExtractionArea .contrastRatioFunctionExplanations'
+    );
+
+    this.#$contrastRatioExtractionAreaContents = document.querySelector('#contrastRatioExtractionAreaContents');
     this.#$contrastRatioExtractionTitle = document.querySelector('#contrastRatioExtractionTitle');
 
     this.#$contrastRatioTargetColorList = document.querySelector('#contrastRatioTargetColorList');
@@ -83,11 +91,11 @@ export default class ContrastRatioAutoExtraction {
       if (this.#isOpened) {
         $triangle.classList.remove('triangleClose');
         $triangle.classList.add('triangleOpen');
-        this.#$contrastRatioExtractionArea.style.display = 'block';
+        this.#$contrastRatioExtractionAreaContents.style.display = 'block';
       } else {
         $triangle.classList.remove('triangleOpen');
         $triangle.classList.add('triangleClose');
-        this.#$contrastRatioExtractionArea.style.display = 'none';
+        this.#$contrastRatioExtractionAreaContents.style.display = 'none';
       }
     };
 
@@ -135,6 +143,7 @@ export default class ContrastRatioAutoExtraction {
     toggleArea();
     this.#refleshResultState(0);
 
+    this.#explanations.setUpEvent();
     this.#condition.setUpEvent();
   }
 
@@ -254,15 +263,28 @@ export default class ContrastRatioAutoExtraction {
     let resultFromWrokers = [];
     const numberOfResults = this.#condition.getContrastRatioExtractionCount();
     let currentMinScore = -Infinity;
+    let error = false;
 
     for (let i = 0; i < threadCount; i++) {
       let worker = this.#workers[i];
       if (!worker) {
           worker = new Worker('js/contrast-ratio-auto-extraction-worker.js?q=' + window.APP_VERSION);
           this.#workers[i] = worker;
+          worker.onerror = () => {
+            alert('処理実行中にエラーが発生しました。ネットワークの切断などの問題が発生した可能性があります。');
+            error = true;
+            this.#workers.forEach(w => w.terminate());
+            this.#workers = [];
+            this.#showExtractionResult([]);
+          };
       }
 
       const postMessage = () => {
+
+        if (error) {
+          return;
+        }
+
         const condition = conditions[processedTaskCount];
         processedTaskCount++;
         worker.postMessage({
@@ -273,6 +295,10 @@ export default class ContrastRatioAutoExtraction {
       };
 
       worker.onmessage = event => {
+
+        if (error) {
+          return;
+        }
 
         event.data.results.filter(result => currentMinScore < result.avg)
           .forEach(result => resultFromWrokers.push(result));

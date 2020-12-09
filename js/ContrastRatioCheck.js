@@ -1,7 +1,7 @@
 
 import ContrastRatioCalculator from './ContrastRatioCalculator.js';
 import HsvRgbConverter from './HsvRgbConverter.js';
-
+import ContrastRatioExplanations from './ContrastRatioExplanations.js';
 
 const pickedColorTemplate = data => {
   return `
@@ -14,6 +14,8 @@ const pickedColorTemplate = data => {
 
 
 export default class ContrastRatioCheck {
+
+  #explanations;
 
   #$contrastRatioPickedColor1;
   #$contrastRatioPickedColor2;
@@ -29,6 +31,13 @@ export default class ContrastRatioCheck {
   #droppedBarCounter;
 
   constructor() {
+
+    this.#explanations = new ContrastRatioExplanations(
+      '#contrastRatioCheckTitle .contrastRatioExplanationClose',
+      '#contrastRatioCheckTitle .contrastRatioExplanationOpen',
+      '#contrastRatioCheckArea .contrastRatioFunctionExplanations'
+    );
+
     this.#$contrastRatioPickedColor1 = document.querySelector('#contrastRatioPickedColor1');
     this.#$contrastRatioPickedColor2 = document.querySelector('#contrastRatioPickedColor2');
     this.#$contrastRatioForPickedColorRatio = document.querySelector('#contrastRatioForPickedColorRatio');
@@ -45,64 +54,65 @@ export default class ContrastRatioCheck {
 
   setUpEvent() {
 
-      const preventDefaultOnDragover = $element => {
-        $element.addEventListener('dragover', event => {
+    const preventDefaultOnDragover = $element => {
+      $element.addEventListener('dragover', event => {
+        event.preventDefault();
+      });
+    };
+
+    const setPickedColor = ($element, colorInfoSetter) => {
+        $element.addEventListener('drop', event => {
+
+          const dataTransferred = event.dataTransfer.getData('text/plain');
+          if (!dataTransferred) {
+            return;
+          }
+
+          if (this.#isSwapping) {
+            this.#swapColors();
+            return;
+          }
+
+          if (dataTransferred.indexOf('#') === 0) {
+
+            const $existingBar = $element.querySelector('.contrastRatioPickedColorBar');
+            if ($existingBar) {
+              $existingBar.remove();
+            }
+            const colorCode = dataTransferred;
+            const id = this.#generateBarId();
+
+            const colorBar = pickedColorTemplate({
+              id: id, colorCode: colorCode
+            });
+            const r = HsvRgbConverter.colorCodeToR(colorCode);
+            const g = HsvRgbConverter.colorCodeToG(colorCode);
+            const b = HsvRgbConverter.colorCodeToB(colorCode);
+            const luminance = ContrastRatioCalculator.calcLuminance(r, g, b);
+
+            colorInfoSetter({
+                colorCode: colorCode,
+                luminance: luminance
+            });
+
+            $element.insertAdjacentHTML('beforeend', colorBar);
+
+            this.#setUpBarEvent($element, colorCode);
+            this.#reflectContrastRatioInfo();
+          }
+
           event.preventDefault();
+
         });
-      };
+    };
 
-      const setPickedColor = ($element, colorInfoSetter) => {
-          $element.addEventListener('drop', event => {
+    preventDefaultOnDragover(this.#$contrastRatioPickedColor1);
+    preventDefaultOnDragover(this.#$contrastRatioPickedColor2);
 
-            const dataTransferred = event.dataTransfer.getData('text/plain');
-            if (!dataTransferred) {
-              return;
-            }
+    setPickedColor(this.#$contrastRatioPickedColor1, l => this.#colorInfo1 = l);
+    setPickedColor(this.#$contrastRatioPickedColor2, l => this.#colorInfo2 = l);
 
-            if (this.#isSwapping) {
-              this.#swapColors();
-              return;
-            }
-
-            if (dataTransferred.indexOf('#') === 0) {
-
-              const $existingBar = $element.querySelector('.contrastRatioPickedColorBar');
-              if ($existingBar) {
-                $existingBar.remove();
-              }
-              const colorCode = dataTransferred;
-              const id = this.#generateBarId();
-
-              const colorBar = pickedColorTemplate({
-                id: id, colorCode: colorCode
-              });
-              const r = HsvRgbConverter.colorCodeToR(colorCode);
-              const g = HsvRgbConverter.colorCodeToG(colorCode);
-              const b = HsvRgbConverter.colorCodeToB(colorCode);
-              const luminance = ContrastRatioCalculator.calcLuminance(r, g, b);
-
-              colorInfoSetter({
-                  colorCode: colorCode,
-                  luminance: luminance
-              });
-
-              $element.insertAdjacentHTML('beforeend', colorBar);
-
-              this.#setUpBarEvent($element, colorCode);
-              this.#reflectContrastRatioInfo();
-            }
-
-            event.preventDefault();
-
-          });
-      };
-
-      preventDefaultOnDragover(this.#$contrastRatioPickedColor1);
-      preventDefaultOnDragover(this.#$contrastRatioPickedColor2);
-
-      setPickedColor(this.#$contrastRatioPickedColor1, l => this.#colorInfo1 = l);
-      setPickedColor(this.#$contrastRatioPickedColor2, l => this.#colorInfo2 = l);
-
+    this.#explanations.setUpEvent();
   }
 
   #swapColors() {

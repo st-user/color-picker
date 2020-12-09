@@ -208,9 +208,13 @@
 
       <div class="toolTabContent tabContent groupBackground" id="contrastRatioArea">
 
-        <div class="contrastRatioEachFunctionArea">
+        <div id="contrastRatioCheckArea" class="contrastRatioEachFunctionArea">
 
-          <h3 class="margin-bottom clear">コントラスト比の確認</h3>
+          <h3 id="contrastRatioCheckTitle" class="margin-bottom clear">
+            コントラスト比の確認
+            <span class="contrastRatioExplanationClose">説明文を閉じる</span>
+            <span class="contrastRatioExplanationOpen">説明文を開く</span>
+          </h3>
 
           <ul class="contrastRatioFunctionExplanations clear font-small">
             <li>背景色/文字色の組み合わせが、<a target="_blank" rel="noopener noreferrer" href="https://www.w3.org/TR/WCAG21/#contrast-minimum">WCAGにおける基準</a>を満たしているかを確認できます</li>
@@ -276,19 +280,23 @@
 
         </div>
 
-        <div class="contrastRatioEachFunctionArea">
+        <div id="contrastRatioAutoExtractionArea" class="contrastRatioEachFunctionArea">
+
           <h3 id="contrastRatioExtractionTitle" class="margin-bottom">
             <span class="openCloseTriangle triangleClose">▲</span>
             自動抽出
+            <span class="contrastRatioExplanationClose">説明文を閉じる</span>
+            <span class="contrastRatioExplanationOpen">説明文を開く</span>
           </h3>
 
-          <div id="contrastRatioExtractionArea">
+          <div id="contrastRatioExtractionAreaContents">
 
             <ul class="contrastRatioFunctionExplanations clear font-small">
               <li>「HSVの範囲」を満たす色の中から、<a target="_blank" rel="noopener noreferrer" href="https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio">WCAGで示されているcontrast ratio</a>が「コントラスト比の範囲」を満たすものを自動で抽出します。</li>
               <li>より正確には、「HSVの範囲」を満たし、かつ、「抽出元の色」全てに対して「コントラスト比の範囲」を満たす色を「抽出結果」に表示します。</li>
               <li>「抽出結果」には、「スコア」が高い順に「抽出結果に表示する件数」分表示されます。「スコア」は「抽出元の色」に対するその色のcontrast ratioの平均値です。</li>
               <li>「HSVの範囲」「コントラスト比の範囲」は、「設定」で選択できます。</li>
+              <li>「抽出元の色」「抽出結果」の色はDrag&Dropし、「コントラスト比の確認」で確認できます。</li>
             </ul>
 
             <div class="margin-bottom">

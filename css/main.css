@@ -426,6 +426,16 @@ input[name="hsvCircleDivisionCountSwitch"] {
 
 
 /* コントラスト比 */
+.contrastRatioExplanationClose,
+.contrastRatioExplanationOpen {
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: 12px;
+  display: inline-block;
+  margin-left: 24px;
+  line-height: 18px;
+}
+
 .contrastRatioEachFunctionArea {
   margin: auto;
   min-width: 588px;
@@ -540,7 +550,7 @@ input[name="hsvCircleDivisionCountSwitch"] {
 
 #contrastRatioExtractionTitle {
   cursor: pointer;
-  width: 180px;
+  width: 270px;
 }
 
 #contrastRatioExtractionConditionTitle {
@@ -625,7 +635,7 @@ input[name="hsvCircleDivisionCountSwitch"] {
   height: 64px;
   width: 64px;
   padding-top: 16px;
-  padding-left: 24px;
+  padding-left: 32px;
   border-radius: 6px;
   cursor: pointer;
   background-color: #D7DAE0;
