@@ -385,6 +385,11 @@ input[name="hsvCircleDivisionCountSwitch"] {
                        radial-gradient(#000000 1%, transparent 10%);
 }
 
+.drappableAreaMessage {
+  margin: 8px;
+  text-align: center;
+}
+
 .pickedColorBar {
   position: relative;
   width: 200px;
@@ -647,7 +652,7 @@ input[name="hsvCircleDivisionCountSwitch"] {
   overflow-x: hidden;
   overflow-y: scroll;
   max-height: 215px;
-  width: 200px;
+  width: 212px;
 }
 
 #contrastRatioResultColorTable th,
@@ -670,10 +675,6 @@ input[name="hsvCircleDivisionCountSwitch"] {
   border: 1px solid #333334;
   width: 200px;
   min-height: 360px;
-}
-
-#colorDesignListOfColorsText {
-  margin: 6px;
 }
 
 #colorDesignChartArea {

@@ -60,7 +60,7 @@ export default class ContrastRatioCheck {
             }
 
             if (this.#isSwapping) {
-              this.#swappColors();
+              this.#swapColors();
               return;
             }
 
@@ -105,7 +105,7 @@ export default class ContrastRatioCheck {
 
   }
 
-  #swappColors() {
+  #swapColors() {
     const colorInfo1 = this.#colorInfo1;
     const colorInfo2 = this.#colorInfo2;
 
@@ -127,6 +127,8 @@ export default class ContrastRatioCheck {
     }
 
     if (!colorCode) {
+      const $message = $element.querySelector('.drappableAreaMessage');
+      $message.style.display = 'block';
       return;
     }
 
@@ -145,11 +147,26 @@ export default class ContrastRatioCheck {
 
     $newBar.addEventListener('dragstart', event => {
       this.#isSwapping = true;
+      $newBar.classList.add('dragging');
       event.dataTransfer.effectAllowed = 'move';
       event.dataTransfer.setData('text/plain', colorCode);
     });
 
-    $newBar.addEventListener('dragend', event => this.#isSwapping = false);
+    $newBar.addEventListener('dragenter', event => {
+      $newBar.classList.add('over');
+    });
+
+    $newBar.addEventListener('dragleave', event => {
+      $newBar.classList.remove('over');
+    });
+
+    $newBar.addEventListener('dragend', event => {
+      this.#isSwapping = false;
+      $newBar.classList.remove('dragging');
+    });
+
+    const $message = $element.querySelector('.drappableAreaMessage');
+    $message.style.display = 'none';
   }
 
   #reflectContrastRatioInfo() {

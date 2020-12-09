@@ -36,6 +36,7 @@ export default class ContrastRatioAutoExtraction {
   #$contrastRatioResultColorMessage;
   #animationOnExecutionTimer;
 
+  #isDraggingTargetColor;
   #condition;
   #isExecuting;
   #targetColorMap;
@@ -54,6 +55,7 @@ export default class ContrastRatioAutoExtraction {
     this.#$contrastRatioResultColorExecuting = document.querySelector('#contrastRatioResultColorExecuting');
     this.#$contrastRatioResultColorMessage = document.querySelector('#contrastRatioResultColorMessage');
 
+    this.#isDraggingTargetColor = false;
     this.#condition = new ContrastRatioAutoExtractionCondition();
     this.#isExecuting = false;
     this.#targetColorMap = {};
@@ -73,7 +75,7 @@ export default class ContrastRatioAutoExtraction {
     this.#$contrastRatioTargetColorList.addEventListener('drop', event => {
 
       const dataTransferred = event.dataTransfer.getData('text/plain');
-      if (!dataTransferred) {
+      if (this.#isDraggingTargetColor || !dataTransferred) {
         return;
       }
 
@@ -127,7 +129,7 @@ export default class ContrastRatioAutoExtraction {
     const $newBar = $bars[$bars.length - 1];
     const $newBarDelMark = $newBar.querySelector('.pickedColorDel');
 
-    this.#makeSingleBarDraggable($newBar, colorCode);
+    this.#makeSingleBarDraggable($newBar, colorCode, true);
 
     $newBarDelMark.addEventListener('click', e => {
       this.#removeColorInfo($newBar);
@@ -142,12 +144,21 @@ export default class ContrastRatioAutoExtraction {
     });
 
     $newBarDelMark.style.display = 'none';
+
+    this.#toggleListOfColorsText();
   }
 
-  #makeSingleBarDraggable($element, colorCode) {
+  #makeSingleBarDraggable($element, colorCode, isTargetColor) {
     $element.addEventListener('dragstart', event => {
+      this.#isDraggingTargetColor = isTargetColor;
+      $element.classList.add('dragging');
       event.dataTransfer.effectAllowed = 'move';
       event.dataTransfer.setData('text/plain', colorCode);
+    });
+
+    $element.addEventListener('dragend', event => {
+      this.#isDraggingTargetColor = false;
+      $element.classList.remove('dragging');
     });
   }
 
@@ -158,8 +169,14 @@ export default class ContrastRatioAutoExtraction {
     this.#toggleListOfColorsText();
   }
 
-  #toggleListOfColorsText($element, colorCode) {
-
+  #toggleListOfColorsText() {
+    const $bars = this.#$contrastRatioTargetColorList.querySelectorAll('.contrastRatioPickedColorBar');
+    const $message = this.#$contrastRatioTargetColorList.querySelector('.drappableAreaMessage');
+    if ($bars.length === 0) {
+      $message.style.display = 'block';
+    } else {
+      $message.style.display = 'none';
+    }
   }
 
   #checkCondition() {
@@ -276,7 +293,7 @@ export default class ContrastRatioAutoExtraction {
     const $newBars = this.#$contrastRatioResultColorListBody.querySelectorAll('.contrastRatioResultColorBar');
     $newBars.forEach(($newBar, i) => {
       const colorCode = appendedColorCodes[i];
-      this.#makeSingleBarDraggable($newBar, colorCode);
+      this.#makeSingleBarDraggable($newBar, colorCode, false);
     });
 
     this.#refleshResultState(resultFromWrokers.length);
