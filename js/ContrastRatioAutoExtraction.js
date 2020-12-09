@@ -226,7 +226,7 @@ export default class ContrastRatioAutoExtraction {
     let processedTaskCount = 0;
     const threadCount = this.#condition.getThreadCount();
     let resultFromWrokers = [];
-    const numberOfResults = conditions[0].numberOfResults;
+    const numberOfResults = this.#condition.getContrastRatioExtractionCount();
     let currentMinScore = -Infinity;
 
     for (let i = 0; i < threadCount; i++) {

@@ -1,8 +1,9 @@
 const noUiSlider = require('../node_modules/nouislider/distribute/nouislider.js');
 import { RgbColorBar, HsvColorBar } from './ColorBar.js';
-
+import RgbUtil from './RgbUtil.js';
 
 const TASK_UNIT_COUNT = 1000;
+
 
 const decimalStringToInteger = d => {
   return Math.round(parseFloat(d));
@@ -18,9 +19,6 @@ export default class ContrastRatioAutoExtractionCondition {
   #$contrastRatioExtractionConditionTitle;
   #$contrastRatioExtractionCondition;
   #isConditionOpend;
-
-
-  #$contrastRatioExtractionCount;
 
 
   #$contrastRatioRangeHsvSilder_h;
@@ -41,6 +39,7 @@ export default class ContrastRatioAutoExtractionCondition {
   #$contrastRatioRangeSliderCurrent_ratioRange;
   #extractionRangeSlider;
 
+  #$contrastRatioExtractionCount;
 
   #$contrastRatioExtractionThreadCount;
 
@@ -48,8 +47,6 @@ export default class ContrastRatioAutoExtractionCondition {
 
     this.#$contrastRatioExtractionConditionTitle = document.querySelector('#contrastRatioExtractionConditionTitle');
     this.#$contrastRatioExtractionCondition = document.querySelector('#contrastRatioExtractionCondition');
-
-    this.#$contrastRatioExtractionCount = document.querySelector('#contrastRatioExtractionCount');
 
     this.#$contrastRatioRangeHsvSilder_h = document.querySelector('#contrastRatioRangeHsvSilder_h');
     this.#$contrastRatioRangeSliderCurrent_h = document.querySelector('#contrastRatioRangeSliderCurrent_h');
@@ -60,6 +57,8 @@ export default class ContrastRatioAutoExtractionCondition {
 
     this.#$contrastRatioExtractionRange = document.querySelector('#contrastRatioExtractionRange');
     this.#$contrastRatioRangeSliderCurrent_ratioRange = document.querySelector('#contrastRatioRangeSliderCurrent_ratioRange');
+
+    this.#$contrastRatioExtractionCount = document.querySelector('#contrastRatioExtractionCount');
 
     this.#$contrastRatioExtractionThreadCount = document.querySelector('#contrastRatioExtractionThreadCount');
 
@@ -150,7 +149,7 @@ export default class ContrastRatioAutoExtractionCondition {
 
   createConditionsForCalculators() {
     const cond = this.#createCondition();
-    return this.#createCalculationRanges()
+    return RgbUtil.divideSRGBSpace(TASK_UNIT_COUNT)
                   .map(r => {
                     return Object.assign({
                       targetRange: r
@@ -162,28 +161,12 @@ export default class ContrastRatioAutoExtractionCondition {
     return this.#extractNumberFromSelect(this.#$contrastRatioExtractionThreadCount);
   }
 
-  #createCalculationRanges() {
-
-    const totalSRGBCount = 256 * 256 * 256;
-    const unit = Math.floor(totalSRGBCount / TASK_UNIT_COUNT) + 1;
-    const ret = [];
-    for(let i = 0; i < TASK_UNIT_COUNT; i++) {
-      const start = i * unit;
-      let end = (i + 1) * unit;
-      if (totalSRGBCount <= end) {
-        end = totalSRGBCount;
-        ret.push([ start, end ]);
-        break;
-      }
-      ret.push([ start, end ]);
-    }
-
-    return ret;
+  getContrastRatioExtractionCount() {
+    return this.#extractNumberFromSelect(this.#$contrastRatioExtractionCount);
   }
 
   #createCondition() {
     return {
-      numberOfResults: this.#extractNumberFromSelect(this.#$contrastRatioExtractionCount),
       hueRange: this.#extractRangeFromNoSlider(this.#slider_h),
       saturationRange: this.#extractRangeFromNoSlider(this.#slider_s),
       valueRange: this.#extractRangeFromNoSlider(this.#slider_v),

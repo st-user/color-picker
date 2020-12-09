@@ -1,6 +1,7 @@
 
 import ContrastRatioCalculator from './ContrastRatioCalculator.js';
 import HsvRgbConverter from './HsvRgbConverter.js';
+import RgbUtil from './RgbUtil.js';
 
 const ContrastRatioAutoExtractionWorker = (() => {
 
@@ -12,10 +13,6 @@ const ContrastRatioAutoExtractionWorker = (() => {
     return range[0] <= val && val <= range[1];
   };
 
-  const decToR = dec => dec >> 16;
-  const decToG = dec => (dec >> 8) & 255;
-  const decToB = dec => dec & 255;
-
   return {
 
     extractHighestContrastRatios: message => {
@@ -24,7 +21,6 @@ const ContrastRatioAutoExtractionWorker = (() => {
       const targetColors = message.targetColors;
 
       const targetRange = condition.targetRange;
-      const numberOfResults = condition.numberOfResults;
       const hueRange = condition.hueRange;
       const saturationRange = condition.saturationRange;
       const valueRange = condition.valueRange;
@@ -38,9 +34,9 @@ const ContrastRatioAutoExtractionWorker = (() => {
 
       for (let colorCodeCount = targetRange[0]; colorCodeCount < targetRange[1]; colorCodeCount++) {
 
-        const r_i = decToR(colorCodeCount),
-              g_i = decToG(colorCodeCount),
-              b_i = decToB(colorCodeCount);
+        const r_i = RgbUtil.decToR(colorCodeCount),
+              g_i = RgbUtil.decToG(colorCodeCount),
+              b_i = RgbUtil.decToB(colorCodeCount);
 
         const hsv = HsvRgbConverter.rgbToHsv(r_i, g_i, b_i);
         if (!inRange(hsv.h, hueRange) || !inRange(hsv.s, saturationRange) || !inRange(hsv.v, valueRange)) {

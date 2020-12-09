@@ -42,8 +42,23 @@ const ContrastRatioCalculator = (() => {
       const denom = Math.min(l1, l2) + 0.05;
 
       return nom / denom;
-    }
+    },
 
+    checkSuccessCriteriaNormalAA: ratio => {
+      return 4.5 <= ratio;
+    },
+
+    checkSuccessCriteriaNormalAAA: ratio => {
+      return 7 <= ratio;
+    },
+
+    checkSuccessCriteriaLargeAA: ratio => {
+      return 3 <= ratio;
+    },
+
+    checkSuccessCriteriaLargeAAA: ratio => {
+      return 4.5 <= ratio;
+    },
   }
 
 })();

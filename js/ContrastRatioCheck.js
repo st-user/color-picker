@@ -206,32 +206,42 @@ export default class ContrastRatioCheck {
     const round2 = val => Math.round(val * 100) / 100;
     this.#$contrastRatioForPickedColorRatio.textContent = `${round2(r1)} : ${round2(r2)}`;
 
-    this.#checkSuccessCriteria(this.#$contrastRatioCheckCriteriaNormal, ratio, 4.5, 7);
-    this.#checkSuccessCriteria(this.#$contrastRatioCheckCriteriaLarge, ratio, 3, 4.5);
+    this.#checkSuccessCriteria(
+      this.#$contrastRatioCheckCriteriaNormal,
+      ratio,
+      ContrastRatioCalculator.checkSuccessCriteriaNormalAA,
+      ContrastRatioCalculator.checkSuccessCriteriaNormalAAA);
+
+    this.#checkSuccessCriteria(
+      this.#$contrastRatioCheckCriteriaLarge,
+      ratio,
+      ContrastRatioCalculator.checkSuccessCriteriaLargeAA,
+      ContrastRatioCalculator.checkSuccessCriteriaLargeAAA);
   }
 
-  #checkSuccessCriteria($element, ratio, criteriaAA, criteriaAAA) {
+  #checkSuccessCriteria($element, ratio, checkerForAA, checkerForAAA) {
 
     this.#checkSuccessCriteriaEach(
       $element,
       '.contrastRatioCheckCriteriaAA',
       ratio,
-      criteriaAA
+      checkerForAA
     );
 
     this.#checkSuccessCriteriaEach(
       $element,
       '.contrastRatioCheckCriteriaAAA',
       ratio,
-      criteriaAAA
+      checkerForAAA
     );
   }
 
-  #checkSuccessCriteriaEach($element, elSelector, ratio, criteria) {
+  #checkSuccessCriteriaEach($element, elSelector, ratio, checker) {
 
-    const result = criteria <= ratio ? 'OK' : 'NG';
-    const addClass = criteria <= ratio ? 'criteriaOK' : 'criteriaNG';
-    const removeClass = criteria <= ratio ? 'criteriaNG' : 'criteriaOK';
+    const isCriteriaSatisfied = checker(ratio);
+    const result = isCriteriaSatisfied ? 'OK' : 'NG';
+    const addClass = isCriteriaSatisfied ? 'criteriaOK' : 'criteriaNG';
+    const removeClass = isCriteriaSatisfied ? 'criteriaNG' : 'criteriaOK';
 
     const $check = $element.querySelector(elSelector);
     $check.textContent = result;
