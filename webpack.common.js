@@ -8,8 +8,8 @@ module.exports = {
     'contrast-ratio-auto-extraction-worker': './js/contrast-ratio-auto-extraction-worker-index.js'
   },
   output: {
-    filename: './js/[name].js',
-    path: path.resolve(__dirname, 'dist/color-picker'),
+    filename: './color-picker/js/[name].js',
+    path: path.resolve(__dirname, 'dist/'),
   },
   module: {
     rules: [
@@ -33,7 +33,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new CopyPlugin({
       patterns: [
-        { from: "./html/index.html", to: "./" }
+        { from: "./html/index.html", to: "./color-picker" }
       ],
     }),
   ],
