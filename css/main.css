@@ -421,6 +421,13 @@ input[name="hsvCircleDivisionCountSwitch"] {
 
 
 /* コントラスト比 */
+.contrastRatioEachFunctionArea {
+  margin: auto;
+  min-width: 588px;
+  max-width: 652px;
+  overflow: hidden;
+}
+
 .contrastRatioPickedColor {
   width: 212px;
   height: 44px;
@@ -491,6 +498,11 @@ input[name="hsvCircleDivisionCountSwitch"] {
 .contrastRatioCheckCriteriaAA.criteriaNG,
 .contrastRatioCheckCriteriaAAA.criteriaNG {
   color: #821B1B;
+}
+
+#contrastRatioCheckCriteriaNormal,
+#contrastRatioCheckCriteriaLarge {
+    width: 840px;
 }
 
 #contrastRatioCheckCriteriaNormal .contrastRatioCheckTextNotBold {
@@ -618,6 +630,10 @@ input[name="hsvCircleDivisionCountSwitch"] {
   opacity: 0.3;
 }
 
+#contrastRatioResultColorList {
+  max-width: 264px;
+}
+
 #contrastRatioResultColorTable {
   border-collapse: collapse;
 }
@@ -629,13 +645,14 @@ input[name="hsvCircleDivisionCountSwitch"] {
 
 #contrastRatioResultColorTable tbody {
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: scroll;
   max-height: 215px;
+  width: 200px;
 }
 
 #contrastRatioResultColorTable th,
 #contrastRatioResultColorTable td {
-  width: 106px;
+  width: 88px;
   height: 24px;
   text-align: center;
   line-height: 24px;
