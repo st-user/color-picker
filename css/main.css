@@ -76,7 +76,7 @@ h3 {
 
   transition: all 0.2s ease;
   background-color: #E0E0E0;
-  padding: 6px;
+  padding: 6px 12px 6px 12px;
 }
 
 .tabItem:hover {
@@ -429,8 +429,16 @@ input[name="hsvCircleDivisionCountSwitch"] {
 .contrastRatioEachFunctionArea {
   margin: auto;
   min-width: 588px;
-  max-width: 652px;
+  max-width: 682px;
   overflow: hidden;
+  margin-bottom: 36px;
+}
+
+.contrastRatioFunctionExplanations {
+  list-style: disc;
+  padding-left: 24px;
+  margin-bottom: 24px;
+  line-height: 1.5;
 }
 
 .contrastRatioPickedColor {
@@ -574,10 +582,6 @@ input[name="hsvCircleDivisionCountSwitch"] {
   margin-left: 27px;
 }
 
-#contrastRatioExtractionRange {
-  margin-left: 36px;
-}
-
 /* override noUi  :start*/
 ..noUi-connect {
   height: 18px;
@@ -668,6 +672,9 @@ input[name="hsvCircleDivisionCountSwitch"] {
   cursor: move;
 }
 
+.contrastRatioResultMessage {
+  margin: 12px;
+}
 
 /* 配色チェック */
 #colorDesignListOfColors {
@@ -733,7 +740,7 @@ input[name="hsvCircleDivisionCountSwitch"] {
 
 #colorDesignPatternUpdates {
   float: right;
-  width: 320px;
+  width: 330px;
   margin-right: 6px;
 }
 

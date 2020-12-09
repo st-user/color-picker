@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="カラーコード,RGB,HSV,HSB,画像,Color code,配色" />
+    <meta name="keywords" content="カラーコード,RGB,HSV,HSB,画像,Color code,配色,コントラスト,contrast ratio" />
     <meta name="description" content="RGB/HSVをスライダーバーで調整してカラーコードを作成できます。画像から色を抽出したり、複数の色をリストアップして配色のチェックもできます。編集したカラーコードや配色は端末上(ブラウザ)に保存できます。" />
     <title>カラーコード作成ツール</title>
   </head>
@@ -40,6 +40,7 @@
           <li>画像の処理はブラウザ上で完結するので、画像データがインターネット上に送信されることはありません。</li>
         </ul>
       </li>
+      <li>「コントラスト比」を使用し、色の組み合わせが<a target="_blank" rel="noopener noreferrer" href="https://www.w3.org/TR/WCAG21/#contrast-minimum">WCAGにおける基準</a>を満たしているかを確認したり、contrast ratioが条件を満たす色を抽出したりできます。</li>
       <li>「配色チェック」を使用し、複数の色をリストアップして、色の組み合わせを確認できます。リストアップした配色は後述する「履歴」に保存することも可能です。</li>
       <li>「履歴」には編集したカラーコード（「色」タブ）、配色（「配色」タブ）が保存されます。「履歴」はブラウザ(localStorage)に、新しいものから最大30個まで保存されます。</li>
       <li>ブラウザは、Google Chrome, Firefox, Microsoft Edge(Chromium版), Safariを使用してください。</li>
@@ -187,7 +188,7 @@
 
       <div class="toolTabContent tabContent groupBackground" id="imageFileArea">
 
-        <ul id="howToResizeImage" class="font-small margin-bottom">
+        <ul id="howToResizeImage" class="margin-bottom">
           <li><label><input type="radio" name="needsToResize" value="0" checked/>表示領域にあわせて画像サイズを調整</label></li>
           <li><label><input type="radio" name="needsToResize" value="1"/>元の画像サイズを維持</label></li>
         </ul>
@@ -207,9 +208,15 @@
 
       <div class="toolTabContent tabContent groupBackground" id="contrastRatioArea">
 
-        <div class="contrastRatioEachFunctionArea margin-bottom">
+        <div class="contrastRatioEachFunctionArea">
 
           <h3 class="margin-bottom clear">コントラスト比の確認</h3>
+
+          <ul class="contrastRatioFunctionExplanations clear font-small">
+            <li>背景色/文字色の組み合わせが、<a target="_blank" rel="noopener noreferrer" href="https://www.w3.org/TR/WCAG21/#contrast-minimum">WCAGにおける基準</a>を満たしているかを確認できます</li>
+            <li>Drag&Dropで、背景色/文字色の両方を選択すると、AA,AAAの各基準を満たしているかの判定結果が表示されます。</li>
+            <li>Drag&Dropで、背景色/文字色は入れ替えることもできます。</li>
+          </ul>
 
           <div class="contrastRatioPickedColorCol">
             <div>背景色</div>
@@ -271,22 +278,20 @@
         <div class="contrastRatioEachFunctionArea">
           <h3 class="margin-bottom">自動抽出</h3>
 
+          <ul class="contrastRatioFunctionExplanations clear font-small">
+            <li>「HSVの範囲」を満たす色の中から、<a href="https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio">WCAGで示されているcontrast ratio</a>が「コントラスト比の範囲」を満たすものを自動で抽出します。</li>
+            <li>より正確には、「HSVの範囲」を満たし、かつ、「抽出元の色」全てに対して「コントラスト比の範囲」を満たす色を「抽出結果」に表示します。</li>
+            <li>「抽出結果」には、「スコア」が高い順に「抽出結果に表示する件数」分表示されます。「スコア」は「抽出元の色」に対するその色のcontrast ratioの平均値です</li>
+            <li>「HSVの範囲」「コントラスト比の範囲」は、「設定」で選択できます。</li>
+          </ul>
+
           <div class="margin-bottom">
             <div id="contrastRatioExtractionConditionTitle" class="margin-bottom">
               <span class="openCloseTriangle triangleClose">▲</span>
-              条件
+              設定
             </div>
             <div id="contrastRatioExtractionCondition">
-              <div class="contrastRatioExtractionConditionLine clearfixContainer">
-                <div class="contrastRatioExtractionConditionLineTitle">抽出する色の数:</div>
-                <div class="contrastRatioExtractionConditionLineContent">
-                  <select name="contrastRatioExtractionCount" id="contrastRatioExtractionCount">
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="30">30</option>
-                  </select>
-                </div>
-              </div>
+
               <div class="contrastRatioExtractionConditionLine clearfixContainer">
                 <div class="contrastRatioExtractionConditionLineTitle">HSVの範囲:</div>
                 <div class="contrastRatioExtractionConditionLineContent">
@@ -325,7 +330,17 @@
                 </div>
               </div>
               <div class="contrastRatioExtractionConditionLine clearfixContainer">
-                <div class="contrastRatioExtractionConditionLineTitle">スレッド数:</div>
+                <div class="contrastRatioExtractionConditionLineTitle">抽出結果に表示する件数:</div>
+                <div class="contrastRatioExtractionConditionLineContent">
+                  <select name="contrastRatioExtractionCount" id="contrastRatioExtractionCount">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                  </select>
+                </div>
+              </div>
+              <div class="contrastRatioExtractionConditionLine clearfixContainer">
+                <div class="contrastRatioExtractionConditionLineTitle">処理実行スレッド数:</div>
                 <div class="contrastRatioExtractionConditionLineContent">
                   <select name="contrastRatioExtractionThreadCount" id="contrastRatioExtractionThreadCount">
                     <option value="1">1</option>
@@ -341,8 +356,11 @@
 
           <div class="clearfixContainer margin-bottom">
 
-            <div id="contrastRatioTargetColorList" class="contrastRatioExtractionCol droppableAreaBg border-normal">
-              <div class="drappableAreaMessage font-small">履歴や「コントラスト比の確認」等からDrag&Dropで色を追加</div>
+            <div class="contrastRatioExtractionCol">
+              <div>抽出元の色</div>
+              <div id="contrastRatioTargetColorList" class=" droppableAreaBg border-normal">
+                <div class="drappableAreaMessage font-small">履歴や「コントラスト比の確認」等からDrag&Dropで色を追加</div>
+              </div>
             </div>
 
             <div id="contrastRatioExtractionBtnWrapper" class="contrastRatioExtractionCol">
@@ -355,6 +373,7 @@
 
             <div id="contrastRatioResultColorList" class="contrastRatioExtractionCol">
 
+              <div>抽出結果</div>
               <table id="contrastRatioResultColorTable">
                 <thead>
                   <th>色</th><th>スコア</th>
@@ -364,12 +383,12 @@
                 </tbody>
               </table>
 
-              <div id="contrastRatioResultColorExecuting">
+              <div id="contrastRatioResultColorExecuting" class="contrastRatioResultMessage">
                 <div>処理中です。<br/>しばらくお待ちください。</div>
                 <div class="waitingAnimationText"></div>
               </div>
 
-              <div id="contrastRatioResultColorMessage">
+              <div id="contrastRatioResultColorMessage" class="contrastRatioResultMessage">
                 表示対象がありません
               </div>
 
@@ -384,7 +403,7 @@
 
         <div id="colorDesignContainer">
           <div id="colorDesignListOfColors" class="droppableAreaBg margin-right">
-            <div id="colorDesignListOfColorsText" class="drappableAreaMessage">編集中の色や、履歴からDrag&Dropで色を追加してください</div>
+            <div id="colorDesignListOfColorsText" class="drappableAreaMessage font-small">編集中の色や、履歴からDrag&Dropで色を追加してください</div>
           </div>
 
           <div id="colorDesignChartArea" class="margin-bottom">
@@ -394,7 +413,7 @@
           </div>
 
           <div id="colorDesignPatternUpdates" class="clear">
-            <span class="font-small">配色名:</span>
+            <span>配色名:</span>
             <input type="text" size="20" maxlength="10" name="colorDesignPatternName" id="colorDesignPatternName"/>
             <button type="button" id="addColorDesignPattern">履歴に追加</button>
             <div id="colorDesignPatternNameError"></div>

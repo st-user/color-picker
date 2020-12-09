@@ -91,11 +91,11 @@ export default class ContrastRatioAutoExtractionCondition {
     });
 
     this.#extractionRangeSlider = noUiSlider.create(this.#$contrastRatioExtractionRange, {
-      start: [1, 24],
+      start: [1, 21],
       connect: true,
       range: {
         'min': 1,
-        'max': 24
+        'max': 21
       }
     });
 
