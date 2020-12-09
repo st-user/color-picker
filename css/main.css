@@ -538,8 +538,14 @@ input[name="hsvCircleDivisionCountSwitch"] {
   font-size: 16pt;
 }
 
+#contrastRatioExtractionTitle {
+  cursor: pointer;
+  width: 180px;
+}
+
 #contrastRatioExtractionConditionTitle {
   cursor: pointer;
+  width: 80px;
 }
 
 #contrastRatioExtractionCondition {

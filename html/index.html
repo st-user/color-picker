@@ -216,6 +216,7 @@
             <li>背景色/文字色の組み合わせが、<a target="_blank" rel="noopener noreferrer" href="https://www.w3.org/TR/WCAG21/#contrast-minimum">WCAGにおける基準</a>を満たしているかを確認できます</li>
             <li>Drag&Dropで、背景色/文字色の両方を選択すると、AA,AAAの各基準を満たしているかの判定結果が表示されます。</li>
             <li>Drag&Dropで、背景色/文字色は入れ替えることもできます。</li>
+            <li>画面に表示される比の値は、小数点以下第3位を四捨五入した値です。</li>
           </ul>
 
           <div class="contrastRatioPickedColorCol">
@@ -276,123 +277,130 @@
         </div>
 
         <div class="contrastRatioEachFunctionArea">
-          <h3 class="margin-bottom">自動抽出</h3>
+          <h3 id="contrastRatioExtractionTitle" class="margin-bottom">
+            <span class="openCloseTriangle triangleClose">▲</span>
+            自動抽出
+          </h3>
 
-          <ul class="contrastRatioFunctionExplanations clear font-small">
-            <li>「HSVの範囲」を満たす色の中から、<a target="_blank" rel="noopener noreferrer" href="https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio">WCAGで示されているcontrast ratio</a>が「コントラスト比の範囲」を満たすものを自動で抽出します。</li>
-            <li>より正確には、「HSVの範囲」を満たし、かつ、「抽出元の色」全てに対して「コントラスト比の範囲」を満たす色を「抽出結果」に表示します。</li>
-            <li>「抽出結果」には、「スコア」が高い順に「抽出結果に表示する件数」分表示されます。「スコア」は「抽出元の色」に対するその色のcontrast ratioの平均値です。</li>
-            <li>「HSVの範囲」「コントラスト比の範囲」は、「設定」で選択できます。</li>
-          </ul>
+          <div id="contrastRatioExtractionArea">
 
-          <div class="margin-bottom">
-            <div id="contrastRatioExtractionConditionTitle" class="margin-bottom">
-              <span class="openCloseTriangle triangleClose">▲</span>
-              設定
-            </div>
-            <div id="contrastRatioExtractionCondition">
+            <ul class="contrastRatioFunctionExplanations clear font-small">
+              <li>「HSVの範囲」を満たす色の中から、<a target="_blank" rel="noopener noreferrer" href="https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio">WCAGで示されているcontrast ratio</a>が「コントラスト比の範囲」を満たすものを自動で抽出します。</li>
+              <li>より正確には、「HSVの範囲」を満たし、かつ、「抽出元の色」全てに対して「コントラスト比の範囲」を満たす色を「抽出結果」に表示します。</li>
+              <li>「抽出結果」には、「スコア」が高い順に「抽出結果に表示する件数」分表示されます。「スコア」は「抽出元の色」に対するその色のcontrast ratioの平均値です。</li>
+              <li>「HSVの範囲」「コントラスト比の範囲」は、「設定」で選択できます。</li>
+            </ul>
 
-              <div class="contrastRatioExtractionConditionLine clearfixContainer">
-                <div class="contrastRatioExtractionConditionLineTitle">HSVの範囲:</div>
-                <div class="contrastRatioExtractionConditionLineContent">
-
-                  <div>
-                    <span class="contrastRatioRangeSilderTitle">H:</span>
-                    <div id="contrastRatioRangeHsvSilder_h" class="contrastRatioRangeSilder"></div>
-                    <span id="contrastRatioRangeSliderCurrent_h" class="contrastRatioRangeSliderCurrent font-small"></span>
-                  </div>
-                  <div class="margin-bottom">
-                    <canvas id="contrastRatioRangeHsvColorBar"></canvas>
-                  </div>
-
-                  <div class="margin-bottom">
-                    <span class="contrastRatioRangeSilderTitle">S:</span>
-                    <div id="contrastRatioRangeHsvSilder_s" class="contrastRatioRangeSilder"></div>
-                    <span id="contrastRatioRangeSliderCurrent_s" class="contrastRatioRangeSliderCurrent font-small"></span>
-                  </div>
-                  <div>
-                    <span class="contrastRatioRangeSilderTitle">V:</span>
-                    <div id="contrastRatioRangeHsvSilder_v" class="contrastRatioRangeSilder"></div>
-                    <span id="contrastRatioRangeSliderCurrent_v" class="contrastRatioRangeSliderCurrent font-small"></span>
-                  </div>
-
-                </div>
+            <div class="margin-bottom">
+              <div id="contrastRatioExtractionConditionTitle" class="margin-bottom">
+                <span class="openCloseTriangle triangleClose">▲</span>
+                設定
               </div>
-              <div class="contrastRatioExtractionConditionLine clearfixContainer">
-                <div class="contrastRatioExtractionConditionLineTitle">コントラスト比の範囲:</div>
-                <div class="contrastRatioExtractionConditionLineContent">
-                  <div>
+              <div id="contrastRatioExtractionCondition">
 
-                    <div id="contrastRatioExtractionRange" class="contrastRatioRangeSilder"></div>
-                    <span id="contrastRatioRangeSliderCurrent_ratioRange" class="contrastRatioRangeSliderCurrent font-small"></span>
+                <div class="contrastRatioExtractionConditionLine clearfixContainer">
+                  <div class="contrastRatioExtractionConditionLineTitle">HSVの範囲:</div>
+                  <div class="contrastRatioExtractionConditionLineContent">
+
+                    <div>
+                      <span class="contrastRatioRangeSilderTitle">H:</span>
+                      <div id="contrastRatioRangeHsvSilder_h" class="contrastRatioRangeSilder"></div>
+                      <span id="contrastRatioRangeSliderCurrent_h" class="contrastRatioRangeSliderCurrent font-small"></span>
+                    </div>
+                    <div class="margin-bottom">
+                      <canvas id="contrastRatioRangeHsvColorBar"></canvas>
+                    </div>
+
+                    <div class="margin-bottom">
+                      <span class="contrastRatioRangeSilderTitle">S:</span>
+                      <div id="contrastRatioRangeHsvSilder_s" class="contrastRatioRangeSilder"></div>
+                      <span id="contrastRatioRangeSliderCurrent_s" class="contrastRatioRangeSliderCurrent font-small"></span>
+                    </div>
+                    <div>
+                      <span class="contrastRatioRangeSilderTitle">V:</span>
+                      <div id="contrastRatioRangeHsvSilder_v" class="contrastRatioRangeSilder"></div>
+                      <span id="contrastRatioRangeSliderCurrent_v" class="contrastRatioRangeSliderCurrent font-small"></span>
+                    </div>
 
                   </div>
                 </div>
-              </div>
-              <div class="contrastRatioExtractionConditionLine clearfixContainer">
-                <div class="contrastRatioExtractionConditionLineTitle">抽出結果に表示する件数:</div>
-                <div class="contrastRatioExtractionConditionLineContent">
-                  <select name="contrastRatioExtractionCount" id="contrastRatioExtractionCount">
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="30">30</option>
-                  </select>
+                <div class="contrastRatioExtractionConditionLine clearfixContainer">
+                  <div class="contrastRatioExtractionConditionLineTitle">コントラスト比の範囲:</div>
+                  <div class="contrastRatioExtractionConditionLineContent">
+                    <div>
+
+                      <div id="contrastRatioExtractionRange" class="contrastRatioRangeSilder"></div>
+                      <span id="contrastRatioRangeSliderCurrent_ratioRange" class="contrastRatioRangeSliderCurrent font-small"></span>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="contrastRatioExtractionConditionLine clearfixContainer">
+                  <div class="contrastRatioExtractionConditionLineTitle">抽出結果に表示する件数:</div>
+                  <div class="contrastRatioExtractionConditionLineContent">
+                    <select name="contrastRatioExtractionCount" id="contrastRatioExtractionCount">
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="30">30</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="contrastRatioExtractionConditionLine clearfixContainer">
+                  <div class="contrastRatioExtractionConditionLineTitle">処理実行スレッド数:</div>
+                  <div class="contrastRatioExtractionConditionLineContent">
+                    <select name="contrastRatioExtractionThreadCount" id="contrastRatioExtractionThreadCount">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                  </div>
                 </div>
               </div>
-              <div class="contrastRatioExtractionConditionLine clearfixContainer">
-                <div class="contrastRatioExtractionConditionLineTitle">処理実行スレッド数:</div>
-                <div class="contrastRatioExtractionConditionLineContent">
-                  <select name="contrastRatioExtractionThreadCount" id="contrastRatioExtractionThreadCount">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                  </select>
+            </div>
+
+            <div class="clearfixContainer margin-bottom">
+
+              <div class="contrastRatioExtractionCol">
+                <div>抽出元の色</div>
+                <div id="contrastRatioTargetColorList" class=" droppableAreaBg border-normal">
+                  <div class="drappableAreaMessage font-small">履歴や「コントラスト比の確認」等からDrag&Dropで色を追加</div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          <div class="clearfixContainer margin-bottom">
+              <div id="contrastRatioExtractionBtnWrapper" class="contrastRatioExtractionCol">
+                <div id="contrastRatioExtractHighestRatios" class="shadow">
+                  <div>→→</div>
+                  <div>抽出</div>
+                  <div>→→</div>
+                </div>
+              </div>
 
-            <div class="contrastRatioExtractionCol">
-              <div>抽出元の色</div>
-              <div id="contrastRatioTargetColorList" class=" droppableAreaBg border-normal">
-                <div class="drappableAreaMessage font-small">履歴や「コントラスト比の確認」等からDrag&Dropで色を追加</div>
+              <div id="contrastRatioResultColorList" class="contrastRatioExtractionCol">
+
+                <div>抽出結果</div>
+                <table id="contrastRatioResultColorTable">
+                  <thead>
+                    <th>色</th><th>スコア</th>
+                  </thead>
+                  <tbody id="contrastRatioResultColorListBody">
+
+                  </tbody>
+                </table>
+
+                <div id="contrastRatioResultColorExecuting" class="contrastRatioResultMessage">
+                  <div>処理中です。<br/>しばらくお待ちください。</div>
+                  <div class="waitingAnimationText"></div>
+                </div>
+
+                <div id="contrastRatioResultColorMessage" class="contrastRatioResultMessage">
+                  表示対象がありません
+                </div>
+
               </div>
             </div>
 
-            <div id="contrastRatioExtractionBtnWrapper" class="contrastRatioExtractionCol">
-              <div id="contrastRatioExtractHighestRatios" class="shadow">
-                <div>→→</div>
-                <div>抽出</div>
-                <div>→→</div>
-              </div>
-            </div>
-
-            <div id="contrastRatioResultColorList" class="contrastRatioExtractionCol">
-
-              <div>抽出結果</div>
-              <table id="contrastRatioResultColorTable">
-                <thead>
-                  <th>色</th><th>スコア</th>
-                </thead>
-                <tbody id="contrastRatioResultColorListBody">
-
-                </tbody>
-              </table>
-
-              <div id="contrastRatioResultColorExecuting" class="contrastRatioResultMessage">
-                <div>処理中です。<br/>しばらくお待ちください。</div>
-                <div class="waitingAnimationText"></div>
-              </div>
-
-              <div id="contrastRatioResultColorMessage" class="contrastRatioResultMessage">
-                表示対象がありません
-              </div>
-
-            </div>
           </div>
 
         </div>

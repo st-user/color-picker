@@ -25,6 +25,10 @@ const resultColorTemplate = data => {
 
 export default class ContrastRatioAutoExtraction {
 
+  #$contrastRatioExtractionArea;
+  #$contrastRatioExtractionTitle;
+  #isOpened;
+
   #$contrastRatioTargetColorList;
   #$contrastRatioResultColorList;
 
@@ -45,6 +49,10 @@ export default class ContrastRatioAutoExtraction {
   #workers;
 
   constructor() {
+
+    this.#$contrastRatioExtractionArea = document.querySelector('#contrastRatioExtractionArea');
+    this.#$contrastRatioExtractionTitle = document.querySelector('#contrastRatioExtractionTitle');
+
     this.#$contrastRatioTargetColorList = document.querySelector('#contrastRatioTargetColorList');
     this.#$contrastRatioResultColorList = document.querySelector('#contrastRatioResultColorList');
 
@@ -55,6 +63,7 @@ export default class ContrastRatioAutoExtraction {
     this.#$contrastRatioResultColorExecuting = document.querySelector('#contrastRatioResultColorExecuting');
     this.#$contrastRatioResultColorMessage = document.querySelector('#contrastRatioResultColorMessage');
 
+    this.#isOpened = false;
     this.#isDraggingTargetColor = false;
     this.#condition = new ContrastRatioAutoExtractionCondition();
     this.#isExecuting = false;
@@ -67,6 +76,22 @@ export default class ContrastRatioAutoExtraction {
   }
 
   setUpEvent() {
+
+    const toggleArea = () => {
+      const $triangle = this.#$contrastRatioExtractionTitle.querySelector('.openCloseTriangle');
+      this.#isOpened = !this.#isOpened;
+      if (this.#isOpened) {
+        $triangle.classList.remove('triangleClose');
+        $triangle.classList.add('triangleOpen');
+        this.#$contrastRatioExtractionArea.style.display = 'block';
+      } else {
+        $triangle.classList.remove('triangleOpen');
+        $triangle.classList.add('triangleClose');
+        this.#$contrastRatioExtractionArea.style.display = 'none';
+      }
+    };
+
+    this.#$contrastRatioExtractionTitle.addEventListener('click', toggleArea);
 
     this.#$contrastRatioTargetColorList.addEventListener('dragover', event => {
       event.preventDefault();
@@ -107,6 +132,7 @@ export default class ContrastRatioAutoExtraction {
 
     });
 
+    toggleArea();
     this.#refleshResultState(0);
 
     this.#condition.setUpEvent();
