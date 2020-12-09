@@ -1,6 +1,9 @@
 const noUiSlider = require('../node_modules/nouislider/distribute/nouislider.js');
 import { RgbColorBar, HsvColorBar } from './ColorBar.js';
 
+
+const TASK_UNIT_COUNT = 1000;
+
 const decimalStringToInteger = d => {
   return Math.round(parseFloat(d));
 }
@@ -146,24 +149,29 @@ export default class ContrastRatioAutoExtractionCondition {
   }
 
   createConditionsForCalculators() {
+    const cond = this.#createCondition();
     return this.#createCalculationRanges()
                   .map(r => {
-                    const cond = this.#createCondition();
-                    cond.targetRange_R = r;
-                    return cond;
+                    return Object.assign({
+                      targetRange: r
+                    }, cond);
                   })
   }
 
-  #createCalculationRanges() {
-    const threadCount = this.#extractNumberFromSelect(this.#$contrastRatioExtractionThreadCount);
+  getThreadCount() {
+    return this.#extractNumberFromSelect(this.#$contrastRatioExtractionThreadCount);
+  }
 
-    const unit = Math.floor(255 / threadCount) + 1;
+  #createCalculationRanges() {
+
+    const totalSRGBCount = 256 * 256 * 256;
+    const unit = Math.floor(totalSRGBCount / TASK_UNIT_COUNT) + 1;
     const ret = [];
-    for(let i = 0; i < threadCount; i++) {
+    for(let i = 0; i < TASK_UNIT_COUNT; i++) {
       const start = i * unit;
-      let end = (i + 1) * unit -1;
-      if (255 <= end) {
-        end = 255;
+      let end = (i + 1) * unit;
+      if (totalSRGBCount <= end) {
+        end = totalSRGBCount;
         ret.push([ start, end ]);
         break;
       }

@@ -205,36 +205,51 @@ export default class ContrastRatioAutoExtraction {
     this.#isExecuting = true;
 
     const conditions = this.#condition.createConditionsForCalculators();
-    let workerCount = conditions.length;
-    const resultFromWrokers = [];
+
+    let processedTaskCount = 0;
+    const threadCount = this.#condition.getThreadCount();
+    let resultFromWrokers = [];
     const numberOfResults = conditions[0].numberOfResults;
+    let currentMinScore = -Infinity;
 
-    conditions.forEach((condition, i) => {
-
-      console.log(condition);
-
+    for (let i = 0; i < threadCount; i++) {
       let worker = this.#workers[i];
       if (!worker) {
           worker = new Worker('js/contrast-ratio-auto-extraction-worker.js?q=' + window.APP_VERSION);
           this.#workers[i] = worker;
       }
 
-      worker.onmessage = event => {
-        workerCount--;
-        event.data.results.forEach(result => resultFromWrokers.push(result));
+      const postMessage = () => {
+        const condition = conditions[processedTaskCount];
+        processedTaskCount++;
+        worker.postMessage({
+          condition: condition,
+          targetColors: Object.values(this.#targetColorMap),
+          currentMinScore: currentMinScore
+        });
+      };
 
-        if (workerCount == 0) {
-          const results = resultFromWrokers.slice(0, numberOfResults)
-          this.#showExtractionResult(results);
+      worker.onmessage = event => {
+
+        event.data.results.filter(result => currentMinScore < result.avg)
+          .forEach(result => resultFromWrokers.push(result));
+
+        if (!currentMinScore || numberOfResults < resultFromWrokers.length) {
+          resultFromWrokers.sort((a, b) => b.avg - a.avg);
+          resultFromWrokers = resultFromWrokers.slice(0, numberOfResults);
+          currentMinScore = resultFromWrokers[resultFromWrokers.length - 1].avg;
+        }
+
+        if (processedTaskCount < conditions.length) {
+          postMessage();
+        } else {
+          this.#showExtractionResult(resultFromWrokers);
         }
       };
 
-      worker.postMessage({
-        condition: condition,
-        targetColors: Object.values(this.#targetColorMap)
-      });
+      postMessage();
+    }
 
-    })
 
   }
 
@@ -243,7 +258,6 @@ export default class ContrastRatioAutoExtraction {
     const $existingBars = this.#$contrastRatioResultColorListBody.querySelectorAll('.contrastRatioResultColorBar');
     $existingBars.forEach($existingBar => $existingBar.remove());
 
-    resultFromWrokers.sort((a, b) => b.avg - a.avg);
     const appendedColorCodes = [];
 
     for (const result of resultFromWrokers) {

@@ -12,6 +12,10 @@ const ContrastRatioAutoExtractionWorker = (() => {
     return range[0] <= val && val <= range[1];
   };
 
+  const decToR = dec => dec >> 16;
+  const decToG = dec => (dec >> 8) & 255;
+  const decToB = dec => dec & 255;
+
   return {
 
     extractHighestContrastRatios: message => {
@@ -19,7 +23,7 @@ const ContrastRatioAutoExtractionWorker = (() => {
       const condition = message.condition;
       const targetColors = message.targetColors;
 
-      const targetRange_R = condition.targetRange_R;
+      const targetRange = condition.targetRange;
       const numberOfResults = condition.numberOfResults;
       const hueRange = condition.hueRange;
       const saturationRange = condition.saturationRange;
@@ -27,60 +31,46 @@ const ContrastRatioAutoExtractionWorker = (() => {
       const contrastRatioRange = condition.contrastRatioRange;
 
       const resultArray = [];
-      let currentMin = -Infinity;
+      let currentMin = message.currentMinScore;
+      const targetColorLuminances = targetColors.map(
+        tc => ContrastRatioCalculator.calcLuminance(tc.r, tc.g, tc.b)
+      );
 
-      for (let r_i = targetRange_R[0]; r_i <= targetRange_R[1]; r_i++) {
-        for (let g_i = 0; g_i < 256; g_i++) {
-          for (let b_i = 0; b_i < 256; b_i++) {
+      for (let colorCodeCount = targetRange[0]; colorCodeCount < targetRange[1]; colorCodeCount++) {
 
-            const hsv = HsvRgbConverter.rgbToHsv(r_i, g_i, b_i);
-            if (!inRange(hsv.h, hueRange) || !inRange(hsv.s, saturationRange) || !inRange(hsv.v, valueRange)) {
-              continue;
-            }
+        const r_i = decToR(colorCodeCount),
+              g_i = decToG(colorCodeCount),
+              b_i = decToB(colorCodeCount);
 
-            const ratios =   targetColors.map(
-              tc => ContrastRatioCalculator.calcContrastRatio(
-                ContrastRatioCalculator.calcLuminance(r_i, g_i, b_i),
-                ContrastRatioCalculator.calcLuminance(tc.r, tc.g, tc.b)
-              )
-            );
+        const hsv = HsvRgbConverter.rgbToHsv(r_i, g_i, b_i);
+        if (!inRange(hsv.h, hueRange) || !inRange(hsv.s, saturationRange) || !inRange(hsv.v, valueRange)) {
+          continue;
+        }
 
-            let rationNotInRange = false;
-            for (const ratio of ratios) {
-              if (!inRange(ratio, contrastRatioRange)) {
-                rationNotInRange = true;
-                continue;
-              }
-            }
-            if (rationNotInRange) {
-              continue;
-            }
+        const ratios = targetColorLuminances.map(
+          targetColorLuminance => ContrastRatioCalculator.calcContrastRatio(
+            ContrastRatioCalculator.calcLuminance(r_i, g_i, b_i),
+            targetColorLuminance
+          )
+        );
 
-            const ratioAvg = avg(ratios);
-            if (ratioAvg < currentMin) {
-              continue;
-            }
-
-            if (resultArray.length < numberOfResults) {
-              resultArray.push({ avg: ratioAvg, ratios: ratios, r: r_i, g: g_i, b: b_i });
-            } else {
-              let minIndex = -1;
-              let current = Infinity;
-              for (let i = 0; i < resultArray.length; i++) {
-                const temp = avg(resultArray[i].ratios);
-                if (temp < current) {
-                  current = temp;
-                  currentMin = temp;
-                  minIndex = i;
-                }
-              }
-              if (current < ratioAvg) {
-                  resultArray[minIndex] = { avg: ratioAvg, ratios: ratios, r: r_i, g: g_i, b: b_i };
-              }
-            }
-
+        let ratioNotInRange = false;
+        for (const ratio of ratios) {
+          if (!inRange(ratio, contrastRatioRange)) {
+            ratioNotInRange = true;
+            continue;
           }
         }
+        if (ratioNotInRange) {
+          continue;
+        }
+
+        const ratioAvg = avg(ratios);
+        if (ratioAvg < currentMin) {
+          continue;
+        }
+
+        resultArray.push({ avg: ratioAvg, r: r_i, g: g_i, b: b_i });
       }
 
       return resultArray;
