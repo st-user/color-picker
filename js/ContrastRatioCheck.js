@@ -62,6 +62,7 @@ export default class ContrastRatioCheck {
 
     const setPickedColor = ($element, colorInfoSetter) => {
         $element.addEventListener('drop', event => {
+          event.preventDefault();
 
           const dataTransferred = event.dataTransfer.getData('text/plain');
           if (!dataTransferred) {
@@ -100,8 +101,6 @@ export default class ContrastRatioCheck {
             this.#setUpBarEvent($element, colorCode);
             this.#reflectContrastRatioInfo();
           }
-
-          event.preventDefault();
 
         });
     };

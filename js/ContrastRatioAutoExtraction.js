@@ -106,7 +106,8 @@ export default class ContrastRatioAutoExtraction {
     });
 
     this.#$contrastRatioTargetColorList.addEventListener('drop', event => {
-
+      event.preventDefault();
+    
       const dataTransferred = event.dataTransfer.getData('text/plain');
       if (this.#isDraggingTargetColor || !dataTransferred) {
         return;
@@ -126,8 +127,6 @@ export default class ContrastRatioAutoExtraction {
         );
 
       }
-
-      event.preventDefault();
     });
 
     this.#$contrastRatioExtractHighestRatios.addEventListener('click', event => {
