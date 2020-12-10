@@ -72,7 +72,7 @@ class ColorBar {
       );
   }
 
-  createColorStopValue(x, y, z) {
+  createColorStopValue(x, y, z) { // eslint-disable-line no-unused-vars
   }
 
 }

@@ -8,7 +8,8 @@ const ElementUtil = (() => {
                 do {
                     left += element.offsetLeft;
                     top += element.offsetTop;
-                } while(element = element.offsetParent);
+                    element = element.offsetParent;
+                } while(element);
 
                 return {
                     left: left,

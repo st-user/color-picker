@@ -44,9 +44,9 @@ export default class CanvasHandler {
       return this.#currentEventXY;
   }
 
-  containsX(x) { return true; }
-  containsY(y) { return true; }
-  containsXY(x, y) { return true; }
+  containsX(x) { return true; } // eslint-disable-line no-unused-vars
+  containsY(y) { return true; } // eslint-disable-line no-unused-vars
+  containsXY(x, y) { return true; } // eslint-disable-line no-unused-vars
   displayed() { return false; }
 
   #dispatchEvent() {
