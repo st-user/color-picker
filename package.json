@@ -8,7 +8,8 @@
     "build": "webpack --config webpack.prod.js",
     "start": "webpack serve --config webpack.dev.js",
     "lint:one": "eslint",
-    "lint:all": "eslint js/*.js"
+    "lint:all": "eslint js/*.js",
+    "lint:test": "eslint js/test/*.js"
   },
   "repository": {
     "type": "git",

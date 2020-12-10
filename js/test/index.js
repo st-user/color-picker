@@ -5,24 +5,24 @@ import RgbUtilTest from './RgbUtilTest.js';
 
 (() => {
 
-  const assertEquals = (expected, actual, message) => {
-    if (expected === actual) {
-      return;
-    }
-    message = message || '';
-    throw `expected ${expected} but was ${actual}. detail: ` + message;
-  };
-  window.assertEquals = assertEquals;
+    const assertEquals = (expected, actual, message) => {
+        if (expected === actual) {
+            return;
+        }
+        message = message || '';
+        throw `expected ${expected} but was ${actual}. detail: ` + message;
+    };
+    window.assertEquals = assertEquals;
 
-  const assertFuzzyEquals = (expected, actual, torelance, message) => {
-    const diff = Math.abs(expected - actual);
-    if (diff <= torelance) {
-      return;
-    }
-    message = message || '';
-    throw `expected ${expected} but was ${actual}. detail: ` + message;
-  };
-  window.assertFuzzyEquals = assertFuzzyEquals;
+    const assertFuzzyEquals = (expected, actual, torelance, message) => {
+        const diff = Math.abs(expected - actual);
+        if (diff <= torelance) {
+            return;
+        }
+        message = message || '';
+        throw `expected ${expected} but was ${actual}. detail: ` + message;
+    };
+    window.assertFuzzyEquals = assertFuzzyEquals;
 
 
 })();
@@ -33,4 +33,4 @@ ContrastRatioAutoExtractionWorkerTest();
 ContrastRatioCalculatorTest();
 RgbUtilTest();
 
-console.log("End test.");
+console.log('End test.');
