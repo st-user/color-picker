@@ -1,22 +1,22 @@
 const ElementUtil = (() => {
 
-  return {
+    return {
 
-    getElementPosition: element => {
-      let left = 0, top = 0;
-      if (element.offsetParent) {
-          do {
-            left += element.offsetLeft;
-            top += element.offsetTop;
-          } while(element = element.offsetParent);
+        getElementPosition: element => {
+            let left = 0, top = 0;
+            if (element.offsetParent) {
+                do {
+                    left += element.offsetLeft;
+                    top += element.offsetTop;
+                } while(element = element.offsetParent);
 
-          return {
-            left: left,
-            top: top
-          };
-      }
-    }
-  }
+                return {
+                    left: left,
+                    top: top
+                };
+            }
+        }
+    };
 
 })();
 

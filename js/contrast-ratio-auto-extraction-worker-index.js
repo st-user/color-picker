@@ -2,9 +2,9 @@ import ContrastRatioAutoExtractionWorker from './ContrastRatioAutoExtractionWork
 
 onmessage = event => {
 
-  const message = event.data;
-  const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
+    const message = event.data;
+    const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
 
-  postMessage({ results: results });
+    postMessage({ results: results });
 
-}
+};
