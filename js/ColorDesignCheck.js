@@ -17,278 +17,278 @@ const colorTemplate = data => {
 
 export default class ColorDesignCheck {
 
-  #$colorDesignListOfColors;
-  #$colorDesignListOfColorsText;
-  #$tabInput;
+    #$colorDesignListOfColors;
+    #$colorDesignListOfColorsText;
+    #$tabInput;
 
-  #droppedBarCounter;
-  #droppedColorInfoMap;
-  #$movingBar;
+    #droppedBarCounter;
+    #droppedColorInfoMap;
+    #$movingBar;
 
-  #scatterChart;
+    #scatterChart;
 
-  #$colorDesignPatternName;
-  #$addColorDesignPattern;
-  #$colorDesignPatternNameError;
+    #$colorDesignPatternName;
+    #$addColorDesignPattern;
+    #$colorDesignPatternNameError;
 
-  #completeSettingColorInfo;
+    #completeSettingColorInfo;
 
-  constructor() {
+    constructor() {
 
-      this.#$colorDesignListOfColors = document.querySelector('#colorDesignListOfColors');
-      this.#$colorDesignListOfColorsText = document.querySelector('#colorDesignListOfColorsText');
-      this.#$tabInput = document.querySelector('#colorDesignAreaTabTitle');
+        this.#$colorDesignListOfColors = document.querySelector('#colorDesignListOfColors');
+        this.#$colorDesignListOfColorsText = document.querySelector('#colorDesignListOfColorsText');
+        this.#$tabInput = document.querySelector('#colorDesignAreaTabTitle');
 
-      this.#droppedBarCounter = 0;
-      this.#droppedColorInfoMap = {};
+        this.#droppedBarCounter = 0;
+        this.#droppedColorInfoMap = {};
 
-      this.#scatterChart = new ScatterChart();
+        this.#scatterChart = new ScatterChart();
 
-      this.#$colorDesignPatternName = document.querySelector('#colorDesignPatternName');
-      this.#$addColorDesignPattern = document.querySelector('#addColorDesignPattern');
-      this.#$colorDesignPatternNameError = document.querySelector('#colorDesignPatternNameError');
+        this.#$colorDesignPatternName = document.querySelector('#colorDesignPatternName');
+        this.#$addColorDesignPattern = document.querySelector('#addColorDesignPattern');
+        this.#$colorDesignPatternNameError = document.querySelector('#colorDesignPatternNameError');
 
-      this.#completeSettingColorInfo = true;
-  }
+        this.#completeSettingColorInfo = true;
+    }
 
-  setUpEvents(onAddColorDesignPattern) {
+    setUpEvents(onAddColorDesignPattern) {
 
-      this.#$colorDesignListOfColors.addEventListener('dragover', e => {
-          e.preventDefault();
-      });
+        this.#$colorDesignListOfColors.addEventListener('dragover', e => {
+            e.preventDefault();
+        });
 
-      this.#$colorDesignListOfColors.addEventListener('drop', e => {
+        this.#$colorDesignListOfColors.addEventListener('drop', e => {
 
-          const dataTransferred = e.dataTransfer.getData('text/plain');
-          if (!dataTransferred) {
-              return;
-          }
+            const dataTransferred = e.dataTransfer.getData('text/plain');
+            if (!dataTransferred) {
+                return;
+            }
 
-          if (dataTransferred.indexOf('#') === 0) {
+            if (dataTransferred.indexOf('#') === 0) {
 
-              const colorCode = dataTransferred;
-              const r = HsvRgbConverter.colorCodeToR(colorCode);
-              const g = HsvRgbConverter.colorCodeToG(colorCode);
-              const b = HsvRgbConverter.colorCodeToB(colorCode);
-              const hsv = HsvRgbConverter.rgbToHsv(r, g, b);
-              const hsl = HsvRgbConverter.hsvToHsl(hsv.h, hsv.s / 100, hsv.v / 100);
+                const colorCode = dataTransferred;
+                const r = HsvRgbConverter.colorCodeToR(colorCode);
+                const g = HsvRgbConverter.colorCodeToG(colorCode);
+                const b = HsvRgbConverter.colorCodeToB(colorCode);
+                const hsv = HsvRgbConverter.rgbToHsv(r, g, b);
+                const hsl = HsvRgbConverter.hsvToHsl(hsv.h, hsv.s / 100, hsv.v / 100);
 
-              const colorInfoWithoutId = {
-                  colorCode: colorCode,
-                  rgb: { r: r, g: b, b: b },
-                  hsv: hsv,
-                  hsl: hsl
-              };
-              this.#setColorInfo(colorInfoWithoutId);
+                const colorInfoWithoutId = {
+                    colorCode: colorCode,
+                    rgb: { r: r, g: b, b: b },
+                    hsv: hsv,
+                    hsl: hsl
+                };
+                this.#setColorInfo(colorInfoWithoutId);
 
-          } else {
+            } else {
 
-              const patternInfo = JSON.parse(dataTransferred);
-              this.setColorInfoFromPatternInfoIfConfirmed(patternInfo);
-          }
+                const patternInfo = JSON.parse(dataTransferred);
+                this.setColorInfoFromPatternInfoIfConfirmed(patternInfo);
+            }
 
-          e.preventDefault();
+            e.preventDefault();
 
-      });
+        });
 
-      this.#$colorDesignPatternName.addEventListener('keyup', () => {
+        this.#$colorDesignPatternName.addEventListener('keyup', () => {
 
-          const inputName = this.#$colorDesignPatternName.value;
-          let error;
-          if (!inputName) {
-              error = '配色名を入力してください';
-          }
+            const inputName = this.#$colorDesignPatternName.value;
+            let error;
+            if (!inputName) {
+                error = '配色名を入力してください';
+            }
 
-          if (whitespaceRegExp.test(inputName)) {
-              error = '配色名は空白文字のみで入力することはできません';
-          }
+            if (whitespaceRegExp.test(inputName)) {
+                error = '配色名は空白文字のみで入力することはできません';
+            }
 
-          if (charRegExp.test(inputName)) {
-              error = '配色名に「<」「>」「&」「"」「\'」「\\」を使用することはできません';
-          }
+            if (charRegExp.test(inputName)) {
+                error = '配色名に「<」「>」「&」「"」「\'」「\\」を使用することはできません';
+            }
 
-          if (error) {
-              this.#$colorDesignPatternNameError.textContent = error;
-              this.#$addColorDesignPattern.disabled = true;
-          } else {
-              this.#$colorDesignPatternNameError.textContent = '';
-              this.#$addColorDesignPattern.disabled = false;
-          }
-      });
-      this.#$addColorDesignPattern.disabled = true;
-      this.#$colorDesignPatternName.value = '';
-      this.#$colorDesignPatternName.disabled = true;
+            if (error) {
+                this.#$colorDesignPatternNameError.textContent = error;
+                this.#$addColorDesignPattern.disabled = true;
+            } else {
+                this.#$colorDesignPatternNameError.textContent = '';
+                this.#$addColorDesignPattern.disabled = false;
+            }
+        });
+        this.#$addColorDesignPattern.disabled = true;
+        this.#$colorDesignPatternName.value = '';
+        this.#$colorDesignPatternName.disabled = true;
 
-      this.#$addColorDesignPattern.addEventListener('click', () => {
+        this.#$addColorDesignPattern.addEventListener('click', () => {
 
-          const inputName = this.#$colorDesignPatternName.value;
-          const indexArray = [];
-          this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar').forEach($bar => {
-              indexArray.push(parseInt($bar.dataset.colorInfoId));
-          });
-          const colorInfoOrderedList = indexArray.map(d => this.#droppedColorInfoMap[d]);
+            const inputName = this.#$colorDesignPatternName.value;
+            const indexArray = [];
+            this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar').forEach($bar => {
+                indexArray.push(parseInt($bar.dataset.colorInfoId));
+            });
+            const colorInfoOrderedList = indexArray.map(d => this.#droppedColorInfoMap[d]);
 
-          onAddColorDesignPattern({
-              patternName: inputName,
-              colorInfoList: colorInfoOrderedList
-          });
+            onAddColorDesignPattern({
+                patternName: inputName,
+                colorInfoList: colorInfoOrderedList
+            });
 
-      });
-  }
+        });
+    }
 
-  getControllersUsingWithArrowKey() {
-      return [ this.#$colorDesignPatternName ];
-  }
+    getControllersUsingWithArrowKey() {
+        return [ this.#$colorDesignPatternName ];
+    }
 
-  setColorInfoFromPatternInfoIfConfirmed(patternInfo) {
+    setColorInfoFromPatternInfoIfConfirmed(patternInfo) {
 
-      if (!this.#completeSettingColorInfo) {
-          return;
-      }
+        if (!this.#completeSettingColorInfo) {
+            return;
+        }
 
-      if (Object.values(this.#droppedColorInfoMap).length === 0
+        if (Object.values(this.#droppedColorInfoMap).length === 0
           || confirm('現在編集中の配色を破棄して選択した配色を読み込みますか？')) {
 
-          this.#completeSettingColorInfo = false;
-          const $bars = this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar');
-          $bars.forEach($bar => this.#removeColorInfo($bar));
-          let colorInfoIndex = 0;
-          const setColorInfoWithDelay = () => {
-              const colorInfo = patternInfo.colorInfoList[colorInfoIndex];
-              this.#setColorInfo(colorInfo);
-              colorInfoIndex++;
-              if (colorInfoIndex === patternInfo.colorInfoList.length) {
-                  this.#completeSettingColorInfo = true;
-                  return;
-              }
-              setTimeout(setColorInfoWithDelay, 200);
-          };
-          setColorInfoWithDelay();
+            this.#completeSettingColorInfo = false;
+            const $bars = this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar');
+            $bars.forEach($bar => this.#removeColorInfo($bar));
+            let colorInfoIndex = 0;
+            const setColorInfoWithDelay = () => {
+                const colorInfo = patternInfo.colorInfoList[colorInfoIndex];
+                this.#setColorInfo(colorInfo);
+                colorInfoIndex++;
+                if (colorInfoIndex === patternInfo.colorInfoList.length) {
+                    this.#completeSettingColorInfo = true;
+                    return;
+                }
+                setTimeout(setColorInfoWithDelay, 200);
+            };
+            setColorInfoWithDelay();
 
-          this.#$colorDesignPatternName.disabled = false;
-          this.#$colorDesignPatternName.value = patternInfo.patternName;
-          this.#$colorDesignPatternNameError.textContent = '';
-          this.#$addColorDesignPattern.disabled = false;
-      }
-  }
+            this.#$colorDesignPatternName.disabled = false;
+            this.#$colorDesignPatternName.value = patternInfo.patternName;
+            this.#$colorDesignPatternNameError.textContent = '';
+            this.#$addColorDesignPattern.disabled = false;
+        }
+    }
 
-  #setColorInfo(colorInfo) {
+    #setColorInfo(colorInfo) {
 
-      const id = this.#generateBarId();
-      colorInfo.id = id;
-      this.#droppedColorInfoMap[id] = colorInfo;
-      const colorBar = colorTemplate(colorInfo);
-      this.#$colorDesignListOfColors.insertAdjacentHTML('beforeend', colorBar);
-      const bars = this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar');
-      const $newBar = bars[bars.length - 1];
-      this.#setUpBarElement($newBar);
-      this.#scatterChart.appendData(colorInfo);
+        const id = this.#generateBarId();
+        colorInfo.id = id;
+        this.#droppedColorInfoMap[id] = colorInfo;
+        const colorBar = colorTemplate(colorInfo);
+        this.#$colorDesignListOfColors.insertAdjacentHTML('beforeend', colorBar);
+        const bars = this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar');
+        const $newBar = bars[bars.length - 1];
+        this.#setUpBarElement($newBar);
+        this.#scatterChart.appendData(colorInfo);
 
-      $newBar.addEventListener('dragover', e => {
-          e.preventDefault();
-      });
+        $newBar.addEventListener('dragover', e => {
+            e.preventDefault();
+        });
 
-      $newBar.addEventListener('dragstart', e => {
+        $newBar.addEventListener('dragstart', e => {
 
-          $newBar.classList.add('dragging');
-          this.#$movingBar = $newBar;
-          e.dataTransfer.effectAllowed = 'move';
-          e.dataTransfer.setData('text/html', $newBar.innerHTML);
+            $newBar.classList.add('dragging');
+            this.#$movingBar = $newBar;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', $newBar.innerHTML);
 
-      });
+        });
 
-      $newBar.addEventListener('drop', e => {
+        $newBar.addEventListener('drop', e => {
 
-          if (this.#$movingBar && this.#$movingBar !== $newBar) {
+            if (this.#$movingBar && this.#$movingBar !== $newBar) {
 
-              const movingBarColorInfoId = this.#$movingBar.dataset.colorInfoId;
+                const movingBarColorInfoId = this.#$movingBar.dataset.colorInfoId;
 
-              this.#$movingBar.innerHTML = $newBar.innerHTML;
-              this.#$movingBar.dataset.colorInfoId = $newBar.dataset.colorInfoId;
+                this.#$movingBar.innerHTML = $newBar.innerHTML;
+                this.#$movingBar.dataset.colorInfoId = $newBar.dataset.colorInfoId;
 
-              $newBar.innerHTML = e.dataTransfer.getData('text/html');
-              $newBar.dataset.colorInfoId = movingBarColorInfoId;
-              this.#setUpBarElement(this.#$movingBar);
-              this.#setUpBarElement($newBar);
-              this.#$movingBar = undefined;
-          }
+                $newBar.innerHTML = e.dataTransfer.getData('text/html');
+                $newBar.dataset.colorInfoId = movingBarColorInfoId;
+                this.#setUpBarElement(this.#$movingBar);
+                this.#setUpBarElement($newBar);
+                this.#$movingBar = undefined;
+            }
 
-          e.preventDefault();
-      });
+            e.preventDefault();
+        });
 
-      $newBar.addEventListener('dragenter', () => {
-          if (this.#$movingBar) {
-              $newBar.classList.add('over');
-          }
-      });
+        $newBar.addEventListener('dragenter', () => {
+            if (this.#$movingBar) {
+                $newBar.classList.add('over');
+            }
+        });
 
-      $newBar.addEventListener('dragleave', () => {
-          $newBar.classList.remove('over');
-      });
+        $newBar.addEventListener('dragleave', () => {
+            $newBar.classList.remove('over');
+        });
 
-      $newBar.addEventListener('dragend', () => {
+        $newBar.addEventListener('dragend', () => {
 
-          $newBar.classList.remove('dragging');
-          const $bars = this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar');
-          $bars.forEach($bar => {
-              $bar.classList.remove('over');
-          });
-          const $barDelMarks = this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorDel');
-          $barDelMarks.forEach($mark => {
-              $mark.style.display = 'none';
-          });
+            $newBar.classList.remove('dragging');
+            const $bars = this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar');
+            $bars.forEach($bar => {
+                $bar.classList.remove('over');
+            });
+            const $barDelMarks = this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorDel');
+            $barDelMarks.forEach($mark => {
+                $mark.style.display = 'none';
+            });
 
-      });
+        });
 
-      this.#toggleListOfColorsText();
-      this.#$tabInput.checked = true;
-      CommonEventDispatcher.hideColorPointerPin();
-  }
+        this.#toggleListOfColorsText();
+        this.#$tabInput.checked = true;
+        CommonEventDispatcher.hideColorPointerPin();
+    }
 
-  #generateBarId() {
-      const ret = this.#droppedBarCounter;
-      this.#droppedBarCounter++;
-      return ret;
-  }
+    #generateBarId() {
+        const ret = this.#droppedBarCounter;
+        this.#droppedBarCounter++;
+        return ret;
+    }
 
-  #setUpBarElement($element) {
+    #setUpBarElement($element) {
 
-      const colorInfoId = $element.dataset.colorInfoId;
-      $element.style.backgroundColor = this.#droppedColorInfoMap[colorInfoId].colorCode;
-      const $newBarDelMark = $element.querySelector('.colorDesignPickedColorDel');
+        const colorInfoId = $element.dataset.colorInfoId;
+        $element.style.backgroundColor = this.#droppedColorInfoMap[colorInfoId].colorCode;
+        const $newBarDelMark = $element.querySelector('.colorDesignPickedColorDel');
 
-      $newBarDelMark.addEventListener('click', () => {
-          this.#removeColorInfo($element);
-      });
+        $newBarDelMark.addEventListener('click', () => {
+            this.#removeColorInfo($element);
+        });
 
-      $element.addEventListener('mouseover', () => {
-          $newBarDelMark.style.display = 'inline-block';
-      });
+        $element.addEventListener('mouseover', () => {
+            $newBarDelMark.style.display = 'inline-block';
+        });
 
-      $element.addEventListener('mouseout', () => {
-          $newBarDelMark.style.display = 'none';
-      });
+        $element.addEventListener('mouseout', () => {
+            $newBarDelMark.style.display = 'none';
+        });
 
-      $newBarDelMark.style.display = 'none';
-  }
+        $newBarDelMark.style.display = 'none';
+    }
 
-  #removeColorInfo($element) {
-      const colorInfoId = $element.dataset.colorInfoId;
-      delete this.#droppedColorInfoMap[colorInfoId];
-      $element.remove();
-      this.#toggleListOfColorsText();
-      this.#scatterChart.removeData(parseInt(colorInfoId));
-  }
+    #removeColorInfo($element) {
+        const colorInfoId = $element.dataset.colorInfoId;
+        delete this.#droppedColorInfoMap[colorInfoId];
+        $element.remove();
+        this.#toggleListOfColorsText();
+        this.#scatterChart.removeData(parseInt(colorInfoId));
+    }
 
-  #toggleListOfColorsText() {
-      if (this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar').length === 0) {
-          this.#$colorDesignListOfColorsText.style.display = 'block';
-          this.#$colorDesignPatternName.disabled = true;
-          this.#$colorDesignPatternName.value = '';
-          this.#$addColorDesignPattern.disabled = true;
-      } else {
-          this.#$colorDesignListOfColorsText.style.display = 'none';
-          this.#$colorDesignPatternName.disabled = false;
-      }
-  }
+    #toggleListOfColorsText() {
+        if (this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar').length === 0) {
+            this.#$colorDesignListOfColorsText.style.display = 'block';
+            this.#$colorDesignPatternName.disabled = true;
+            this.#$colorDesignPatternName.value = '';
+            this.#$addColorDesignPattern.disabled = true;
+        } else {
+            this.#$colorDesignListOfColorsText.style.display = 'none';
+            this.#$colorDesignPatternName.disabled = false;
+        }
+    }
 }

@@ -3,67 +3,67 @@ import CustomEventNames from './CustomEventNames.js';
 
 export default class ImageCanvasHandler extends CanvasHandler {
 
-  #$noImageData;
-  #$tab;
+    #$noImageData;
+    #$tab;
 
-  constructor() {
-      super({
-          canvasSelector: '#imageData',
-          defaultWidth: 160,
-          defaultHeight: 90
-      });
-      const $noImageData = document.querySelector('#noImageData');
-      this.#changeStyleDisplay($noImageData, this.canvas());
+    constructor() {
+        super({
+            canvasSelector: '#imageData',
+            defaultWidth: 160,
+            defaultHeight: 90
+        });
+        const $noImageData = document.querySelector('#noImageData');
+        this.#changeStyleDisplay($noImageData, this.canvas());
 
-      this.#$noImageData = $noImageData;
-      this.#$tab = document.querySelector('#imageFileAreaTabTitle');
-  }
+        this.#$noImageData = $noImageData;
+        this.#$tab = document.querySelector('#imageFileAreaTabTitle');
+    }
 
-  setUpEvent() {
-      super.setUpEvent();
-      document.addEventListener(CustomEventNames.COLOR_PICKER__IMAGE_FILE_LOADED, event => {
-          const detail = event.detail;
-          this.#drawImageWithSpecificSize(detail.image, detail.width, detail.height);
-      });
-  }
+    setUpEvent() {
+        super.setUpEvent();
+        document.addEventListener(CustomEventNames.COLOR_PICKER__IMAGE_FILE_LOADED, event => {
+            const detail = event.detail;
+            this.#drawImageWithSpecificSize(detail.image, detail.width, detail.height);
+        });
+    }
 
-  containsX(x) {
-      const $canvas = this.canvas();
+    containsX(x) {
+        const $canvas = this.canvas();
 
-      const min = $canvas.offsetLeft;
-      const max = min + $canvas.width;
-      return min <= x && x <= max;
-  }
+        const min = $canvas.offsetLeft;
+        const max = min + $canvas.width;
+        return min <= x && x <= max;
+    }
 
-  containsY(y) {
-      const $canvas = this.canvas();
+    containsY(y) {
+        const $canvas = this.canvas();
 
-      const min = $canvas.offsetTop;
-      const max = min + $canvas.height;
-      return min <= y && y <= max;
-  }
+        const min = $canvas.offsetTop;
+        const max = min + $canvas.height;
+        return min <= y && y <= max;
+    }
 
-  displayed() {
-      return this.#$tab.checked;
-  }
+    displayed() {
+        return this.#$tab.checked;
+    }
 
-  #drawImageWithSpecificSize(image, width, height) {
-      if (!image) {
-          return;
-      }
-      const $canvas = this.canvas();
-      this.#changeStyleDisplay($canvas, this.#$noImageData);
+    #drawImageWithSpecificSize(image, width, height) {
+        if (!image) {
+            return;
+        }
+        const $canvas = this.canvas();
+        this.#changeStyleDisplay($canvas, this.#$noImageData);
 
-      $canvas.width = width;
-      $canvas.height = height;
+        $canvas.width = width;
+        $canvas.height = height;
 
-      const ctx = $canvas.getContext('2d');
-      ctx.clearRect(0, 0, width, height);
-      ctx.drawImage(image, 0, 0, width, height);
-  }
+        const ctx = $canvas.getContext('2d');
+        ctx.clearRect(0, 0, width, height);
+        ctx.drawImage(image, 0, 0, width, height);
+    }
 
-  #changeStyleDisplay($toBlock, $toNone) {
-      $toBlock.style.display = 'block';
-      $toNone.style.display = 'none';
-  }
+    #changeStyleDisplay($toBlock, $toNone) {
+        $toBlock.style.display = 'block';
+        $toNone.style.display = 'none';
+    }
 }
