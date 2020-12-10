@@ -4,7 +4,6 @@ import HsvCircleCanvasHandler from './HsvCircleCanvasHandler.js';
 import ImageCanvasHandler from './ImageCanvasHandler.js';
 import ColorPointerPin from './ColorPointerPin.js';
 import LoadedImageHolder from './LoadedImageHolder.js';
-import CurrentEventXY from './CurrentEventXY.js';
 import ChangeColorController from './ChangeColorController.js';
 import ColorCodeHistories from './ColorCodeHistories.js';
 import ColorDesignCheck from './ColorDesignCheck.js';
@@ -12,7 +11,6 @@ import ContrastRatioCheck from './ContrastRatioCheck.js';
 import ContrastRatioAutoExtraction from './ContrastRatioAutoExtraction.js';
 import ColorDesignHistories from './ColorDesignHistories.js';
 import CustomEventNames from './CustomEventNames.js';
-import debounce from './Debounce.js';
 
 
 

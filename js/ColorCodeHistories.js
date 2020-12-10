@@ -91,7 +91,7 @@ export default class ColorCodeHistories {
 
 
       const $newHistory = this.#$historiesListArea.querySelectorAll('.historyColorBar')[0];
-      $newHistory.addEventListener('click', event => {
+      $newHistory.addEventListener('click', () => {
           const customEvent = new CustomEvent('historyClick',
               { detail: newColorCode }
           );

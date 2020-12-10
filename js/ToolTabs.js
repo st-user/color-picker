@@ -7,7 +7,7 @@ export default class ToolTabs {
 
         const $toolTabItems = document.querySelectorAll('input[name="toolTabItem"]');
         $toolTabItems.forEach($item => {
-            $item.addEventListener('change', event => {
+            $item.addEventListener('change', () => {
                 CommonEventDispatcher.hideColorPointerPin();
             });
         });

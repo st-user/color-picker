@@ -1,5 +1,4 @@
 
-import ContrastRatioCalculator from './ContrastRatioCalculator.js';
 import HsvRgbConverter from './HsvRgbConverter.js';
 import ContrastRatioAutoExtractionCondition from './ContrastRatioAutoExtractionCondition.js';
 import ContrastRatioExplanations from './ContrastRatioExplanations.js';
@@ -107,7 +106,7 @@ export default class ContrastRatioAutoExtraction {
 
       this.#$contrastRatioTargetColorList.addEventListener('drop', event => {
           event.preventDefault();
-    
+
           const dataTransferred = event.dataTransfer.getData('text/plain');
           if (this.#isDraggingTargetColor || !dataTransferred) {
               return;
@@ -129,7 +128,7 @@ export default class ContrastRatioAutoExtraction {
           }
       });
 
-      this.#$contrastRatioExtractHighestRatios.addEventListener('click', event => {
+      this.#$contrastRatioExtractHighestRatios.addEventListener('click', () => {
 
           if (this.#isExecuting || !this.#checkCondition()) {
               return;
@@ -165,15 +164,15 @@ export default class ContrastRatioAutoExtraction {
 
       this.#makeSingleBarDraggable($newBar, colorCode, true);
 
-      $newBarDelMark.addEventListener('click', e => {
+      $newBarDelMark.addEventListener('click', () => {
           this.#removeColorInfo($newBar);
       });
 
-      $newBar.addEventListener('mouseover', e => {
+      $newBar.addEventListener('mouseover', () => {
           $newBarDelMark.style.display = 'inline-block';
       });
 
-      $newBar.addEventListener('mouseout', e => {
+      $newBar.addEventListener('mouseout', () => {
           $newBarDelMark.style.display = 'none';
       });
 
@@ -190,7 +189,7 @@ export default class ContrastRatioAutoExtraction {
           event.dataTransfer.setData('text/plain', colorCode);
       });
 
-      $element.addEventListener('dragend', event => {
+      $element.addEventListener('dragend', () => {
           this.#isDraggingTargetColor = false;
           $element.classList.remove('dragging');
       });

@@ -1,4 +1,3 @@
-import ElementUtil from './ElementUtil.js';
 import CustomEventNames from './CustomEventNames.js';
 import debounce from './Debounce.js';
 
@@ -56,7 +55,7 @@ export default class ColorPointerPin {
       document.addEventListener(CustomEventNames.COLOR_PICKER__IMAGE_FILE_LOADED, () => this.#hide());
       document.addEventListener(CustomEventNames.COLOR_PICKER__HIDE_COLOR_POINTER_PIN, () => this.#hide());
 
-      window.addEventListener('resize', debounce(event => {
+      window.addEventListener('resize', debounce(() => {
           this.#hide();
       }, 500));
   }

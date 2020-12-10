@@ -161,15 +161,15 @@ export default class ContrastRatioCheck {
           event.dataTransfer.setData('text/plain', colorCode);
       });
 
-      $newBar.addEventListener('dragenter', event => {
+      $newBar.addEventListener('dragenter', () => {
           $newBar.classList.add('over');
       });
 
-      $newBar.addEventListener('dragleave', event => {
+      $newBar.addEventListener('dragleave', () => {
           $newBar.classList.remove('over');
       });
 
-      $newBar.addEventListener('dragend', event => {
+      $newBar.addEventListener('dragend', () => {
           this.#isSwapping = false;
           $newBar.classList.remove('dragging');
       });

@@ -36,7 +36,7 @@ export default class ScatterChart {
   constructor() {
 
       const svg = d3.select('#colorDesignChart')
-    	  .append('svg')
+          .append('svg')
           .attr('width', AREA_WIDTH)
           .attr('height', AREA_HEIGHT)
           .append('g')
@@ -119,9 +119,9 @@ export default class ScatterChart {
           .attr('stroke', '#333334')
           .attr('stroke-width', 1)
           .attr('class', 'colorDesignChartCircle')
-          .on('mouseover', (e, d) => this.#mouseover(e, d))
+          .on('mouseover', () => this.#mouseover())
           .on('mousemove', (e, d) => this.#mousemove(e, d))
-          .on('mouseleave', (e, d) => this.#mouseleave(e, d));
+          .on('mouseleave', () => this.#mouseleave());
   }
 
   removeData(id) {
@@ -134,7 +134,7 @@ export default class ScatterChart {
           .remove();
   }
 
-  #mouseover(event, datum) {
+  #mouseover() {
       this.#tooltip.style('display', 'block');
   }
 
@@ -170,7 +170,7 @@ export default class ScatterChart {
           .style('top', this.#y(datum.hsv.v) + 'px');
   }
 
-  #mouseleave(event, datum) {
+  #mouseleave() {
       this.#tooltip.transition()
           .duration(200)
           .style('display', 'none');

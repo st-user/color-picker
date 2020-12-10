@@ -14,7 +14,6 @@ export default class LoadedImageHolder {
   }
 
   setUpEvent() {
-      const currentLoadedImage = this.#currentLoadedImage;
 
       this.#$needsToResize.forEach(
           element => element.addEventListener('change',

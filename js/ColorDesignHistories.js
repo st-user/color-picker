@@ -85,7 +85,7 @@ export default class ColorDesignHistories {
       }));
 
       const $newHistory = this.#$colorDesignHistoriesListArea.querySelectorAll('.historyColorDesignBar')[0];
-      $newHistory.addEventListener('click', event => {
+      $newHistory.addEventListener('click', () => {
           const customEvent = new CustomEvent('historyClick',
               { detail: patternInfo }
           );

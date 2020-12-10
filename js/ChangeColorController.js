@@ -138,7 +138,7 @@ export default class ChangeColorController {
       };
 
       const setHandlerOnRgbTextChange = element => {
-          element.addEventListener('change', event => {
+          element.addEventListener('change', () => {
               if(this.#checkRgbInputRangeAll()) {
                   this.#setColorValuesFromRgbText();
                   _onColorCodeChangeWithoutAlert();

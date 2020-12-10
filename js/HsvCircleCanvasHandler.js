@@ -1,5 +1,4 @@
 import CanvasHandler from './CanvasHandler.js';
-import CustomEventNames from './CustomEventNames.js';
 import HsvRgbConverter from './HsvRgbConverter.js';
 import CommonEventDispatcher from './CommonEventDispatcher.js';
 import ElementUtil from './ElementUtil.js';
@@ -66,7 +65,7 @@ export default class HsvCircleCanvasHandler extends CanvasHandler {
       super.setUpEvent();
 
       const $valueSlider = document.querySelector('#hsvCircleDataValueSlider');
-      $valueSlider.addEventListener('change', event => {
+      $valueSlider.addEventListener('change', () => {
           const value = $valueSlider.value;
           this.#currentValue = parseInt(value);
           this.#drawHsvCircleFromConfigs();
@@ -76,7 +75,7 @@ export default class HsvCircleCanvasHandler extends CanvasHandler {
 
       const $hsvCircleSizeSwitches = document.querySelectorAll('input[name="hsvCircleSizeSwitch"]');
       $hsvCircleSizeSwitches.forEach($switch => {
-          $switch.addEventListener('change', event => {
+          $switch.addEventListener('change', () => {
               const selectedSize = $switch.value;
               this.#currentSizeConfig = CIRCLE_SIZE_CONFIGS[parseInt(selectedSize)];
               this.#drawHsvCircleFromConfigs();
@@ -86,7 +85,7 @@ export default class HsvCircleCanvasHandler extends CanvasHandler {
 
       const $hsvCircleDivisionCountSwitches = document.querySelectorAll('input[name="hsvCircleDivisionCountSwitch"]');
       $hsvCircleDivisionCountSwitches.forEach($switch => {
-          $switch.addEventListener('change', event => {
+          $switch.addEventListener('change', () => {
               const selectedCount = $switch.value;
               this.#currentArcStep = Math.PI / (parseInt(selectedCount) / 2);
               this.#drawHsvCircleFromConfigs();

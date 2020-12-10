@@ -1,3 +1,4 @@
+/*globals require */
 require('../node_modules/nouislider/distribute/nouislider.css');
 require('../css/reset.css');
 require('../css/main.css');

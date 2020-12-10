@@ -91,7 +91,7 @@ export default class ColorDesignCheck {
 
       });
 
-      this.#$colorDesignPatternName.addEventListener('keyup', e => {
+      this.#$colorDesignPatternName.addEventListener('keyup', () => {
 
           const inputName = this.#$colorDesignPatternName.value;
           let error;
@@ -104,7 +104,7 @@ export default class ColorDesignCheck {
           }
 
           if (charRegExp.test(inputName)) {
-              error = '配色名に「<」「>」「&」「\"」「\'」「\\」を使用することはできません';
+              error = '配色名に「<」「>」「&」「"」「\'」「\\」を使用することはできません';
           }
 
           if (error) {
@@ -119,7 +119,7 @@ export default class ColorDesignCheck {
       this.#$colorDesignPatternName.value = '';
       this.#$colorDesignPatternName.disabled = true;
 
-      this.#$addColorDesignPattern.addEventListener('click', e => {
+      this.#$addColorDesignPattern.addEventListener('click', () => {
 
           const inputName = this.#$colorDesignPatternName.value;
           const indexArray = [];
@@ -216,17 +216,17 @@ export default class ColorDesignCheck {
           e.preventDefault();
       });
 
-      $newBar.addEventListener('dragenter', e => {
+      $newBar.addEventListener('dragenter', () => {
           if (this.#$movingBar) {
               $newBar.classList.add('over');
           }
       });
 
-      $newBar.addEventListener('dragleave', e => {
+      $newBar.addEventListener('dragleave', () => {
           $newBar.classList.remove('over');
       });
 
-      $newBar.addEventListener('dragend', e => {
+      $newBar.addEventListener('dragend', () => {
 
           $newBar.classList.remove('dragging');
           const $bars = this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar');
@@ -257,15 +257,15 @@ export default class ColorDesignCheck {
       $element.style.backgroundColor = this.#droppedColorInfoMap[colorInfoId].colorCode;
       const $newBarDelMark = $element.querySelector('.colorDesignPickedColorDel');
 
-      $newBarDelMark.addEventListener('click', e => {
+      $newBarDelMark.addEventListener('click', () => {
           this.#removeColorInfo($element);
       });
 
-      $element.addEventListener('mouseover', e => {
+      $element.addEventListener('mouseover', () => {
           $newBarDelMark.style.display = 'inline-block';
       });
 
-      $element.addEventListener('mouseout', e => {
+      $element.addEventListener('mouseout', () => {
           $newBarDelMark.style.display = 'none';
       });
 
