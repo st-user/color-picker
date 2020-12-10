@@ -1,5 +1,6 @@
 import ContrastRatioAutoExtractionWorker from '../ContrastRatioAutoExtractionWorker.js';
 
+/*globals assertEquals */
 const ContrastRatioAutoExtractionWorkerTest = (() => {
     return () => {
 
