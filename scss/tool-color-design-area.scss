@@ -1,0 +1,116 @@
+@import "global";
+@import "global-draggable";
+
+.tool-color-design-area {
+    @extend %g__tab-content;
+    @extend %g__group-background;
+
+
+    &__color-design-container {
+        width: 586px;
+        margin: auto;
+    }
+
+    &__list-of-colors {
+        @extend %g__border-normal;
+        @extend %g__margin-right;
+        @extend %g-draggable__droppable-area-bg;
+        float: left;
+        width: 200px;
+        min-height: 360px;
+    }
+
+    &__list-of-colors-text {
+        @extend %g__font-small;
+        @extend %g-draggable__droppable-area-message;
+
+    }
+
+    &__picked-color-bar {
+        @extend %g-draggable__picked-color-bar;
+    }
+
+    &__picked-color-bar-text {
+        @extend %g-draggable__picked-color-bar-text;
+    }
+
+    &__picked-color-bar-del {
+        @extend %g-draggable__picked-color-bar-del;
+    }
+
+    &__chart-area {
+        @extend %g__margin-bottom;
+        float: left;
+        height: 360px;
+        background-color: #FFFFFF;
+    }
+
+    &__chart {
+        position: relative;
+    }
+
+    &__chart-circle {
+        animation-name: tool-color-design-area__circle-slideIn;
+        animation-duration: 1s;
+        opacity: 0.7;
+    }
+
+    @keyframes tool-color-design-area__circle-slideIn {
+      0% {
+        transform: translateX(-100px);
+        opacity: 0;
+      }
+      60% {
+        transform: translateX(20px);
+      }
+      100% {
+        transform: translateX(0);
+        opacity: 0.7;
+      }
+    }
+
+    &__chart-tooptip {
+        position: absolute;
+        background-color: #FFFFFF;
+        border: 1px solid #333334;
+        border-radius: 2px;
+        padding: 6px;
+    }
+
+    &__chart-tooltip-line-color-mark {
+        display: inline-block;;
+        width: 12px;
+        height: 12px;
+    }
+
+    &__chart-tooltip-line-color {
+        display: inline-block;;
+        width: 12px;
+        height: 12px;
+    }
+
+    &__chart-tooltip-line-color-code {
+        @extend %g__font-small;
+    }
+
+    &__chart-tooltip-line-hsv {
+        @extend %g__font-small;
+        display: block;
+        padding-left: 18px;
+    }
+
+    &__history-control-wrapper {
+        @extend %g__clear;
+        float: right;
+        width: 330px;
+        margin-right: 6px;
+    }
+
+    &__input-pattern-name {
+        width: 170px;
+    }
+
+    &__input-pattern-name-error {
+        color: #A63838;
+    }
+}

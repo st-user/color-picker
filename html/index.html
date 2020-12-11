@@ -419,24 +419,24 @@
       </div>
 
 
-      <div class="toolTabContent tabContent groupBackground clearfixContainer" id="colorDesignArea">
+      <div id="colorDesignArea" class="tool-color-design-area clearfixContainer">
 
-        <div id="colorDesignContainer">
-          <div id="colorDesignListOfColors" class="droppableAreaBg margin-right">
-            <div id="colorDesignListOfColorsText" class="drappableAreaMessage font-small">編集中の色や、履歴からDrag&Dropで色を追加してください</div>
+        <div id="colorDesignContainer" class="tool-color-design-area__color-design-container">
+          <div id="colorDesignListOfColors" class="tool-color-design-area__list-of-colors">
+            <div id="colorDesignListOfColorsText" class="tool-color-design-area__list-of-colors-text">編集中の色や、履歴からDrag&Dropで色を追加してください</div>
           </div>
 
-          <div id="colorDesignChartArea" class="margin-bottom">
-            <div id="colorDesignChart">
-              <div id="colorDesignChartTooltip"></div>
+          <div id="colorDesignChartArea" class="tool-color-design-area__chart-area">
+            <div id="colorDesignChart" class="tool-color-design-area__chart">
+              <div id="colorDesignChartTooltip" class="tool-color-design-area__chart-tooptip"></div>
             </div>
           </div>
 
-          <div id="colorDesignPatternUpdates" class="clear">
+          <div id="colorDesignPatternUpdates" class="tool-color-design-area__history-control-wrapper">
             <span>配色名:</span>
-            <input type="text" size="20" maxlength="10" name="colorDesignPatternName" id="colorDesignPatternName"/>
+            <input type="text" size="20" maxlength="10" name="colorDesignPatternName" id="colorDesignPatternName" class="tool-color-design-area__input-pattern-name"/>
             <button type="button" id="addColorDesignPattern">履歴に追加</button>
-            <div id="colorDesignPatternNameError"></div>
+            <div id="colorDesignPatternNameError" class="tool-color-design-area__input-pattern-name-error"></div>
           </div>
         </div>
 

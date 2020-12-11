@@ -60,21 +60,6 @@
   clear: both;
 }
 
-.openCloseTriangle {
-  display: inline-block;
-
-}
-
-.triangleClose {
-  transform: rotate(90deg);
-}
-
-.triangleOpen {
-  transform: rotate(180deg);
-}
-
-/* ツールエリア */
-
 /* tool tab control start */
 input[name="toolTabItem"] {
   display: none;
@@ -112,57 +97,6 @@ input[name="hsvCircleDivisionCountSwitch"] {
 
 
 
-/* 色のDrag&drop系共通 */
-.droppableAreaBg {
-  background-color   : #FFFFFF;
-  background-position: 0 0, 6px 6px;
-  background-size    : 12px 12px;
-  background-image   : radial-gradient(#000000 1%, transparent 10%),
-                       radial-gradient(#000000 1%, transparent 10%);
-}
-
-.drappableAreaMessage {
-  margin: 8px;
-  text-align: center;
-}
-
-.pickedColorBar {
-  position: relative;
-  width: 200px;
-  height: 32px;
-  text-align: center;
-  line-height: 32px;
-  cursor: move;
-}
-
-.pickedColorBar.over,
-.pickedColorBar.dragging {
-  opacity: 0.4;
-}
-
-.pickedColorText {
-  text-shadow: 1px 1px 0 #FFFFFF;
-}
-
-.pickedColorDel {
-  height: 16px;
-  width: 16px;
-  border: 1px solid #333334;
-  background-color: #E61212;
-  border-radius: 50%;
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  cursor: pointer;
-  text-align: center;
-  line-height: 14px;
-  color: #333334;
-}
-
-
-
-/* コントラスト比 */
-
 /* override noUi  :start*/
 .noUi-connect {
   height: 18px;
@@ -180,83 +114,6 @@ input[name="hsvCircleDivisionCountSwitch"] {
 }
 /* override noUi  :end*/
 
-
-
-/* 配色チェック */
-#colorDesignListOfColors {
-  float: left;
-  border: 1px solid #333334;
-  width: 200px;
-  min-height: 360px;
-}
-
-#colorDesignChartArea {
-  float: left;
-  height: 360px;
-  background-color: #FFFFFF;
-}
-
-#colorDesignContainer {
-  width: 586px;
-  margin: auto;
-}
-
-#colorDesignChart {
-  position: relative;
-}
-
-.colorDesignChartCircle {
-  animation-name: colorDesignChartCircleSlideIn;
-  animation-duration: 1s;
-  opacity: 0.7;
-}
-
-@keyframes colorDesignChartCircleSlideIn {
-  0% {
-    transform: translateX(-100px);
-    opacity: 0;
-  }
-  60% {
-    transform: translateX(20px);
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 0.7;
-  }
-}
-
-#colorDesignChartTooltip {
-  position: absolute;
-  background-color: #FFFFFF;
-  border: 1px solid #333334;
-  border-radius: 2px;
-  padding: 6px;
-}
-
-.colorDesignChartTooltipLineColor {
-  display: inline-block;;
-  width: 12px;
-  height: 12px;
-}
-
-.colorDesignChartTooltipLineHsv {
-  display: block;
-  padding-left: 18px;
-}
-
-#colorDesignPatternUpdates {
-  float: right;
-  width: 330px;
-  margin-right: 6px;
-}
-
-#colorDesignPatternName {
-  width: 170px;
-}
-
-#colorDesignPatternNameError {
-  color: #A63838;
-}
 
 
 

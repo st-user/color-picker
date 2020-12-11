@@ -7,9 +7,9 @@ const charRegExp = /[<>&"'\\]/;
 
 const colorTemplate = data => {
     return `
-    <div class="colorDesignPickedColorBar pickedColorBar" data-color-info-id="${data.id}" draggable="true">
-      <span class="pickedColorText">${data.colorCode}</span>
-      <span class="colorDesignPickedColorDel pickedColorDel">×</span>
+    <div class="tool-color-design-area__picked-color-bar" data-color-info-id="${data.id}" draggable="true">
+      <span class="tool-color-design-area__picked-color-bar-text">${data.colorCode}</span>
+      <span class="tool-color-design-area__picked-color-bar-del">×</span>
     </div>
   `;
 };
@@ -123,7 +123,7 @@ export default class ColorDesignCheck {
 
             const inputName = this.#$colorDesignPatternName.value;
             const indexArray = [];
-            this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar').forEach($bar => {
+            this.#$colorDesignListOfColors.querySelectorAll('.tool-color-design-area__picked-color-bar').forEach($bar => {
                 indexArray.push(parseInt($bar.dataset.colorInfoId));
             });
             const colorInfoOrderedList = indexArray.map(d => this.#droppedColorInfoMap[d]);
@@ -150,7 +150,7 @@ export default class ColorDesignCheck {
           || confirm('現在編集中の配色を破棄して選択した配色を読み込みますか？')) {
 
             this.#completeSettingColorInfo = false;
-            const $bars = this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar');
+            const $bars = this.#$colorDesignListOfColors.querySelectorAll('.tool-color-design-area__picked-color-bar');
             $bars.forEach($bar => this.#removeColorInfo($bar));
             let colorInfoIndex = 0;
             const setColorInfoWithDelay = () => {
@@ -179,7 +179,7 @@ export default class ColorDesignCheck {
         this.#droppedColorInfoMap[id] = colorInfo;
         const colorBar = colorTemplate(colorInfo);
         this.#$colorDesignListOfColors.insertAdjacentHTML('beforeend', colorBar);
-        const bars = this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar');
+        const bars = this.#$colorDesignListOfColors.querySelectorAll('.tool-color-design-area__picked-color-bar');
         const $newBar = bars[bars.length - 1];
         this.#setUpBarElement($newBar);
         this.#scatterChart.appendData(colorInfo);
@@ -229,11 +229,11 @@ export default class ColorDesignCheck {
         $newBar.addEventListener('dragend', () => {
 
             $newBar.classList.remove('dragging');
-            const $bars = this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar');
+            const $bars = this.#$colorDesignListOfColors.querySelectorAll('.tool-color-design-area__picked-color-bar');
             $bars.forEach($bar => {
                 $bar.classList.remove('over');
             });
-            const $barDelMarks = this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorDel');
+            const $barDelMarks = this.#$colorDesignListOfColors.querySelectorAll('.tool-color-design-area__picked-color-bar-del');
             $barDelMarks.forEach($mark => {
                 $mark.style.display = 'none';
             });
@@ -255,7 +255,7 @@ export default class ColorDesignCheck {
 
         const colorInfoId = $element.dataset.colorInfoId;
         $element.style.backgroundColor = this.#droppedColorInfoMap[colorInfoId].colorCode;
-        const $newBarDelMark = $element.querySelector('.colorDesignPickedColorDel');
+        const $newBarDelMark = $element.querySelector('.tool-color-design-area__picked-color-bar-del');
 
         $newBarDelMark.addEventListener('click', () => {
             this.#removeColorInfo($element);
@@ -281,7 +281,7 @@ export default class ColorDesignCheck {
     }
 
     #toggleListOfColorsText() {
-        if (this.#$colorDesignListOfColors.querySelectorAll('.colorDesignPickedColorBar').length === 0) {
+        if (this.#$colorDesignListOfColors.querySelectorAll('.tool-color-design-area__picked-color-bar').length === 0) {
             this.#$colorDesignListOfColorsText.style.display = 'block';
             this.#$colorDesignPatternName.disabled = true;
             this.#$colorDesignPatternName.value = '';

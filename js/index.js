@@ -13,6 +13,7 @@ require('../scss-dest/tool-tab-area.css');
 require('../scss-dest/tool-hsv-circle-area.css');
 require('../scss-dest/tool-image-file-area.css');
 require('../scss-dest/tool-contrast-ratio-area.css');
+require('../scss-dest/tool-color-design-area.css');
 
 import main from './main.js';
 main();

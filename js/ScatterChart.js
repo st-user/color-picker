@@ -13,12 +13,12 @@ const CIRCLE_R = 8;
 
 const eachToolTipLineTemplate = datum => {
     return `
-    <div class="colorDesignChartTooltipLine">
+    <div>
       <div>
-        <span class="colorDesignChartTooltipLineColor" style="background-color: ${datum.colorCode}"></span>
-        <span class="colorDesignChartTooltipLineColorCode font-small">${datum.colorCode}</span>
+        <span class="tool-color-design-area__chart-tooltip-line-color-mark" style="background-color: ${datum.colorCode}"></span>
+        <span class="tool-color-design-area__chart-tooltip-line-color-code">${datum.colorCode}</span>
       </div>
-      <span class="colorDesignChartTooltipLineHsv font-small">hsv(${datum.hsv.h}°,${datum.hsv.s}%,${datum.hsv.v}%)</span>
+      <span class="tool-color-design-area__chart-tooltip-line-hsv font-small">hsv(${datum.hsv.h}°,${datum.hsv.s}%,${datum.hsv.v}%)</span>
     </div>
   `;
 };
@@ -118,7 +118,7 @@ export default class ScatterChart {
             .attr('r', CIRCLE_R)
             .attr('stroke', '#333334')
             .attr('stroke-width', 1)
-            .attr('class', 'colorDesignChartCircle')
+            .attr('class', 'tool-color-design-area__chart-circle')
             .on('mouseover', () => this.#mouseover())
             .on('mousemove', (e, d) => this.#mousemove(e, d))
             .on('mouseleave', () => this.#mouseleave());
