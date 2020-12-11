@@ -1,0 +1,43 @@
+@import "global";
+
+.header {
+    height: 64px;
+
+    &__title {
+        float: left;
+        font-size: 32px;
+        line-height: 2;
+        text-align: center;
+        height: 64px;
+        width: 100%;
+    }
+
+    &__btn-show-explanations-wrapper {
+        width: 12%;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    &__btn-show-explanations {
+        @extend %shadow;
+        background-color: #54636E;
+        color: #FFFFFF;
+        border-radius: 50%;
+        height: 24px;
+        width: 24px;
+        line-height: 1.5;
+        font-weight: bold;
+        text-align: center;
+        cursor: pointer;
+        position: absolute;
+        top: 20px;
+    }
+
+    &__remark-about-browser {
+        margin: auto;
+        margin-bottom: 36px;
+        width: 564px;
+        font-size: 12px;
+    }
+}

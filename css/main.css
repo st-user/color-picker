@@ -6,19 +6,6 @@ body {
   color: #54636E;
 }
 
-header {
-  height: 64px;
-}
-
-h1 {
-  float: left;
-  font-size: 32px;
-  line-height: 2;
-  text-align: center;
-  height: 64px;
-  width: 100%;
-}
-
 h2 {
   font-size: 24px;
 }
@@ -101,116 +88,7 @@ h3 {
   transform: rotate(180deg);
 }
 
-#remarkAboutBrowser {
-  margin: auto;
-  margin-bottom: 36px;
-  width: 564px;
-  font-size: 12px;
-}
-
-/* 説明 */
-#showExplanationsWrapper {
-  width: 12%;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-
-#showExplanations {
-  background-color: #54636E;
-  color: #FFFFFF;
-  border-radius: 50%;
-  height: 24px;
-  width: 24px;
-  line-height: 1.5;
-  font-weight: bold;
-  text-align: center;
-  cursor: pointer;
-  position: absolute;
-  top: 20px;
-}
-
-#explanations {
-  position: absolute;
-  top: 64px;
-  width: 80%;
-  left: 10%;
-  background-color: #FFFFFF;
-  list-style: disc;
-  padding: 24px 24px 24px 36px;
-  border-radius: 4px;
-  box-shadow: 3px 3px 3px 3px rgba(0,0,0,0.2);
-  z-index: 100;
-}
-
-#explanations li {
-  line-height: 1.5;
-}
-
-.explanationsInner {
-  list-style: circle;
-  padding: 0 0 0 24px;
-}
-
-
-
 /* カラーコード作成スライダーバーエリア */
-#colorControlArea {
-  margin: auto;
-  width: 564px;
-  margin-bottom: 12px;
-}
-
-#viewColorWrapper {
-  float: left;
-  padding: 6px;
-  margin: 36px 24px 0 12px;
-}
-
-#viewColor {
-  border: 1px solid #333334;
-  border-radius: 6px;
-  width: 120px;
-  height: 120px;
-  transition: background-color 0.3s ease-in-out;
-}
-
-#editColor {
-  float: left;
-}
-
-#rgbColorCode {
-  width: 72px;
-}
-
-#rgbaSliderArea {
-  margin-bottom: 24px;
-}
-
-#rgbColorBar,
-#hsvColorBar {
-  margin-left: 16px;
-}
-
-.silderTitle {
-  display: inline-block;
-  width: 12px;
-}
-
-.sliderInput {
-  width: 310px;
-}
-
-.sliderTextInput {
-  width: 36px;
-}
-
-.historyUpdates {
-  float: right;
-  height: 24px;
-  line-height: 24px;
-}
-
 
 
 /* ツールエリア */

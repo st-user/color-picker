@@ -1,0 +1,25 @@
+@import "global";
+
+.explanations {
+    @extend %shadow;
+    position: absolute;
+    top: 64px;
+    width: 80%;
+    left: 10%;
+    background-color: #FFFFFF;
+    list-style: disc;
+    padding: 24px 24px 24px 36px;
+    border-radius: 4px;
+    box-shadow: 3px 3px 3px 3px rgba(0,0,0,0.2);
+    z-index: 100;
+
+    &__li {
+        line-height: 1.5;
+    }
+
+    &__inner {
+        @extend %margin-bottom;
+        list-style: circle;
+        padding: 0 0 0 24px;
+    }
+}

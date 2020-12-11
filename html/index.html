@@ -12,13 +12,13 @@
 
 
 <!-- title -->
-    <header class="clearfixContainer">
-      <h1>カラーコード作成ツール</h1>
-      <div id="showExplanationsWrapper">
-        <div id="showExplanations" class="shadow">?</div>
+    <header class="header clearfixContainer">
+      <h1 class="header__title">カラーコード作成ツール</h1>
+      <div id="showExplanationsWrapper" class="header__btn-show-explanations-wrapper">
+        <div id="showExplanations" class="header__btn-show-explanations">?</div>
       </div>
     </header>
-    <div id="remarkAboutBrowser" style="font-size: 16px; color: #3845A6; display: none;">
+    <div id="remarkAboutBrowser" class="header__remark-about-browser" style="font-size: 16px; color: #3845A6; display: none;">
       ブラウザは、Google Chrome, Firefox, Microsoft Edge(Chromium版), Safariの、できるだけ最新に近いバージョンを使用してください。
       これら意外のブラウザでは動作しない可能性があります。
     </div>
@@ -27,64 +27,64 @@
 
 
 <!-- explanations -->
-    <ul id="explanations" class="shadow">
-      <li>RGB/HSVをスライダーバーで調整してカラーコードを作成できます。</li>
-      <li>「HSVチャートから抽出」を使用し、円状のチャートから色を抽出することができます。抽出した色はRGB/HSVのスライダーバーで編集できます。
-        <ul class="explanationsInner margin-bottom">
-          <li>チャート上を、クリックする/Ctrlキーを押しながらマウスを動かす/矢印キーを動かすことにより任意の位置の色が抽出できます。</li>
+    <ul id="explanations" class="explanations">
+      <li class="explanations__li">RGB/HSVをスライダーバーで調整してカラーコードを作成できます。</li>
+      <li class="explanations__li">「HSVチャートから抽出」を使用し、円状のチャートから色を抽出することができます。抽出した色はRGB/HSVのスライダーバーで編集できます。
+        <ul class="explanations__inner">
+          <li class="explanations__li">チャート上を、クリックする/Ctrlキーを押しながらマウスを動かす/矢印キーを動かすことにより任意の位置の色が抽出できます。</li>
         </ul>
       </li>
-      <li>「画像から抽出」を使用し、画像から色を抽出することができます。抽出した色はRGB/HSVのスライダーバーで編集できます。
-        <ul class="explanationsInner margin-bottom">
-          <li>画像上を、クリックする/Ctrlキーを押しながらマウスを動かす/矢印キーを動かすことにより任意の位置の色が抽出できます。</li>
-          <li>画像の処理はブラウザ上で完結するので、画像データがインターネット上に送信されることはありません。</li>
+      <li class="explanations__li">「画像から抽出」を使用し、画像から色を抽出することができます。抽出した色はRGB/HSVのスライダーバーで編集できます。
+        <ul class="explanations__inner">
+          <li class="explanations__li">画像上を、クリックする/Ctrlキーを押しながらマウスを動かす/矢印キーを動かすことにより任意の位置の色が抽出できます。</li>
+          <li class="explanations__li">画像の処理はブラウザ上で完結するので、画像データがインターネット上に送信されることはありません。</li>
         </ul>
       </li>
-      <li>「コントラスト比」を使用し、色の組み合わせが<a target="_blank" rel="noopener noreferrer" href="https://www.w3.org/TR/WCAG21/#contrast-minimum">WCAGにおける基準</a>を満たしているかを確認したり、contrast ratioが条件を満たす色を抽出したりできます。</li>
-      <li>「配色チェック」を使用し、複数の色をリストアップして、色の組み合わせを確認できます。リストアップした配色は後述する「履歴」に保存することも可能です。</li>
-      <li>「履歴」には編集したカラーコード（「色」タブ）、配色（「配色」タブ）が保存されます。「履歴」はブラウザ(localStorage)に、新しいものから最大30個まで保存されます。</li>
-      <li>ブラウザは、Google Chrome, Firefox, Microsoft Edge(Chromium版), Safariを使用してください。</li>
-      <li>ソースコード、不具合報告などは<a target="_blank" rel="noopener noreferrer" href="https://github.com/st-user/color-picker">こちら</a></li>
+      <li class="explanations__li">「コントラスト比」を使用し、色の組み合わせが<a target="_blank" rel="noopener noreferrer" href="https://www.w3.org/TR/WCAG21/#contrast-minimum">WCAGにおける基準</a>を満たしているかを確認したり、contrast ratioが条件を満たす色を抽出したりできます。</li>
+      <li class="explanations__li">「配色チェック」を使用し、複数の色をリストアップして、色の組み合わせを確認できます。リストアップした配色は後述する「履歴」に保存することも可能です。</li>
+      <li class="explanations__li">「履歴」には編集したカラーコード（「色」タブ）、配色（「配色」タブ）が保存されます。「履歴」はブラウザ(localStorage)に、新しいものから最大30個まで保存されます。</li>
+      <li class="explanations__li">ブラウザは、Google Chrome, Firefox, Microsoft Edge(Chromium版), Safariを使用してください。</li>
+      <li class="explanations__li">ソースコード、不具合報告などは<a target="_blank" rel="noopener noreferrer" href="https://github.com/st-user/color-picker">こちら</a></li>
     </ul>
 
 
 
 
 <!-- color control area -->
-    <div id="colorControlArea" class="clearfixContainer">
+    <div id="colorControlArea" class="color-control-area clearfixContainer">
 
-      <div id="viewColorWrapper">
-        <div id="viewColor" class="shadow" draggable="true"></div>
+      <div id="viewColorWrapper" class="color-control-area__view-color-wrapper">
+        <div id="viewColor" class="color-control-area__view-color" draggable="true"></div>
       </div>
 
-      <div id="editColor">
+      <div id="editColor" class="color-control-area__edit-color">
 
-        <div class="margin-bottom">
+        <div class="color-control-area__rgb-color-code-wrapper">
           カラーコード:
-          <input type="text" size="8" maxlength="7" name="rgbColorCode" id="rgbColorCode"/>
+          <input type="text" size="8" maxlength="7" name="rgbColorCode" id="rgbColorCode" class="color-control-area__rgb-color-code"/>
         </div>
 
-        <div id="rgbaSliderArea" class="groupBackground">
+        <div id="rgbaSliderArea" class="color-control-area__rgb-slider-area">
 
           <div>
             <div>
-              <span class="silderTitle">R:</span>
-              <input type="range" min="0" max="255" value="0" id="rgbSilder_r" class="sliderInput">
-              <input type="text" size="3" maxlength="3" id="rgbText_r" class="sliderTextInput"/>
+              <span class="color-control-area__slider-title">R:</span>
+              <input type="range" min="0" max="255" value="0" id="rgbSilder_r" class="color-control-area__slider-input">
+              <input type="text" size="3" maxlength="3" id="rgbText_r" class="color-control-area__slider-text-input"/>
             </div>
-            <div class="margin-bottom">
-              <canvas id="rgbColorBar"></canvas>
+            <div class="color-control-area__slider-element has-next-slider">
+              <canvas id="rgbColorBar" class="color-control-area__color-bar"></canvas>
             </div>
 
-            <div class="margin-bottom">
-              <span class="silderTitle">G:</span>
-              <input type="range" min="0" max="255" value="0" id="rgbSilder_g" class="sliderInput">
-              <input type="text" size="3" maxlength="3" id="rgbText_g" class="sliderTextInput"/>
+            <div class="color-control-area__slider-element has-next-slider">
+              <span class="color-control-area__slider-title">G:</span>
+              <input type="range" min="0" max="255" value="0" id="rgbSilder_g" class="color-control-area__slider-input">
+              <input type="text" size="3" maxlength="3" id="rgbText_g" class="color-control-area__slider-text-input"/>
             </div>
             <div>
-              <span class="silderTitle">B:</span>
-              <input type="range" min="0" max="255" value="0" id="rgbSilder_b" class="sliderInput">
-              <input type="text" size="3" maxlength="3" id="rgbText_b" class="sliderTextInput"/>
+              <span class="color-control-area__slider-title">B:</span>
+              <input type="range" min="0" max="255" value="0" id="rgbSilder_b" class="color-control-area__slider-input">
+              <input type="text" size="3" maxlength="3" id="rgbText_b" class="color-control-area__slider-text-input"/>
             </div>
           </div>
 
@@ -94,33 +94,33 @@
 
           <div>
             <div>
-              <span class="silderTitle">H:</span>
-              <input type="range" min="0" max="360" value="0" id="hsvSilder_h" class="sliderInput">
-              <input type="text" size="3" maxlength="3" id="hsvText_h" class="sliderTextInput"/>
+              <span class="color-control-area__slider-title">H:</span>
+              <input type="range" min="0" max="360" value="0" id="hsvSilder_h" class="color-control-area__slider-input">
+              <input type="text" size="3" maxlength="3" id="hsvText_h" class="color-control-area__slider-text-input"/>
             </div>
-            <div class="margin-bottom">
-              <canvas id="hsvColorBar"></canvas>
+            <div class="color-control-area__slider-element has-next-slider">
+              <canvas id="hsvColorBar" class="color-control-area__color-bar"></canvas>
             </div>
 
-            <div class="margin-bottom">
-              <span class="silderTitle">S:</span>
-              <input type="range" min="0" max="100" value="0" id="hsvSilder_s" class="sliderInput">
-              <input type="text" size="3" maxlength="3" id="hsvText_s" class="sliderTextInput"/>
+            <div class="color-control-area__slider-element has-next-slider">
+              <span class="color-control-area__slider-title">S:</span>
+              <input type="range" min="0" max="100" value="0" id="hsvSilder_s" class="color-control-area__slider-input">
+              <input type="text" size="3" maxlength="3" id="hsvText_s" class="color-control-area__slider-text-input"/>
             </div>
             <div>
-              <span class="silderTitle">V:</span>
-              <input type="range" min="0" max="100" value="0" id="hsvSilder_v" class="sliderInput">
-              <input type="text" size="3" maxlength="3" id="hsvText_v" class="sliderTextInput"/>
+              <span class="color-control-area__slider-title">V:</span>
+              <input type="range" min="0" max="100" value="0" id="hsvSilder_v" class="color-control-area__slider-input">
+              <input type="text" size="3" maxlength="3" id="hsvText_v" class="color-control-area__slider-text-input"/>
             </div>
           </div>
 
         </div>
 
-        <div class="clear clearfixContainer">
-          <div class="historyUpdates">
+        <div class="color-control-area__history_control clearfixContainer">
+          <div class="color-control-area__btn-add-history-wrapper">
             <button type="button" id="addHistory">履歴に追加</button>
           </div>
-          <div class="historyUpdates margin-right font-small">
+          <div class="color-control-area__toggle-btn-state-wrapper">
             <label>
               <input type="checkbox" name="storeHistoriesAutomatically" id="storeHistoriesAutomatically" checked/>履歴に自動反映
             </label>

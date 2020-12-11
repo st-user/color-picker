@@ -1,0 +1,84 @@
+@import "global";
+
+
+.color-control-area {
+    margin: auto;
+    width: 564px;
+    margin-bottom: 12px;
+
+    &__view-color-wrapper {
+        float: left;
+        padding: 6px;
+        margin: 36px 24px 0 12px;
+    }
+
+    &__view-color {
+        @extend %border-normal;
+        @extend %shadow;
+        border-radius: 6px;
+        width: 120px;
+        height: 120px;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    &__edit-color {
+        float: left;
+    }
+
+    &__rgb-color-code-wrapper {
+        @extend %margin-bottom;
+    }
+
+    &__rgb-color-code {
+        width: 72px;
+    }
+
+    &__rgb-slider-area {
+        @extend %group-backgournd;
+        margin-bottom: 24px;
+    }
+
+    &__slider-title {
+        display: inline-block;
+        width: 12px;
+    }
+
+    &__slider-element {
+        &.has-next-slider {
+            @extend %margin-bottom;
+        }
+    }
+
+    &__slider-input {
+        width: 310px;
+    }
+
+    &__slider-text-input {
+        width: 36px;
+    }
+
+    &__color-bar {
+        margin-left: 16px;
+    }
+
+    &__history-control-wrapper {
+        @extend %clear;
+
+    }
+
+    %__btn-add-history-wrapper {
+        float: right;
+        height: 24px;
+        line-height: 24px;
+    }
+
+    &__btn-add-history-wrapper {
+        @extend %__btn-add-history-wrapper;
+    }
+
+    &__toggle-btn-state-wrapper {
+        @extend %__btn-add-history-wrapper;
+        @extend %margin-right;
+        @extend %font-small;
+    }
+}

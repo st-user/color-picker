@@ -1,0 +1,37 @@
+%shadow {
+    box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.2);
+}
+
+%margin-bottom {
+    margin-bottom: 12px;
+}
+
+%margin-right {
+    margin-right: 12px;
+}
+
+%h1 {
+    float: left;
+    font-size: 32px;
+    line-height: 2;
+    text-align: center;
+    height: 64px;
+    width: 100%;
+}
+
+%border-normal {
+    border: 1px solid #333334;
+}
+
+%group-backgournd {
+    padding: 6px;
+    background-color: #FAF7F8;
+}
+
+%clear {
+    clear: both;
+}
+
+%font-small {
+    font-size: 12px;
+}
