@@ -60,3 +60,15 @@
   display: none;
   clear: both;
 }
+
+%g__open-close-triangle {
+    display: inline-block;
+}
+
+%g__open-close-triangle-close {
+    transform: rotate(90deg);
+}
+
+%g__open-close-triangle-open {
+    transform: rotate(180deg);
+}

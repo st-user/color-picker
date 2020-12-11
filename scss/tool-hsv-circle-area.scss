@@ -1,12 +1,9 @@
 @import "global";
 
 .tool-hsv-circle-area {
-
-    &__tab-content {
-        @extend %g__tab-content;
-        @extend %g__group-background;
-        position: static;
-    }
+    @extend %g__tab-content;
+    @extend %g__group-background;
+    position: static;
 
     &__container {
         margin: auto;

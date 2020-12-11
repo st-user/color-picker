@@ -5,8 +5,8 @@ import ContrastRatioExplanations from './ContrastRatioExplanations.js';
 
 const pickedColorTemplate = data => {
     return `
-    <div class="contrastRatioPickedColorBar pickedColorBar" style="background-color: ${data.colorCode};" data-color-info-id="${data.id}" draggable="true">
-      <span class="pickedColorText">${data.colorCode}</span>
+    <div class="tool-contrast-ratio-area__picked-color-bar" style="background-color: ${data.colorCode};" data-color-info-id="${data.id}" draggable="true">
+      <span class="tool-contrast-ratio-area__picked-color-bar-text">${data.colorCode}</span>
     </div>
   `;
 };
@@ -33,9 +33,9 @@ export default class ContrastRatioCheck {
     constructor() {
 
         this.#explanations = new ContrastRatioExplanations(
-            '#contrastRatioCheckTitle .contrastRatioExplanationClose',
-            '#contrastRatioCheckTitle .contrastRatioExplanationOpen',
-            '#contrastRatioCheckArea .contrastRatioFunctionExplanations'
+            '#contrastRatioCheckTitle .tool-contrast-ratio-area__explanations-to-close',
+            '#contrastRatioCheckTitle .tool-contrast-ratio-area__explanations-to-open',
+            '#contrastRatioCheckArea .tool-contrast-ratio-area__function-explanations'
         );
 
         this.#$contrastRatioPickedColor1 = document.querySelector('#contrastRatioPickedColor1');
@@ -76,7 +76,7 @@ export default class ContrastRatioCheck {
 
                 if (dataTransferred.indexOf('#') === 0) {
 
-                    const $existingBar = $element.querySelector('.contrastRatioPickedColorBar');
+                    const $existingBar = $element.querySelector('.tool-contrast-ratio-area__picked-color-bar');
                     if ($existingBar) {
                         $existingBar.remove();
                     }
@@ -129,14 +129,14 @@ export default class ContrastRatioCheck {
 
     #renewColorBar($element, colorCode) {
 
-        const $existingBar = $element.querySelector('.contrastRatioPickedColorBar');
+        const $existingBar = $element.querySelector('.tool-contrast-ratio-area__picked-color-bar');
 
         if ($existingBar) {
             $existingBar.remove();
         }
 
         if (!colorCode) {
-            const $message = $element.querySelector('.drappableAreaMessage');
+            const $message = $element.querySelector('.tool-contrast-ratio-area__picked-color-message');
             $message.style.display = 'block';
             return;
         }
@@ -152,29 +152,29 @@ export default class ContrastRatioCheck {
 
     #setUpBarEvent($element, colorCode) {
 
-        const $newBar = $element.querySelector('.contrastRatioPickedColorBar');
+        const $newBar = $element.querySelector('.tool-contrast-ratio-area__picked-color-bar');
 
         $newBar.addEventListener('dragstart', event => {
             this.#isSwapping = true;
-            $newBar.classList.add('dragging');
+            $newBar.classList.add('is-dragging');
             event.dataTransfer.effectAllowed = 'move';
             event.dataTransfer.setData('text/plain', colorCode);
         });
 
         $newBar.addEventListener('dragenter', () => {
-            $newBar.classList.add('over');
+            $newBar.classList.add('is-over');
         });
 
         $newBar.addEventListener('dragleave', () => {
-            $newBar.classList.remove('over');
+            $newBar.classList.remove('is-over');
         });
 
         $newBar.addEventListener('dragend', () => {
             this.#isSwapping = false;
-            $newBar.classList.remove('dragging');
+            $newBar.classList.remove('is-dragging');
         });
 
-        const $message = $element.querySelector('.drappableAreaMessage');
+        const $message = $element.querySelector('.tool-contrast-ratio-area__picked-color-message');
         $message.style.display = 'none';
     }
 
@@ -196,7 +196,7 @@ export default class ContrastRatioCheck {
     }
 
     #changeColor($element, bgColor, textColor) {
-        $element.querySelectorAll('.contrastRatioCheckCriteriaSample').forEach($text => {
+        $element.querySelectorAll('.tool-contrast-ratio-area__check-criteria-sample').forEach($text => {
             $text.style.backgroundColor = bgColor;
             $text.style.color = textColor;
         });
@@ -232,14 +232,14 @@ export default class ContrastRatioCheck {
 
         this.#checkSuccessCriteriaEach(
             $element,
-            '.contrastRatioCheckCriteriaAA',
+            '.tool-contrast-ratio-area__check-criteria-AA',
             ratio,
             checkerForAA
         );
 
         this.#checkSuccessCriteriaEach(
             $element,
-            '.contrastRatioCheckCriteriaAAA',
+            '.tool-contrast-ratio-area__check-criteria-AAA',
             ratio,
             checkerForAAA
         );
@@ -249,8 +249,8 @@ export default class ContrastRatioCheck {
 
         const isCriteriaSatisfied = checker(ratio);
         const result = isCriteriaSatisfied ? 'OK' : 'NG';
-        const addClass = isCriteriaSatisfied ? 'criteriaOK' : 'criteriaNG';
-        const removeClass = isCriteriaSatisfied ? 'criteriaNG' : 'criteriaOK';
+        const addClass = isCriteriaSatisfied ? 'is-OK' : 'is-NG';
+        const removeClass = isCriteriaSatisfied ? 'is-NG' : 'is-OK';
 
         const $check = $element.querySelector(elSelector);
         $check.textContent = result;

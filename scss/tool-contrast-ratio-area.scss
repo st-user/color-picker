@@ -1,0 +1,329 @@
+@import "global";
+@import "global-draggable";
+
+.tool-contrast-ratio-area {
+    @extend %g__tab-content;
+    @extend %g__group-background;
+
+    &__each-function-area {
+        margin: auto;
+        min-width: 588px;
+        max-width: 682px;
+        overflow: hidden;
+        margin-bottom: 36px;
+    }
+
+    %__explanations {
+        cursor: pointer;
+        text-decoration: underline;
+        font-size: 12px;
+        display: inline-block;
+        margin-left: 24px;
+        line-height: 18px;
+    }
+
+    &__explanations-to-close {
+        @extend %__explanations;
+    }
+
+    &__explanations-to-open {
+        @extend %__explanations;
+    }
+
+    &__function-explanations {
+        @extend %g__clear;
+        @extend %g__font-small;
+        list-style: disc;
+        padding-left: 24px;
+        margin-bottom: 24px;
+        line-height: 1.5;
+    }
+
+    &__check-title {
+        @extend %g__margin-bottom;
+        @extend %g__clear;
+    }
+
+    &__picked-col {
+        float: left;
+    }
+
+    &__picked-color {
+        @extend %g__border-normal;
+        @extend %g-draggable__droppable-area-bg;
+        width: 212px;
+        height: 44px;
+    }
+
+    &__picked-color-bar {
+        @extend %g-draggable__picked-color-bar;
+        margin: auto;
+        margin-top: 6px;
+
+        &.is-over {
+            @extend %g-draggable__picked-color-bar-over;
+        }
+
+        &.is-dragging {
+            @extend %g-draggable__picked-color-bar-dragging;
+        }
+    }
+
+    &__picked-color-bar-text {
+        @extend %g-draggable__picked-color-bar-text;
+    }
+
+    &__pick-color-bar-del {
+        @extend %g-draggable__picked-color-bar-del;
+    }
+
+    &__picked-color-message {
+        @extend %g-draggable__droppable-area-message;
+        @extend %g__font-small;
+    }
+
+    &__picked-color-contrast-ratio {
+        padding-top: 16px;
+        width: 160px;
+        height: 60px;
+        text-align: center;
+        font-weight: bold;
+        line-height: 48px;
+        font-size: 24px;
+    }
+
+    &__check-criteria-normal {
+        @extend %g__margin-bottom;
+        width: 840px;
+    }
+
+    &__check-criteria-large {
+        width: 840px;
+    }
+
+    %__check-criteria-title {
+        float: left;
+        height: 48px;
+    }
+
+    &__check-criteria-title {
+        @extend %__check-criteria-title;
+        width: 212px;
+        line-height: 48px;
+    }
+
+    &__check-criteria-checked {
+        @extend %__check-criteria-title;
+        width: 160px;
+    }
+
+    &__check-criteria-checked-title {
+        display: inline-block;
+        width: 116px;
+        line-height: 24px;
+    }
+
+    &__check-criteria-AA,
+    &__check-criteria-AAA {
+        font-weight: bold;
+
+        &.is-OK {
+            color: #30821B;
+        }
+
+        &.is-NG {
+            color: #821B1B;
+        }
+    }
+
+    &__check-criteria-sample {
+        @extend %__check-criteria-title;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    &__check-criteria-sample-text {
+        line-height: 48px;
+
+        &.is-normal {
+            &.is-not-bold {
+                font-weight: normal;
+                font-size: 16pt;
+            }
+            &.is-bold {
+                font-weight: bold;
+                font-size: 12pt;
+            }
+        }
+
+        &.is-large {
+            &.is-not-bold {
+                font-weight: normal;
+                font-size: 20pt;
+            }
+            &.is-bold {
+                font-weight: bold;
+                font-size: 16pt;
+            }
+        }
+    }
+
+    &__auto-extraction-title {
+        @extend %g__margin-bottom;
+        cursor: pointer;
+        width: 270px;
+    }
+
+    &__auto-extraction-title-toggle-mark {
+        @extend %g__open-close-triangle;
+
+        &.is-closed {
+            @extend %g__open-close-triangle-close;
+        }
+
+        &.is-opened {
+            @extend %g__open-close-triangle-open;
+        }
+    }
+
+    &__auto-extraction-condition-area {
+        @extend %g__margin-bottom;
+    }
+
+    &__auto-extraction-condition-title {
+        @extend %g__margin-bottom;
+        cursor: pointer;
+        width: 80px;
+    }
+
+    &__auto-extraction-condition {
+        padding-left: 16px;
+    }
+
+    &__auto-extraction-condition-item-line {
+        min-height: 24px;
+        margin-bottom: 24px;
+    }
+
+    &__auto-extraction-condition-item-title {
+        float: left;
+        width: 212px;
+    }
+
+    &__auto-extraction-condition-item-content {
+        float: left;
+    }
+
+    &__auto-extraction-condition-slider-title {
+        width: 32px;
+        display: inline-block;
+    }
+
+    &__auto-extraction-condition-range-slider-current {
+        @extend %g__font-small;
+        display: inline-block;
+        width: 112px;
+        padding-left: 6px;
+    }
+
+    &__auto-extraction-condition-range-slider {
+        display: inline-block;
+        width: 180px;
+        height: 12px;
+    }
+
+    &__auto-extraction-condition-hue-range-bar {
+        margin-left: 27px;
+    }
+
+    &__auto-extraction-execution-area {
+        @extend %g__margin-bottom;
+    }
+
+    &__auto-extraction-execution-col {
+        float: left;
+    }
+
+    &__auto-extraction-target-color-list {
+        @extend %g-draggable__droppable-area-bg;
+        @extend %g__border-normal;
+        width: 212px;
+        min-height: 240px;
+    }
+
+    &__auto-extraction-target-color-list-message {
+        @extend %g-draggable__droppable-area-message;
+        @extend %g__font-small;
+    }
+
+    &__auto-extraction-btn-wrapper {
+        width: 160px;
+        margin-top: 32px;
+        float: left;
+    }
+
+    &__auto-extraction-btn {
+        @extend %g__shadow;
+        margin: auto;
+        height: 64px;
+        width: 64px;
+        padding-top: 16px;
+        padding-left: 32px;
+        border-radius: 6px;
+        cursor: pointer;
+        background-color: #D7DAE0;
+        opacity: 0.7;
+
+        &.is-disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        &.is-disabled:hover {
+            opacity: 0.3;
+        }
+    }
+
+    &__auto-extraction-btn:hover {
+        opacity: 1;
+    }
+
+    &__auto-extraction-result-color-table-wrapper {
+        float: left;
+        max-width: 264px;
+    }
+
+    &__auto-extraction-result-color-table {
+        border-collapse: collapse;
+    }
+
+    /* BEMに従うセレクタ配下の tbody, thead th, tdの要素セレクタは許可する */
+    &__auto-extraction-result-color-table thead,
+    &__auto-extraction-result-color-table tbody {
+        display: block;
+    }
+
+    &__auto-extraction-result-color-table tbody {
+        overflow-x: hidden;
+        overflow-y: scroll;
+        max-height: 215px;
+        width: 212px;
+    }
+
+    &__auto-extraction-result-color-table th,
+    &__auto-extraction-result-color-table td {
+        width: 88px;
+        height: 24px;
+        text-align: center;
+        line-height: 24px;
+        border: 1px solid #333334;
+    }
+
+    &__auto-extraction-result-color-bar {
+        cursor: move;
+    }
+
+    &__auto-extraction-result-message {
+        margin: 12px;
+    }
+}

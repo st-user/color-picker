@@ -149,7 +149,7 @@
       <input id="colorDesignAreaTabTitle" type="radio" name="toolTabItem" value="3"/>
       <label class="tool-tab-area__tab-item" for="colorDesignAreaTabTitle">配色チェック</label>
 
-      <div id="hsvCircleArea" class="tool-hsv-circle-area__tab-content">
+      <div id="hsvCircleArea" class="tool-hsv-circle-area">
 
         <div id="hsvCircleDataContainer" class="tool-hsv-circle-area__container">
           <div id="hsvCircleDataWrapper" class="tool-hsv-circle-area__circle-wrapper">
@@ -186,7 +186,7 @@
       </div>
 
 
-      <div id="imageFileArea" class="tool-image-file-area__tab-content">
+      <div id="imageFileArea" class="tool-image-file-area">
 
         <ul id="howToResizeImage" class="tool-image-file-area__how-to-resize-image">
           <li><label><input type="radio" name="needsToResize" value="0" checked/>表示領域にあわせて画像サイズを調整</label></li>
@@ -206,92 +206,96 @@
       </div>
 
 
-      <div class="toolTabContent tabContent groupBackground" id="contrastRatioArea">
+      <div id="contrastRatioArea" class="tool-contrast-ratio-area">
 
-        <div id="contrastRatioCheckArea" class="contrastRatioEachFunctionArea">
+        <div id="contrastRatioCheckArea" class="tool-contrast-ratio-area__each-function-area">
 
-          <h3 id="contrastRatioCheckTitle" class="margin-bottom clear">
+          <h3 id="contrastRatioCheckTitle" class="tool-contrast-ratio-area__check-title">
             コントラスト比の確認
-            <span class="contrastRatioExplanationClose">説明文を閉じる</span>
-            <span class="contrastRatioExplanationOpen">説明文を開く</span>
+            <span class="tool-contrast-ratio-area__explanations-to-close">説明文を閉じる</span>
+            <span class="tool-contrast-ratio-area__explanations-to-open">説明文を開く</span>
           </h3>
 
-          <ul class="contrastRatioFunctionExplanations clear font-small">
+          <ul class="tool-contrast-ratio-area__function-explanations">
             <li>背景色/文字色の組み合わせが、<a target="_blank" rel="noopener noreferrer" href="https://www.w3.org/TR/WCAG21/#contrast-minimum">WCAGにおける基準</a>を満たしているかを確認できます</li>
             <li>Drag&Dropで、背景色/文字色の両方を選択すると、AA,AAAの各基準を満たしているかの判定結果が表示されます。</li>
             <li>Drag&Dropで、背景色/文字色は入れ替えることもできます。</li>
             <li>画面に表示される比の値は、小数点以下第3位を四捨五入した値です。</li>
           </ul>
 
-          <div class="contrastRatioPickedColorCol">
+          <div class="tool-contrast-ratio-area__picked-col">
             <div>背景色</div>
-            <div id="contrastRatioPickedColor1" class="contrastRatioPickedColor droppableAreaBg border-normal">
-              <div class="drappableAreaMessage font-small">履歴や自動抽出等からDrag&Dropで色を選択</div>
+            <div id="contrastRatioPickedColor1" class="tool-contrast-ratio-area__picked-color">
+              <div class="tool-contrast-ratio-area__picked-color-message">履歴や自動抽出等からDrag&Dropで色を選択</div>
             </div>
           </div>
 
-          <div class="contrastRatioPickedColorCol">
-            <div id="contrastRatioForPickedColorRatio"></div>
+          <div class="tool-contrast-ratio-area__picked-col">
+            <div id="contrastRatioForPickedColorRatio" class="tool-contrast-ratio-area__picked-color-contrast-ratio"></div>
           </div>
 
-          <div class="contrastRatioPickedColorCol">
+          <div class="tool-contrast-ratio-area__picked-col">
             <div>文字色</div>
-            <div id="contrastRatioPickedColor2" class="contrastRatioPickedColor droppableAreaBg border-normal">
-              <div class="drappableAreaMessage font-small">履歴や自動抽出等からDrag&Dropで色を選択</div>
+            <div id="contrastRatioPickedColor2" class="tool-contrast-ratio-area__picked-color">
+              <div class="tool-contrast-ratio-area__picked-color-message">履歴や自動抽出等からDrag&Dropで色を選択</div>
             </div>
           </div>
 
           <div class="clear">
-            <div id="contrastRatioCheckCriteriaNormal" class="margin-bottom clearfixContainer">
-              <div class="contrastRatioCheckCriteriaTitle">
+            <div id="contrastRatioCheckCriteriaNormal" class="tool-contrast-ratio-area__check-criteria-normal clearfixContainer">
+              <div class="tool-contrast-ratio-area__check-criteria-title">
                 Normal Text:
               </div>
-              <div class="contrastRatioCheckCriteriaChecked">
+              <div class="tool-contrast-ratio-area__check-criteria-checked">
                 <div>
-                  <span class="contrastRatioCheckCriteriaCheckedTitle">AA(4.5:1<=):</span><span class="contrastRatioCheckCriteriaAA"></span>
+                  <span class="tool-contrast-ratio-area__check-criteria-checked-title">AA(4.5:1<=):</span>
+                  <span class="tool-contrast-ratio-area__check-criteria-AA"></span>
                 </div>
                 <div>
-                  <span class="contrastRatioCheckCriteriaCheckedTitle">AAA(7:1<=):</span><span class="contrastRatioCheckCriteriaAAA"></span>
+                  <span class="tool-contrast-ratio-area__check-criteria-checked-title">AAA(7:1<=):</span>
+                  <span class="tool-contrast-ratio-area__check-criteria-AAA"></span>
                 </div>
               </div>
-              <div class="contrastRatioCheckCriteriaSample">
-                <span class="contrastRatioCheckText contrastRatioCheckTextNotBold">あいう&nbsp;abc</span>
-                <span class="contrastRatioCheckText contrastRatioCheckTextBold">あいう&nbsp;abc</span>
+              <div class="tool-contrast-ratio-area__check-criteria-sample">
+                <span class="tool-contrast-ratio-area__check-criteria-sample-text is-normal is-not-bold">あいう&nbsp;abc</span>
+                <span class="tool-contrast-ratio-area__check-criteria-sample-text is-normal is-bold">あいう&nbsp;abc</span>
               </div>
             </div>
-            <div id="contrastRatioCheckCriteriaLarge" class="clearfixContainer">
-              <div class="contrastRatioCheckCriteriaTitle">
+            <div id="contrastRatioCheckCriteriaLarge" class="tool-contrast-ratio-area__check-criteria-normal clearfixContainer">
+              <div class="tool-contrast-ratio-area__check-criteria-title">
                 Large Text:
               </div>
-              <div class="contrastRatioCheckCriteriaChecked">
+              <div class="tool-contrast-ratio-area__check-criteria-checked">
                 <div>
-                  <span class="contrastRatioCheckCriteriaCheckedTitle">AA(3:1<=):</span><span class="contrastRatioCheckCriteriaAA"></span>
+                  <span class="tool-contrast-ratio-area__check-criteria-checked-title">AA(3:1<=):</span>
+                  <span class="tool-contrast-ratio-area__check-criteria-AA"></span>
                 </div>
                 <div>
-                  <span class="contrastRatioCheckCriteriaCheckedTitle">AAA(4.5:1<=):</span><span class="contrastRatioCheckCriteriaAAA"></span>
+                  <span class="tool-contrast-ratio-area__check-criteria-checked-title">AAA(4.5:1<=):</span>
+                  <span class="tool-contrast-ratio-area__check-criteria-AAA"></span>
                 </div>
               </div>
-              <div class="contrastRatioCheckCriteriaSample">
-                <span class="contrastRatioCheckText contrastRatioCheckTextNotBold">あいう&nbsp;abc</span>
-                <span class="contrastRatioCheckText contrastRatioCheckTextBold">あいう&nbsp;abc</span>
+              <div class="tool-contrast-ratio-area__check-criteria-sample">
+                <span class="tool-contrast-ratio-area__check-criteria-sample-text is-large is-not-bold">あいう&nbsp;abc</span>
+                <span class="tool-contrast-ratio-area__check-criteria-sample-text is-large is-bold">あいう&nbsp;abc</span>
               </div>
             </div>
           </div>
 
         </div>
 
-        <div id="contrastRatioAutoExtractionArea" class="contrastRatioEachFunctionArea">
+        <div id="contrastRatioAutoExtractionArea" class="tool-contrast-ratio-area__each-function-area">
 
-          <h3 id="contrastRatioExtractionTitle" class="margin-bottom">
-            <span class="openCloseTriangle triangleClose">▲</span>
+          <h3 id="contrastRatioExtractionTitle" class="tool-contrast-ratio-area__auto-extraction-title">
+            <span class="tool-contrast-ratio-area__auto-extraction-title-toggle-mark">▲</span>
             自動抽出
-            <span class="contrastRatioExplanationClose">説明文を閉じる</span>
-            <span class="contrastRatioExplanationOpen">説明文を開く</span>
+            <span class="tool-contrast-ratio-area__explanations-to-close">説明文を閉じる</span>
+            <span class="tool-contrast-ratio-area__explanations-to-open">説明文を開く</span>
           </h3>
 
           <div id="contrastRatioExtractionAreaContents">
 
-            <ul class="contrastRatioFunctionExplanations clear font-small">
+            <ul class="tool-contrast-ratio-area__function-explanations">
               <li>「HSVの範囲」を満たす色の中から、<a target="_blank" rel="noopener noreferrer" href="https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio">WCAGで示されているcontrast ratio</a>が「コントラスト比の範囲」を満たすものを自動で抽出します。</li>
               <li>より正確には、「HSVの範囲」を満たし、かつ、「抽出元の色」全てに対して「コントラスト比の範囲」を満たす色を「抽出結果」に表示します。</li>
               <li>「抽出結果」には、「スコア」が高い順に「抽出結果に表示する件数」分表示されます。「スコア」は「抽出元の色」に対するその色のcontrast ratioの平均値です。</li>
@@ -299,53 +303,53 @@
               <li>「抽出元の色」「抽出結果」の色はDrag&Dropし、「コントラスト比の確認」で確認できます。</li>
             </ul>
 
-            <div class="margin-bottom">
-              <div id="contrastRatioExtractionConditionTitle" class="margin-bottom">
-                <span class="openCloseTriangle triangleClose">▲</span>
+            <div class="tool-contrast-ratio-area__auto-extraction-condition-area">
+              <div id="contrastRatioExtractionConditionTitle" class="tool-contrast-ratio-area__auto-extraction-condition-title">
+                <span class="tool-contrast-ratio-area__auto-extraction-title-toggle-mark">▲</span>
                 設定
               </div>
-              <div id="contrastRatioExtractionCondition">
+              <div id="contrastRatioExtractionCondition" class="tool-contrast-ratio-area__auto-extraction-condition">
 
-                <div class="contrastRatioExtractionConditionLine clearfixContainer">
-                  <div class="contrastRatioExtractionConditionLineTitle">HSVの範囲:</div>
-                  <div class="contrastRatioExtractionConditionLineContent">
+                <div class="tool-contrast-ratio-area__auto-extraction-condition-item-line clearfixContainer">
+                  <div class="tool-contrast-ratio-area__auto-extraction-condition-item-title">HSVの範囲:</div>
+                  <div class="tool-contrast-ratio-area__auto-extraction-condition-item-content">
 
                     <div>
-                      <span class="contrastRatioRangeSilderTitle">H:</span>
-                      <div id="contrastRatioRangeHsvSilder_h" class="contrastRatioRangeSilder"></div>
-                      <span id="contrastRatioRangeSliderCurrent_h" class="contrastRatioRangeSliderCurrent font-small"></span>
+                      <span class="tool-contrast-ratio-area__auto-extraction-condition-slider-title">H:</span>
+                      <div id="contrastRatioRangeHsvSilder_h" class="tool-contrast-ratio-area__auto-extraction-condition-range-slider"></div>
+                      <span id="contrastRatioRangeSliderCurrent_h" class="tool-contrast-ratio-area__auto-extraction-condition-range-slider-current"></span>
                     </div>
                     <div class="margin-bottom">
-                      <canvas id="contrastRatioRangeHsvColorBar"></canvas>
+                      <canvas id="contrastRatioRangeHsvColorBar" class="tool-contrast-ratio-area__auto-extraction-condition-hue-range-bar"></canvas>
                     </div>
 
                     <div class="margin-bottom">
-                      <span class="contrastRatioRangeSilderTitle">S:</span>
-                      <div id="contrastRatioRangeHsvSilder_s" class="contrastRatioRangeSilder"></div>
-                      <span id="contrastRatioRangeSliderCurrent_s" class="contrastRatioRangeSliderCurrent font-small"></span>
+                      <span class="tool-contrast-ratio-area__auto-extraction-condition-slider-title">S:</span>
+                      <div id="contrastRatioRangeHsvSilder_s" class="tool-contrast-ratio-area__auto-extraction-condition-range-slider"></div>
+                      <span id="contrastRatioRangeSliderCurrent_s" class="tool-contrast-ratio-area__auto-extraction-condition-range-slider-current"></span>
                     </div>
                     <div>
-                      <span class="contrastRatioRangeSilderTitle">V:</span>
-                      <div id="contrastRatioRangeHsvSilder_v" class="contrastRatioRangeSilder"></div>
-                      <span id="contrastRatioRangeSliderCurrent_v" class="contrastRatioRangeSliderCurrent font-small"></span>
+                      <span class="tool-contrast-ratio-area__auto-extraction-condition-slider-title">V:</span>
+                      <div id="contrastRatioRangeHsvSilder_v" class="tool-contrast-ratio-area__auto-extraction-condition-range-slider"></div>
+                      <span id="contrastRatioRangeSliderCurrent_v" class="tool-contrast-ratio-area__auto-extraction-condition-range-slider-current"></span>
                     </div>
 
                   </div>
                 </div>
-                <div class="contrastRatioExtractionConditionLine clearfixContainer">
-                  <div class="contrastRatioExtractionConditionLineTitle">コントラスト比の範囲:</div>
-                  <div class="contrastRatioExtractionConditionLineContent">
+                <div class="tool-contrast-ratio-area__auto-extraction-condition-item-line clearfixContainer">
+                  <div class="tool-contrast-ratio-area__auto-extraction-condition-item-title">コントラスト比の範囲:</div>
+                  <div class="tool-contrast-ratio-area__auto-extraction-condition-item-content">
                     <div>
 
-                      <div id="contrastRatioExtractionRange" class="contrastRatioRangeSilder"></div>
-                      <span id="contrastRatioRangeSliderCurrent_ratioRange" class="contrastRatioRangeSliderCurrent font-small"></span>
+                      <div id="contrastRatioExtractionRange" class="tool-contrast-ratio-area__auto-extraction-condition-range-slider"></div>
+                      <span id="contrastRatioRangeSliderCurrent_ratioRange" class="tool-contrast-ratio-area__auto-extraction-condition-range-slider-current"></span>
 
                     </div>
                   </div>
                 </div>
-                <div class="contrastRatioExtractionConditionLine clearfixContainer">
-                  <div class="contrastRatioExtractionConditionLineTitle">抽出結果に表示する件数:</div>
-                  <div class="contrastRatioExtractionConditionLineContent">
+                <div class="tool-contrast-ratio-area__auto-extraction-condition-item-line clearfixContainer">
+                  <div class="tool-contrast-ratio-area__auto-extraction-condition-item-title">抽出結果に表示する件数:</div>
+                  <div class="tool-contrast-ratio-area__auto-extraction-condition-item-content">
                     <select name="contrastRatioExtractionCount" id="contrastRatioExtractionCount">
                       <option value="10">10</option>
                       <option value="20">20</option>
@@ -353,9 +357,9 @@
                     </select>
                   </div>
                 </div>
-                <div class="contrastRatioExtractionConditionLine clearfixContainer">
-                  <div class="contrastRatioExtractionConditionLineTitle">処理実行スレッド数:</div>
-                  <div class="contrastRatioExtractionConditionLineContent">
+                <div class="tool-contrast-ratio-area__auto-extraction-condition-item-line clearfixContainer">
+                  <div class="tool-contrast-ratio-area__auto-extraction-condition-item-title">処理実行スレッド数:</div>
+                  <div class="tool-contrast-ratio-area__auto-extraction-condition-item-content">
                     <select name="contrastRatioExtractionThreadCount" id="contrastRatioExtractionThreadCount">
                       <option value="1">1</option>
                       <option value="2">2</option>
@@ -368,27 +372,27 @@
               </div>
             </div>
 
-            <div class="clearfixContainer margin-bottom">
+            <div class="tool-contrast-ratio-area__auto-extraction-execution-area clearfixContainer">
 
-              <div class="contrastRatioExtractionCol">
+              <div class="tool-contrast-ratio-area__auto-extraction-execution-col">
                 <div>抽出元の色</div>
-                <div id="contrastRatioTargetColorList" class=" droppableAreaBg border-normal">
-                  <div class="drappableAreaMessage font-small">履歴や「コントラスト比の確認」等からDrag&Dropで色を追加</div>
+                <div id="contrastRatioTargetColorList" class="tool-contrast-ratio-area__auto-extraction-target-color-list">
+                  <div class="tool-contrast-ratio-area__auto-extraction-target-color-list-message">履歴や「コントラスト比の確認」等からDrag&Dropで色を追加</div>
                 </div>
               </div>
 
-              <div id="contrastRatioExtractionBtnWrapper" class="contrastRatioExtractionCol">
-                <div id="contrastRatioExtractHighestRatios" class="shadow">
+              <div id="contrastRatioExtractionBtnWrapper" class="tool-contrast-ratio-area__auto-extraction-btn-wrapper">
+                <div id="contrastRatioExtractHighestRatios" class="tool-contrast-ratio-area__auto-extraction-btn">
                   <div>→→</div>
                   <div>抽出</div>
                   <div>→→</div>
                 </div>
               </div>
 
-              <div id="contrastRatioResultColorList" class="contrastRatioExtractionCol">
+              <div id="contrastRatioResultColorList" class="tool-contrast-ratio-area__auto-extraction-result-color-table-wrapper">
 
                 <div>抽出結果</div>
-                <table id="contrastRatioResultColorTable">
+                <table id="contrastRatioResultColorTable" class="tool-contrast-ratio-area__auto-extraction-result-color-table">
                   <thead>
                     <th>色</th><th>スコア</th>
                   </thead>
@@ -397,12 +401,12 @@
                   </tbody>
                 </table>
 
-                <div id="contrastRatioResultColorExecuting" class="contrastRatioResultMessage">
+                <div id="contrastRatioResultColorExecuting" class="tool-contrast-ratio-area__auto-extraction-result-message">
                   <div>処理中です。</div>
-                  <div class="waitingAnimationText"></div>
+                  <div id="waitingAnimationText"></div>
                 </div>
 
-                <div id="contrastRatioResultColorMessage" class="contrastRatioResultMessage">
+                <div id="contrastRatioResultColorMessage" class="tool-contrast-ratio-area__auto-extraction-result-message">
                   表示対象がありません
                 </div>
 

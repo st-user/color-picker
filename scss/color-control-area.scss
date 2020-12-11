@@ -6,6 +6,12 @@
     width: 564px;
     margin-bottom: 12px;
 
+    %__btn-add-history-wrapper {
+        float: right;
+        height: 24px;
+        line-height: 24px;
+    }
+    
     &__view-color-wrapper {
         float: left;
         padding: 6px;
@@ -69,12 +75,6 @@
     &__history-control-wrapper {
         @extend %g__clear;
 
-    }
-
-    %__btn-add-history-wrapper {
-        float: right;
-        height: 24px;
-        line-height: 24px;
     }
 
     &__btn-add-history-wrapper {

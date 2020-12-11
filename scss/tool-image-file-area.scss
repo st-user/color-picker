@@ -1,13 +1,9 @@
 @import "global";
 
 .tool-image-file-area {
-
-
-    &__tab-content {
-        @extend %g__tab-content;
-        @extend %g__group-background;
-        position: static;
-    }
+    @extend %g__tab-content;
+    @extend %g__group-background;
+    position: static;
 
     &__how-to-resize-image {
         @extend %g__margin-bottom;

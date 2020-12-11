@@ -5,17 +5,17 @@ import ContrastRatioExplanations from './ContrastRatioExplanations.js';
 
 const targetColorTemplate = data => {
     return `
-    <div class="contrastRatioPickedColorBar pickedColorBar" style="background-color: ${data.colorCode};" data-color-info-id="${data.id}" draggable="true">
-      <span class="pickedColorText">${data.colorCode}</span>
-      <span class="pickedColorDel">×</span>
+    <div class="tool-contrast-ratio-area__picked-color-bar" style="background-color: ${data.colorCode};" data-color-info-id="${data.id}" draggable="true">
+      <span class="tool-contrast-ratio-area__picked-color-bar-text">${data.colorCode}</span>
+      <span class="tool-contrast-ratio-area__pick-color-bar-del">×</span>
     </div>
   `;
 };
 
 const resultColorTemplate = data => {
     return `
-    <tr class="contrastRatioResultColorBar" draggable="true">
-      <td style="background-color: ${data.colorCode};" class="pickedColorText">${data.colorCode}</td>
+    <tr class="tool-contrast-ratio-area__auto-extraction-result-color-bar" draggable="true">
+      <td style="background-color: ${data.colorCode};" class="tool-contrast-ratio-area__picked-color-bar-text">${data.colorCode}</td>
       <td>${data.score}</td>
     </tr>
   `;
@@ -52,9 +52,9 @@ export default class ContrastRatioAutoExtraction {
     constructor() {
 
         this.#explanations = new ContrastRatioExplanations(
-            '#contrastRatioExtractionTitle .contrastRatioExplanationClose',
-            '#contrastRatioExtractionTitle .contrastRatioExplanationOpen',
-            '#contrastRatioAutoExtractionArea .contrastRatioFunctionExplanations'
+            '#contrastRatioExtractionTitle .tool-contrast-ratio-area__explanations-to-close',
+            '#contrastRatioExtractionTitle .tool-contrast-ratio-area__explanations-to-open',
+            '#contrastRatioAutoExtractionArea .tool-contrast-ratio-area__function-explanations'
         );
 
         this.#$contrastRatioExtractionAreaContents = document.querySelector('#contrastRatioExtractionAreaContents');
@@ -85,15 +85,15 @@ export default class ContrastRatioAutoExtraction {
     setUpEvent() {
 
         const toggleArea = () => {
-            const $triangle = this.#$contrastRatioExtractionTitle.querySelector('.openCloseTriangle');
+            const $triangle = this.#$contrastRatioExtractionTitle.querySelector('.tool-contrast-ratio-area__auto-extraction-title-toggle-mark');
             this.#isOpened = !this.#isOpened;
             if (this.#isOpened) {
-                $triangle.classList.remove('triangleClose');
-                $triangle.classList.add('triangleOpen');
+                $triangle.classList.remove('is-closed');
+                $triangle.classList.add('is-opened');
                 this.#$contrastRatioExtractionAreaContents.style.display = 'block';
             } else {
-                $triangle.classList.remove('triangleOpen');
-                $triangle.classList.add('triangleClose');
+                $triangle.classList.remove('is-opened');
+                $triangle.classList.add('is-closed');
                 this.#$contrastRatioExtractionAreaContents.style.display = 'none';
             }
         };
@@ -158,9 +158,9 @@ export default class ContrastRatioAutoExtraction {
 
         this.#$contrastRatioTargetColorList.insertAdjacentHTML('beforeend', colorBar);
 
-        const $bars = this.#$contrastRatioTargetColorList.querySelectorAll('.contrastRatioPickedColorBar');
+        const $bars = this.#$contrastRatioTargetColorList.querySelectorAll('.tool-contrast-ratio-area__picked-color-bar');
         const $newBar = $bars[$bars.length - 1];
-        const $newBarDelMark = $newBar.querySelector('.pickedColorDel');
+        const $newBarDelMark = $newBar.querySelector('.tool-contrast-ratio-area__pick-color-bar-del');
 
         this.#makeSingleBarDraggable($newBar, colorCode, true);
 
@@ -184,14 +184,14 @@ export default class ContrastRatioAutoExtraction {
     #makeSingleBarDraggable($element, colorCode, isTargetColor) {
         $element.addEventListener('dragstart', event => {
             this.#isDraggingTargetColor = isTargetColor;
-            $element.classList.add('dragging');
+            $element.classList.add('is-dragging');
             event.dataTransfer.effectAllowed = 'move';
             event.dataTransfer.setData('text/plain', colorCode);
         });
 
         $element.addEventListener('dragend', () => {
             this.#isDraggingTargetColor = false;
-            $element.classList.remove('dragging');
+            $element.classList.remove('is-dragging');
         });
     }
 
@@ -203,8 +203,8 @@ export default class ContrastRatioAutoExtraction {
     }
 
     #toggleListOfColorsText() {
-        const $bars = this.#$contrastRatioTargetColorList.querySelectorAll('.contrastRatioPickedColorBar');
-        const $message = this.#$contrastRatioTargetColorList.querySelector('.drappableAreaMessage');
+        const $bars = this.#$contrastRatioTargetColorList.querySelectorAll('.tool-contrast-ratio-area__picked-color-bar');
+        const $message = this.#$contrastRatioTargetColorList.querySelector('.tool-contrast-ratio-area__auto-extraction-target-color-list-message');
         if ($bars.length === 0) {
             $message.style.display = 'block';
         } else {
@@ -225,7 +225,7 @@ export default class ContrastRatioAutoExtraction {
         this.#setResultMessageState(true, 'none', 'block', 'none');
 
         let markerCount = 0;
-        const $animationText = this.#$contrastRatioResultColorExecuting.querySelector('.waitingAnimationText');
+        const $animationText = this.#$contrastRatioResultColorExecuting.querySelector('#waitingAnimationText');
         $animationText.textContent = 'START!!';
         this.#animationOnExecutionTimer = setInterval(() => {
             if (markerCount % 10 === 0) {
@@ -322,7 +322,7 @@ export default class ContrastRatioAutoExtraction {
 
     #showExtractionResult(resultFromWrokers) {
 
-        const $existingBars = this.#$contrastRatioResultColorListBody.querySelectorAll('.contrastRatioResultColorBar');
+        const $existingBars = this.#$contrastRatioResultColorListBody.querySelectorAll('.tool-contrast-ratio-area__auto-extraction-result-color-bar');
         $existingBars.forEach($existingBar => $existingBar.remove());
 
         const appendedColorCodes = [];
@@ -340,7 +340,7 @@ export default class ContrastRatioAutoExtraction {
             this.#$contrastRatioResultColorListBody.insertAdjacentHTML('beforeend', resultBar);
         }
 
-        const $newBars = this.#$contrastRatioResultColorListBody.querySelectorAll('.contrastRatioResultColorBar');
+        const $newBars = this.#$contrastRatioResultColorListBody.querySelectorAll('.tool-contrast-ratio-area__auto-extraction-result-color-bar');
         $newBars.forEach(($newBar, i) => {
             const colorCode = appendedColorCodes[i];
             this.#makeSingleBarDraggable($newBar, colorCode, false);

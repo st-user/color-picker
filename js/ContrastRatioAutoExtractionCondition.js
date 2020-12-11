@@ -136,14 +136,14 @@ export default class ContrastRatioAutoExtractionCondition {
 
     #toggleCondition() {
         this.#isConditionOpend = !this.#isConditionOpend;
-        const $triangle = this.#$contrastRatioExtractionConditionTitle.querySelector('.openCloseTriangle');
+        const $triangle = this.#$contrastRatioExtractionConditionTitle.querySelector('.tool-contrast-ratio-area__auto-extraction-title-toggle-mark');
         if (this.#isConditionOpend) {
-            $triangle.classList.remove('triangleClose');
-            $triangle.classList.add('triangleOpen');
+            $triangle.classList.remove('is-closed');
+            $triangle.classList.add('is-opened');
             this.#$contrastRatioExtractionCondition.style.display = 'block';
         } else {
-            $triangle.classList.remove('triangleOpen');
-            $triangle.classList.add('triangleClose');
+            $triangle.classList.remove('is-opened');
+            $triangle.classList.add('is-closed');
             this.#$contrastRatioExtractionCondition.style.display = 'none';
         }
     }
