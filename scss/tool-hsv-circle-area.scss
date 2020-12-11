@@ -1,0 +1,104 @@
+@import "global";
+
+.tool-hsv-circle-area {
+
+    &__tab-content {
+        @extend %g__tab-content;
+        @extend %g__group-background;
+        position: static;
+    }
+
+    &__container {
+        margin: auto;
+        width: 584px;
+    }
+
+    &__circle-wrapper {
+        float: left;
+    }
+
+    &__chart-caption {
+        @extend %g__font-small;
+        text-align: center;
+    }
+
+    &__value-slider-wrapper {
+        float: left;
+        margin-left: 32px;
+        margin-bottom: 24px;
+    }
+
+    &__value-slider-positioning {
+        width: 32px;
+        position: relative;
+    }
+
+    &__value-slider {
+        @extend %g__border-normal;
+        -webkit-appearance: none;
+        appearance: none;
+        height: 32px;
+        background: linear-gradient(to left, white, black);
+        outline: none;
+        opacity: 0.8;
+        position: absolute;
+        top: 45%;
+        transform: rotate(270deg);
+    }
+
+    &__value-slider:hover {
+        opacity: 1;
+    }
+
+    &__value-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        height: 32px;
+        width: 8px;
+        border-radius: 0;
+        cursor: pointer;
+        border: 1px solid #333334;
+        background-color: #FFFFFF;
+    }
+
+    &__value-slider::-moz-range-thumb {
+        height: 32px;
+        width: 8px;
+        border-radius: 0;
+        cursor: pointer;
+        border: 1px solid #333334;
+        background-color: #FFFFFF;
+    }
+
+    &__control-title {
+        float: left;
+        display: inline-block;
+        width: 64px;
+        line-height: 1;
+    }
+
+    &__control-line {
+        margin: auto;
+        width: 178px;
+        margin-bottom: 6px;
+
+        &.has-next-line {
+            @extend %g__clear;
+            @extend %g__margin-bottom;
+        }
+    }
+
+    &__control-item {
+        display: block;
+        float: left;
+        transition: all 0.2s ease;
+        background-color: #FFFFFF;
+        padding: 3px;
+        width: 32px;
+        text-align: center;
+    }
+
+    &__control-item:hover {
+        opacity: 0.8;
+    }
+}

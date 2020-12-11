@@ -1,0 +1,13 @@
+@import "global";
+
+.tool-tab-area {
+
+    &__tab-item {
+        @extend %g__tab-item;
+    }
+
+    &__tab-item:hover {
+        @extend %g__tab-item-hover;
+    }
+
+}

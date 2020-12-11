@@ -20,7 +20,7 @@
     }
 
     &__btn-show-explanations {
-        @extend %shadow;
+        @extend %g__shadow;
         background-color: #54636E;
         color: #FFFFFF;
         border-radius: 50%;

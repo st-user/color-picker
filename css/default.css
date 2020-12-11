@@ -1,0 +1,15 @@
+@charset "utf-8";
+
+body {
+  font-size: 16px;
+  font-family: 'Meiryo', 'Meiryo UI', 'Yu Gothic', 'YuGothic', sans-serif;
+  color: #54636E;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 18px;
+}

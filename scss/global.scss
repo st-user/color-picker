@@ -1,16 +1,16 @@
-%shadow {
+%g__shadow {
     box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.2);
 }
 
-%margin-bottom {
+%g__margin-bottom {
     margin-bottom: 12px;
 }
 
-%margin-right {
+%g__margin-right {
     margin-right: 12px;
 }
 
-%h1 {
+%g__h1 {
     float: left;
     font-size: 32px;
     line-height: 2;
@@ -19,19 +19,44 @@
     width: 100%;
 }
 
-%border-normal {
+%g__border-normal {
     border: 1px solid #333334;
 }
 
-%group-backgournd {
+%g__group-background {
     padding: 6px;
     background-color: #FAF7F8;
 }
 
-%clear {
+%g__clear {
     clear: both;
 }
 
-%font-small {
+%g__font-small {
     font-size: 12px;
+}
+
+
+%g__tab-area {
+  margin-left: 8%;
+  margin-right: 8%;
+  min-width: 586px;
+}
+
+%g__tab-item {
+  display: block;
+  float: left;
+
+  transition: all 0.2s ease;
+  background-color: #E0E0E0;
+  padding: 6px 12px 6px 12px;
+}
+
+%g__tab-item-hover {
+  opacity: 0.8;
+}
+
+%g__tab-content {
+  display: none;
+  clear: both;
 }

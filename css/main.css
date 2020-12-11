@@ -1,20 +1,5 @@
 @charset "utf-8";
 
-body {
-  font-size: 16px;
-  font-family: 'Meiryo', 'Meiryo UI', 'Yu Gothic', 'YuGothic', sans-serif;
-  color: #54636E;
-}
-
-h2 {
-  font-size: 24px;
-}
-
-h3 {
-  font-size: 18px;
-}
-
-
 /* 汎用的なスタイル */
 .margin-bottom {
   margin-bottom: 12px;
@@ -88,14 +73,8 @@ h3 {
   transform: rotate(180deg);
 }
 
-/* カラーコード作成スライダーバーエリア */
-
-
 /* ツールエリア */
-#toolArea {
-  margin-bottom: 24px;
-  position: static;
-}
+
 /* tool tab control start */
 input[name="toolTabItem"] {
   display: none;
@@ -108,7 +87,7 @@ input[name="toolTabItem"] {
   display: block;
 }
 
-#toolArea input:checked + .toolTabItem {
+#toolArea input:checked + .tool-tab-area__tab-item {
   background-color: #54636E;
   color: #FFFFFF;
 }
@@ -118,140 +97,19 @@ input[name="toolTabItem"] {
 
 
 /*HSVチャートから抽出*/
-#hsvCircleArea {
-  position: static;
-}
-
-#hsvCircleDataContainer {
-  margin: auto;
-  width: 584px;
-}
-
-#hsvCircleDataWrapper {
-  float: left;
-}
-
-.hsvCircleDataCaption {
-  text-align: center;
-}
-
-#hsvCircleDataValueSliderWrapper {
-  float: left;
-  margin-left: 32px;
-  margin-bottom: 24px;
-}
-
-#hsvCircleDataValueSliderPositioning {
-  width: 32px;
-  position: relative;
-}
-
-#hsvCircleDataValueSlider {
-  -webkit-appearance: none;
-  appearance: none;
-  height: 32px;
-  background: linear-gradient(to left, white, black);
-  outline: none;
-  opacity: 0.8;
-
-  position: absolute;
-  top: 45%;
-  transform: rotate(270deg);
-}
-
-#hsvCircleDataValueSlider:hover {
-  opacity: 1;
-}
-
-#hsvCircleDataValueSlider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  height: 32px;
-  width: 8px;
-  border-radius: 0;
-  cursor: pointer;
-  border: 1px solid #333334;
-  background-color: #FFFFFF;
-}
-
-#hsvCircleDataValueSlider::-moz-range-thumb {
-  height: 32px;
-  width: 8px;
-  border-radius: 0;
-  cursor: pointer;
-  border: 1px solid #333334;
-  background-color: #FFFFFF;
-}
-
-.hsvCircleDataControlTitle {
-  float: left;
-  display: inline-block;
-  width: 64px;
-  line-height: 1;
-}
-
+/* tab control start */
 input[name="hsvCircleSizeSwitch"],
 input[name="hsvCircleDivisionCountSwitch"] {
     display: none;
 }
 
-.hsvCircleDataControlItem {
-  display: block;
-  float: left;
-
-  transition: all 0.2s ease;
-  background-color: #FFFFFF;
-  padding: 3px;
-  width: 32px;
-  text-align: center;
-}
-
-.hsvCircleDataControlItem:hover {
-  opacity: 0.8;
-}
-
-.hsvCircleDataControlLine {
-  margin: auto;
-  width: 178px;
-  margin-bottom: 6px;
-}
-
-.hsvCircleDataControlLine input:checked + .hsvCircleDataControlItem {
+.tool-hsv-circle-area__control-line input:checked + .tool-hsv-circle-area__control-item {
   background-color: #151F52;
   color: #FFFFFF;
 }
+/* tab control end */
 
 
-
-
-/* 画像から抽出 */
-#imageFileArea {
-  position: static;
-}
-
-#imageData {
-  border: 1px solid #333334;
-}
-
-#noImageData {
-  border: 1px solid #333334;
-  padding: 6px 6px 6px 24px;
-  line-height: 1.5;
-  list-style: disc;
-  width: 320px;
-  height: 180px;
-}
-
-.clickedPoint {
-  position: absolute;
-  display: none;
-  border: 2px solid;
-  border-radius: 50%;
-}
-
-#colorPointerPin {
-  position: absolute;
-}
 
 
 /* 色のDrag&drop系共通 */

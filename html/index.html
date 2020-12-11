@@ -90,7 +90,7 @@
 
         </div>
 
-        <div id="hsvSliderArea" class="groupBackground margin-bottom">
+        <div id="hsvSliderArea" class="color-control-area__hsv-slider-area">
 
           <div>
             <div>
@@ -135,66 +135,66 @@
 
 
 <!-- tool area -->
-    <div id="toolArea" class="tabArea">
+    <div id="toolArea" class="tool-area">
 
       <input id="hsvCircleAreaTabTitle" type="radio" name="toolTabItem" value="0" checked/>
-      <label class="toolTabItem tabItem" for="hsvCircleAreaTabTitle">HSVチャートから抽出</label>
+      <label class="tool-tab-area__tab-item" for="hsvCircleAreaTabTitle">HSVチャートから抽出</label>
 
       <input id="imageFileAreaTabTitle" type="radio" name="toolTabItem" value="1"/>
-      <label class="toolTabItem tabItem" for="imageFileAreaTabTitle">画像から抽出</label>
+      <label class="tool-tab-area__tab-item" for="imageFileAreaTabTitle">画像から抽出</label>
 
       <input id="contrastRatioTabTitle" type="radio" name="toolTabItem" value="2"/>
-      <label class="toolTabItem tabItem" for="contrastRatioTabTitle">コントラスト比</label>
+      <label class="tool-tab-area__tab-item" for="contrastRatioTabTitle">コントラスト比</label>
 
       <input id="colorDesignAreaTabTitle" type="radio" name="toolTabItem" value="3"/>
-      <label class="toolTabItem tabItem" for="colorDesignAreaTabTitle">配色チェック</label>
+      <label class="tool-tab-area__tab-item" for="colorDesignAreaTabTitle">配色チェック</label>
 
-      <div class="toolTabContent tabContent groupBackground" id="hsvCircleArea">
+      <div id="hsvCircleArea" class="tool-hsv-circle-area__tab-content">
 
-        <div id="hsvCircleDataContainer">
-          <div id="hsvCircleDataWrapper">
+        <div id="hsvCircleDataContainer" class="tool-hsv-circle-area__container">
+          <div id="hsvCircleDataWrapper" class="tool-hsv-circle-area__circle-wrapper">
             <canvas id="hsvCircleData"></canvas>
-            <div class="hsvCircleDataCaption font-small">円の中心からの距離＝S(彩度)</div>
+            <div class="tool-hsv-circle-area__chart-caption">円の中心からの距離＝S(彩度)</div>
           </div>
-          <div id="hsvCircleDataValueSliderWrapper">
-            <div id="hsvCircleDataValueSliderPositioning">
-              <input type="range" min="0" max="100" id="hsvCircleDataValueSlider" class="border-normal"/>
+          <div id="hsvCircleDataValueSliderWrapper" class="tool-hsv-circle-area__value-slider-wrapper">
+            <div id="hsvCircleDataValueSliderPositioning" class="tool-hsv-circle-area__value-slider-positioning">
+              <input type="range" min="0" max="100" id="hsvCircleDataValueSlider" class="tool-hsv-circle-area__value-slider"/>
             </div>
-            <div class="hsvCircleDataCaption font-small">V(明度)</div>
+            <div class="tool-hsv-circle-area__chart-caption">V(明度)</div>
           </div>
           <div id="hsvCircleDataControlArea">
-            <div class="hsvCircleDataControlLine clear clearfixContainer margin-bottom">
-              <span class="hsvCircleDataControlTitle">サイズ:</span>
+            <div class="tool-hsv-circle-area__control-line has-next-line clearfixContainer">
+              <span class="tool-hsv-circle-area__control-title">サイズ:</span>
               <input id="hsvCircleSizeSwitchSmall" type="radio" name="hsvCircleSizeSwitch" value="0"/>
-              <label for="hsvCircleSizeSwitchSmall" class="hsvCircleDataControlItem">小</label>
+              <label for="hsvCircleSizeSwitchSmall" class="tool-hsv-circle-area__control-item">小</label>
               <input id="hsvCircleSizeSwitchMedium" type="radio" name="hsvCircleSizeSwitch" value="1" checked/>
-              <label for="hsvCircleSizeSwitchMedium" class="hsvCircleDataControlItem">中</label>
+              <label for="hsvCircleSizeSwitchMedium" class="tool-hsv-circle-area__control-item">中</label>
               <input id="hsvCircleSizeSwitchLarge" type="radio" name="hsvCircleSizeSwitch" value="2"/>
-              <label for="hsvCircleSizeSwitchLarge" class="hsvCircleDataControlItem">大</label>
+              <label for="hsvCircleSizeSwitchLarge" class="tool-hsv-circle-area__control-item">大</label>
             </div>
-            <div class="hsvCircleDataControlLine clearfixContainer">
-              <span class="hsvCircleDataControlTitle">分割:</span>
+            <div class="tool-hsv-circle-area__control-line clearfixContainer">
+              <span class="tool-hsv-circle-area__control-title">分割:</span>
               <input id="hsvCircleDivisionCountSwitch10" type="radio" name="hsvCircleDivisionCountSwitch" value="10"/>
-              <label for="hsvCircleDivisionCountSwitch10" class="hsvCircleDataControlItem">10</label>
+              <label for="hsvCircleDivisionCountSwitch10" class="tool-hsv-circle-area__control-item">10</label>
               <input id="hsvCircleDivisionCountSwitch20" type="radio" name="hsvCircleDivisionCountSwitch" value="20"/>
-              <label for="hsvCircleDivisionCountSwitch20" class="hsvCircleDataControlItem">20</label>
+              <label for="hsvCircleDivisionCountSwitch20" class="tool-hsv-circle-area__control-item">20</label>
               <input id="hsvCircleDivisionCountSwitchNone" type="radio" name="hsvCircleDivisionCountSwitch" value="360" checked/>
-              <label for="hsvCircleDivisionCountSwitchNone" class="hsvCircleDataControlItem">なし</label>
+              <label for="hsvCircleDivisionCountSwitchNone" class="tool-hsv-circle-area__control-item">なし</label>
             </div>
           </div>
         </div>
       </div>
 
 
-      <div class="toolTabContent tabContent groupBackground" id="imageFileArea">
+      <div id="imageFileArea" class="tool-image-file-area__tab-content">
 
-        <ul id="howToResizeImage" class="margin-bottom">
+        <ul id="howToResizeImage" class="tool-image-file-area__how-to-resize-image">
           <li><label><input type="radio" name="needsToResize" value="0" checked/>表示領域にあわせて画像サイズを調整</label></li>
           <li><label><input type="radio" name="needsToResize" value="1"/>元の画像サイズを維持</label></li>
         </ul>
 
-        <canvas id="imageData"></canvas>
-        <ul id="noImageData" class="font-small margin-bottom">
+        <canvas id="imageData" class="tool-image-file-area__image-data"></canvas>
+        <ul id="noImageData" class="tool-image-file-area__no-image-data">
           <li>画像ファイルを選択し、色を抽出することができます。抽出した色はRGB/HSVのスライダーバーで編集できます。</li>
           <li>画像上を、クリックする/Ctrlキーを押しながらマウスを動かす/矢印キーを動かす、ことにより任意の位置の色が抽出できます。</li>
           <li>画像の処理はブラウザ上で完結するので、画像データがインターネット上に送信されることはありません。</li>
@@ -438,7 +438,7 @@
 
       </div>
 
-      <canvas id="colorPointerPin" width="40" height="80"></canvas>
+      <canvas id="colorPointerPin" width="40" height="80" class="tool-area__color-pointer-pin"></canvas>
     </div>
 
 

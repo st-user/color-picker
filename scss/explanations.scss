@@ -1,7 +1,7 @@
 @import "global";
 
 .explanations {
-    @extend %shadow;
+    @extend %g__shadow;
     position: absolute;
     top: 64px;
     width: 80%;
@@ -18,7 +18,7 @@
     }
 
     &__inner {
-        @extend %margin-bottom;
+        @extend %g__margin-bottom;
         list-style: circle;
         padding: 0 0 0 24px;
     }
