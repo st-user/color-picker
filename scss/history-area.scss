@@ -1,0 +1,12 @@
+@import "global";
+
+.history-area {
+    @extend %g__tab-area;
+    margin-left: 8%;
+    margin-right: 8%;
+    margin-bottom: 48px;
+
+    &__title {
+        margin-bottom: 6px;
+    }
+}

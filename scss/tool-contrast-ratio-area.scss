@@ -92,6 +92,10 @@
         font-size: 24px;
     }
 
+    &__check-criteria-area {
+        @extend %g__clear;
+    }
+
     &__check-criteria-normal {
         @extend %g__margin-bottom;
         width: 840px;
@@ -224,6 +228,13 @@
         display: inline-block;
         width: 112px;
         padding-left: 6px;
+    }
+
+    &__auto-extraction-condition-range-slider-wrapper {
+
+        &.has-next-slider {
+            @extend %g__margin-bottom;
+        }
     }
 
     &__auto-extraction-condition-range-slider {

@@ -1,0 +1,73 @@
+@import "global";
+
+.history-content-area {
+    @extend %g__tab-content;
+    @extend %g__group-background;
+
+    &__controls {
+        @extend %g__margin-bottom;
+        list-style: none;
+    }
+
+    &__controls-li {
+        text-align: right;
+    }
+
+    %__history-bar {
+        @extend %g__border-normal;
+        float: left;
+        cursor: pointer;
+        border-radius: 3px;
+        animation: history-content-area__expand 0.8s;
+        overflow: hidden;
+        background-color: #FFFFFF;
+    }
+
+    @keyframes history-content-area__expand {
+      0% { transform: scale(0); }
+      100% { transform: scale(1); }
+    }
+
+    &__history-color-bar {
+        @extend %g__shadow;
+        @extend %__history-bar;
+        width: 100px;
+        margin-right: 6px;
+        margin-bottom: 24px;
+    }
+
+    &__history-color-bar-color-mark {
+        @extend %g__font-small;
+        float: left;
+        width: 20px;
+        height: 18px;
+        border-right: 1px solid #333334;
+    }
+
+    &__history-color-bar-color-code {
+        @extend %g__font-small;
+        float: left;
+        width: 79px;
+        text-align: center;
+        line-height: 1.5;
+    }
+
+    &__history-color-design-bar {
+        @extend %g__shadow;
+        @extend %__history-bar;
+        width: 200px;
+        margin-right: 3px;
+        margin-bottom: 12px;
+    }
+
+    &__history-color-design-bar-name {
+        text-align: center;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    &__history-color-design-bar-gradient {
+        width: 200px;
+        height: 16px;
+    }
+}

@@ -1,62 +1,8 @@
 @charset "utf-8";
 
-/* 汎用的なスタイル */
-.margin-bottom {
-  margin-bottom: 12px;
-}
-
-.margin-right {
-  margin-right: 12px;
-}
-
-.font-small {
-  font-size: 12px;
-}
-
-.border-normal {
-  border: 1px solid #333334;
-}
-
-.clear {
-  clear: both;
-}
-
 .clearfixContainer:after {
   content: "";
   display: block;
-  clear: both;
-}
-
-.shadow {
-  box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.2);
-}
-
-.groupBackground {
-  padding: 6px;
-  background-color: #FAF7F8;
-}
-
-.tabArea {
-  margin-left: 8%;
-  margin-right: 8%;
-  min-width: 586px;
-}
-
-.tabItem {
-  display: block;
-  float: left;
-
-  transition: all 0.2s ease;
-  background-color: #E0E0E0;
-  padding: 6px 12px 6px 12px;
-}
-
-.tabItem:hover {
-  opacity: 0.8;
-}
-
-.tabContent {
-  display: none;
   clear: both;
 }
 
@@ -79,8 +25,6 @@ input[name="toolTabItem"] {
 /* tool tab control end */
 
 
-
-
 /*HSVチャートから抽出*/
 /* tab control start */
 input[name="hsvCircleSizeSwitch"],
@@ -94,6 +38,22 @@ input[name="hsvCircleDivisionCountSwitch"] {
 }
 /* tab control end */
 
+
+/* history tab control start */
+input[name="historyTabItem"] {
+  display: none;
+}
+
+#colorCodeHistoryTabTitle:checked ~ #colorCodeHistoryArea,
+#colorDesignHistoryTabTitle:checked ~ #colorDesignHistoryArea {
+  display: block;
+}
+
+#colorInfoHistoryArea input:checked + .history-tab-area__tab-item {
+  background-color: #54636E;
+  color: #fff;
+}
+/* history tab control end */
 
 
 
@@ -113,105 +73,3 @@ input[name="hsvCircleDivisionCountSwitch"] {
   display: none;
 }
 /* override noUi  :end*/
-
-
-
-
-/* 履歴 */
-#colorInfoHistoryArea {
-  margin-left: 8%;
-  margin-right: 8%;
-  margin-bottom: 48px;
-}
-
-#colorInfoHistoryArea h2 {
-  margin-bottom: 6px;
-}
-
-/* history tab control start */
-input[name="historyTabItem"] {
-  display: none;
-}
-
-#colorCodeHistoryTabTitle:checked ~ #colorCodeHistoryArea,
-#colorDesignHistoryTabTitle:checked ~ #colorDesignHistoryArea {
-  display: block;
-}
-
-#colorInfoHistoryArea input:checked + .historyTabItem {
-  background-color: #54636E;
-  color: #fff;
-}
-/* history tab control end */
-
-
-#colorCodeHistoryArea {
-  border-radius: 6px;
-}
-
-#historyControllers {
-  list-style: none;
-}
-
-#historyControllers > li {
-  text-align: right;
-}
-
-.historyBar {
-  float: left;
-  cursor: pointer;
-  border: 1px solid #333334;
-  border-radius: 3px;
-  animation: expand 0.8s;
-  overflow: hidden;
-  background-color: #FFFFFF;
-}
-
-.historyColorBar {
-  width: 100px;
-  margin-right: 6px;
-  margin-bottom: 24px;
-}
-
-@keyframes expand {
-  0% { transform: scale(0); }
-  100% { transform: scale(1); }
-}
-
-.historyColorBar > div {
-  float: left;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.historyColorView {
-  width: 20px;
-  height: 18px;
-  border-right: 1px solid #333334;
-}
-
-.historyColorCode {
-  width: 79px;
-  text-align: center;
-}
-
-#colorDesignHistoryControllers > li {
-  text-align: right;
-}
-
-.historyColorDesignBar {
-  width: 200px;
-  margin-right: 3px;
-  margin-bottom: 12px;
-}
-
-.historyColorDesignName {
-  text-align: center;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.historyColorDesignGradient {
-  width: 200px;
-  height: 16px;
-}

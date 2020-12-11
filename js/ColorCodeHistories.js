@@ -2,9 +2,9 @@ import StorageAccessor from './StorageAccessor.js';
 
 const template = data => {
     return `
-    <div class="historyColorBar historyBar shadow clearfixContainer" data-color-code="${data.colorCode}" draggable="true">
-      <div style="background-color: ${data.colorCode};" class="historyColorView"></div>
-      <div class="historyColorCode">${data.colorCode}</div>
+    <div class="history-content-area__history-color-bar historyBar shadow clearfixContainer" data-color-code="${data.colorCode}" draggable="true">
+      <div style="background-color: ${data.colorCode};" class="history-content-area__history-color-bar-color-mark"></div>
+      <div class="history-content-area__history-color-bar-color-code">${data.colorCode}</div>
     </div>
   `;
 };
@@ -78,7 +78,7 @@ export default class ColorCodeHistories {
             return;
         }
 
-        const $allHistories = this.#$historiesListArea.querySelectorAll('.historyColorBar');
+        const $allHistories = this.#$historiesListArea.querySelectorAll('.history-content-area__history-color-bar');
         if (colorCodes.length === HISTORY_MAX_SIZE) {
             colorCodes.shift();
             $allHistories[$allHistories.length - 1].remove();
@@ -90,7 +90,7 @@ export default class ColorCodeHistories {
         );
 
 
-        const $newHistory = this.#$historiesListArea.querySelectorAll('.historyColorBar')[0];
+        const $newHistory = this.#$historiesListArea.querySelectorAll('.history-content-area__history-color-bar')[0];
         $newHistory.addEventListener('click', () => {
             const customEvent = new CustomEvent('historyClick',
                 { detail: newColorCode }

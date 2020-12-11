@@ -241,7 +241,7 @@
             </div>
           </div>
 
-          <div class="clear">
+          <div class="tool-contrast-ratio-area__check-criteria-area">
             <div id="contrastRatioCheckCriteriaNormal" class="tool-contrast-ratio-area__check-criteria-normal clearfixContainer">
               <div class="tool-contrast-ratio-area__check-criteria-title">
                 Normal Text:
@@ -319,11 +319,11 @@
                       <div id="contrastRatioRangeHsvSilder_h" class="tool-contrast-ratio-area__auto-extraction-condition-range-slider"></div>
                       <span id="contrastRatioRangeSliderCurrent_h" class="tool-contrast-ratio-area__auto-extraction-condition-range-slider-current"></span>
                     </div>
-                    <div class="margin-bottom">
+                    <div class="tool-contrast-ratio-area__auto-extraction-condition-range-slider-wrapper has-next-slider">
                       <canvas id="contrastRatioRangeHsvColorBar" class="tool-contrast-ratio-area__auto-extraction-condition-hue-range-bar"></canvas>
                     </div>
 
-                    <div class="margin-bottom">
+                    <div class="tool-contrast-ratio-area__auto-extraction-condition-range-slider-wrapper has-next-slider">
                       <span class="tool-contrast-ratio-area__auto-extraction-condition-slider-title">S:</span>
                       <div id="contrastRatioRangeHsvSilder_s" class="tool-contrast-ratio-area__auto-extraction-condition-range-slider"></div>
                       <span id="contrastRatioRangeSliderCurrent_s" class="tool-contrast-ratio-area__auto-extraction-condition-range-slider-current"></span>
@@ -449,22 +449,22 @@
 
 
 <!-- history area -->
-    <div id="colorInfoHistoryArea" class="tabArea">
+    <div id="colorInfoHistoryArea" class="history-area">
 
-      <h2 class="margin-bottom">履歴</h2>
+      <h2 class="history-area__title">履歴</h2>
 
       <input id="colorCodeHistoryTabTitle" type="radio" name="historyTabItem" checked>
-      <label class="historyTabItem tabItem" for="colorCodeHistoryTabTitle">色</label>
+      <label class="history-tab-area__tab-item" for="colorCodeHistoryTabTitle">色</label>
 
       <input id="colorDesignHistoryTabTitle" type="radio" name="historyTabItem">
-      <label class="historyTabItem tabItem" for="colorDesignHistoryTabTitle">配色</label>
+      <label class="history-tab-area__tab-item" for="colorDesignHistoryTabTitle">配色</label>
 
 
-      <div class="historyTabContent tabContent groupBackground" id="colorCodeHistoryArea">
+      <div id="colorCodeHistoryArea" class="history-content-area">
 
         <div>
-          <ul id="historyControllers" class="margin-bottom">
-            <li><button type="button" id="clearHistories">クリア</button></li>
+          <ul id="historyControllers" class="history-content-area__controls">
+            <li class="history-content-area__controls-li"><button type="button" id="clearHistories">クリア</button></li>
           </ul>
 
           <div id="historiesListArea" class="clearfixContainer">
@@ -474,10 +474,10 @@
       </div>
 
 
-      <div class="historyTabContent tabContent groupBackground" id="colorDesignHistoryArea">
+      <div id="colorDesignHistoryArea" class="history-content-area">
 
-        <ul id="colorDesignHistoryControllers" class="margin-bottom">
-          <li><button type="button" id="clearColorDesignHistories">クリア</button></li>
+        <ul id="colorDesignHistoryControllers" class="history-content-area__controls">
+          <li class="history-content-area__controls-li"><button type="button" id="clearColorDesignHistories">クリア</button></li>
         </ul>
         <div id="colorDesignHistoriesListArea" class="clearfixContainer">
         </div>

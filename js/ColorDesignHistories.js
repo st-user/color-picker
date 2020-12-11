@@ -9,9 +9,9 @@ const template = data => {
         background = `background-color: ${data.colorInfoList[0].colorCode}`;
     }
     return `
-    <div class="historyColorDesignBar historyBar shadow" data-pattern-id="${data.patternId}" draggable="true">
-      <div class="historyColorDesignName">${data.patternName}</div>
-      <div class="historyColorDesignGradient" style="${background}"></div>
+    <div class="history-content-area__history-color-design-bar" data-pattern-id="${data.patternId}" draggable="true">
+      <div class="history-content-area__history-color-design-bar-name">${data.patternName}</div>
+      <div class="history-content-area__history-color-design-bar-gradient" style="${background}"></div>
     </div>
   `;
 };
@@ -70,7 +70,7 @@ export default class ColorDesignHistories {
         const patternId = this.#generatePatternId();
         this.#patternMap[patternId] = patternInfo;
 
-        const $histories = this.#$colorDesignHistoriesListArea.querySelectorAll('.historyColorDesignBar');
+        const $histories = this.#$colorDesignHistoriesListArea.querySelectorAll('.history-content-area__history-color-design-bar');
         if (HISTORY_MAX_SIZE <= $histories.length) {
             const $oldest = $histories[$histories.length - 1];
             const oldestId = $oldest.dataset.dataPatternId;
@@ -84,7 +84,7 @@ export default class ColorDesignHistories {
             colorInfoList: patternInfo.colorInfoList
         }));
 
-        const $newHistory = this.#$colorDesignHistoriesListArea.querySelectorAll('.historyColorDesignBar')[0];
+        const $newHistory = this.#$colorDesignHistoriesListArea.querySelectorAll('.history-content-area__history-color-design-bar')[0];
         $newHistory.addEventListener('click', () => {
             const customEvent = new CustomEvent('historyClick',
                 { detail: patternInfo }
