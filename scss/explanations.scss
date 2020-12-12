@@ -1,5 +1,9 @@
 @import "global";
 
+/*
+* ヘッダー横の「？」押下で表示される説明文のcss
+*/
+
 .explanations {
     @extend %g__shadow;
     position: absolute;

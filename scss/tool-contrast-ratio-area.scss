@@ -1,6 +1,10 @@
 @import "global";
 @import "global-draggable";
 
+/*
+* コントラスト比機能のcss
+*/
+
 .tool-contrast-ratio-area {
     @extend %g__tab-content;
     @extend %g__group-background;

@@ -1,5 +1,9 @@
 @import "global";
 
+/*
+* 画面中段ツール群を配置する領域のcss
+*/
+
 .tool-area {
     @extend %g__tab-area;
     margin-bottom: 24px;

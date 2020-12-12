@@ -1,5 +1,9 @@
 @import "global";
 
+/*
+* 履歴機能のcss
+*/
+
 .history-content-area {
     @extend %g__tab-content;
     @extend %g__group-background;

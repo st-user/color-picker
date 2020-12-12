@@ -1,6 +1,10 @@
 @import "global";
 @import "global-draggable";
 
+/*
+* 配色チェック機能のcss
+*/
+
 .tool-color-design-area {
     @extend %g__tab-content;
     @extend %g__group-background;

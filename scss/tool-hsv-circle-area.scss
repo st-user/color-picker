@@ -1,5 +1,9 @@
 @import "global";
 
+/*
+* HSVチャートから抽出 機能のcss
+*/
+
 .tool-hsv-circle-area {
     @extend %g__tab-content;
     @extend %g__group-background;

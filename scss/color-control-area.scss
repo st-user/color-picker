@@ -1,5 +1,8 @@
 @import "global";
 
+/*
+* メインのカラーコード編集領域のcss
+*/
 
 .color-control-area {
     margin: auto;
@@ -11,7 +14,7 @@
         height: 24px;
         line-height: 24px;
     }
-    
+
     &__view-color-wrapper {
         float: left;
         padding: 6px;

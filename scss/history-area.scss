@@ -1,5 +1,9 @@
 @import "global";
 
+/*
+* 履歴機能を配置する領域のcss
+*/
+
 .history-area {
     @extend %g__tab-area;
     margin-left: 8%;

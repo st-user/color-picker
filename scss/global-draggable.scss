@@ -1,5 +1,9 @@
 @import "global";
 
+/*
+* Drag & Dropに関する汎用的なcss
+*/
+
 %g-draggable__droppable-area-bg {
     background-color   : #FFFFFF;
     background-position: 0 0, 6px 6px;
