@@ -1,74 +1,74 @@
-import Explanations from './Explanations.js';
-import ToolTabs from './ToolTabs.js';
-import HsvCircleCanvasHandler from './HsvCircleCanvasHandler.js';
-import ImageCanvasHandler from './ImageCanvasHandler.js';
-import ColorPointerPin from './ColorPointerPin.js';
-import LoadedImageHolder from './LoadedImageHolder.js';
-import ChangeColorController from './ChangeColorController.js';
-import ColorCodeHistories from './ColorCodeHistories.js';
-import ColorDesignCheck from './ColorDesignCheck.js';
-import ContrastRatioCheck from './ContrastRatioCheck.js';
-import ContrastRatioAutoExtraction from './ContrastRatioAutoExtraction.js';
-import ColorDesignHistories from './ColorDesignHistories.js';
-import CustomEventNames from './CustomEventNames.js';
+import ExplanationsView from './explanations/ExplanationsView.js';
+import ToolTabsView from './tool/ToolTabsView.js';
+import HsvCircleCanvasView from './hsv-circle/HsvCircleCanvasView.js';
+import ImageCanvasView from './image-file/ImageCanvasView.js';
+import ColorPointerPinView from './tool/ColorPointerPinView.js';
+import LoadedImageHolder from './image-file/LoadedImageHolder.js';
+import ColorControlView from './color-control/ColorControlView.js';
+import ColorCodeHistoryView from './history/ColorCodeHistoryView.js';
+import ColorDesignView from './color-design/ColorDesignView.js';
+import ContrastRatioCheckView from './contrast-ratio/ContrastRatioCheckView.js';
+import ContrastRatioAutoExtractionView from './contrast-ratio/ContrastRatioAutoExtractionView.js';
+import ColorDesignHistoryView from './history/ColorDesignHistoryView.js';
+import CustomEventNames from './common/CustomEventNames.js';
 
 
 
 export default function main() {
 
-    const explanations = new Explanations();
-    const changeColorController = new ChangeColorController();
-    const toolTabs = new ToolTabs();
-    const hsvCircleCanvasHandler = new HsvCircleCanvasHandler();
-    const imageCanvasHandler = new ImageCanvasHandler();
-    const colorPointerPin = new ColorPointerPin();
+    const explanationsView = new ExplanationsView();
+    const colorControlView = new ColorControlView();
+    const toolTabsView = new ToolTabsView();
+    const hsvCircleCanvasView = new HsvCircleCanvasView();
+    const imageCanvasView = new ImageCanvasView();
+    const colorPointerPinView = new ColorPointerPinView();
     const loadedImageHolder = new LoadedImageHolder();
-    const contrastRatioCheck = new ContrastRatioCheck();
-    const contrastRatioAutoExtraction = new ContrastRatioAutoExtraction();
-    const colorDesignCheck = new ColorDesignCheck();
-    const colorCodeHistories = new ColorCodeHistories();
-    const colorDesignHistories = new ColorDesignHistories();
+    const contrastRatioCheckView = new ContrastRatioCheckView();
+    const contrastRatioAutoExtractionView = new ContrastRatioAutoExtractionView();
+    const colorDesignView = new ColorDesignView();
+    const colorCodeHistoryView = new ColorCodeHistoryView();
+    const colorDesignHistoryView = new ColorDesignHistoryView();
 
-    explanations.setUpEvents();
+    explanationsView.setUpEvents();
 
     /*
    * RGB, HSVのスライダー関係のイベントハンドラーの設定
    */
-    changeColorController.setUpEvents(
-        colorCode => colorCodeHistories.addColorCode(colorCode, true),
-        colorCode => colorCodeHistories.addColorIfAutomatic(colorCode)
+    colorControlView.setUpEvents(
+        colorCode => colorCodeHistoryView.addColorCode(colorCode, true),
+        colorCode => colorCodeHistoryView.addColorIfAutomatic(colorCode)
     );
-    colorCodeHistories.setUpEvents();
+    colorCodeHistoryView.setUpEvents();
 
-    colorCodeHistories.onChangeAutomationState(isAutomatic => {
-        changeColorController.changeAddHistoryControlState(isAutomatic);
+    colorCodeHistoryView.onChangeAutomationState(isAutomatic => {
+        colorControlView.changeAddHistoryControlState(isAutomatic);
     });
-    colorCodeHistories.onClickHistory(colorCode => {
-        changeColorController.setColorValuesFromValidColorCode(colorCode);
+    colorCodeHistoryView.onClickHistory(colorCode => {
+        colorControlView.setColorValuesFromValidColorCode(colorCode);
     });
-    changeColorController.changeAddHistoryControlState(true);
+    colorControlView.changeAddHistoryControlState(true);
 
     /*
    * 画像ファイル関係のイベントハンドラーの設定
    */
-    toolTabs.setUpEvent();
-    hsvCircleCanvasHandler.setUpEvent();
-    imageCanvasHandler.setUpEvent();
-    contrastRatioCheck.setUpEvent();
-    contrastRatioAutoExtraction.setUpEvent();
+    toolTabsView.setUpEvent();
+    hsvCircleCanvasView.setUpEvent();
+    imageCanvasView.setUpEvent();
+    contrastRatioCheckView.setUpEvent();
+    contrastRatioAutoExtractionView.setUpEvent();
     loadedImageHolder.setUpEvent();
-    colorPointerPin.setUpEvent();
+    colorPointerPinView.setUpEvent();
 
 
     /*
    * 配色チェック関係のイベントハンドラーの設定
    */
-    colorDesignCheck.setUpEvents(data => {
-        colorDesignHistories.addHistoryThenShowColorDesignTab(data);
+    colorDesignView.setUpEvents(data => {
+        colorDesignHistoryView.addHistoryThenShowColorDesignTab(data);
     });
-    colorDesignHistories.setUpEvents();
-    colorDesignHistories.onClickHistory(patternInfo => {
-        colorDesignCheck.setColorInfoFromPatternInfoIfConfirmed(patternInfo);
+    colorDesignHistoryView.setUpEvents();
+    colorDesignHistoryView.onClickHistory(patternInfo => {
+        colorDesignView.setColorInfoFromPatternInfoIfConfirmed(patternInfo);
     });
 
     /*
@@ -113,9 +113,9 @@ export default function main() {
 
     });
 
-    const $controllersUsingWithArrowKey = changeColorController.getControllersUsingWithArrowKey()
-        .concat(colorDesignCheck.getControllersUsingWithArrowKey())
-        .concat(hsvCircleCanvasHandler.getControllersUsingWithArrowKey());
+    const $controllersUsingWithArrowKey = colorControlView.getControllersUsingWithArrowKey()
+        .concat(colorDesignView.getControllersUsingWithArrowKey())
+        .concat(hsvCircleCanvasView.getControllersUsingWithArrowKey());
     $controllersUsingWithArrowKey.forEach($controller => {
         $controller.addEventListener('focus',
             () => shouldPreventCircleFromMovingByArrow = true

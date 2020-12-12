@@ -1,6 +1,6 @@
 
-import HsvRgbConverter from './HsvRgbConverter.js';
-import ContrastRatioAutoExtractionCondition from './ContrastRatioAutoExtractionCondition.js';
+import HsvRgbConverter from '../common/HsvRgbConverter.js';
+import ContrastRatioAutoExtractionConditionView from './ContrastRatioAutoExtractionConditionView.js';
 import ContrastRatioExplanations from './ContrastRatioExplanations.js';
 
 const targetColorTemplate = data => {
@@ -22,7 +22,7 @@ const resultColorTemplate = data => {
 };
 
 
-export default class ContrastRatioAutoExtraction {
+export default class ContrastRatioAutoExtractionView {
 
     #explanations;
 
@@ -72,7 +72,7 @@ export default class ContrastRatioAutoExtraction {
 
         this.#isOpened = false;
         this.#isDraggingTargetColor = false;
-        this.#condition = new ContrastRatioAutoExtractionCondition();
+        this.#condition = new ContrastRatioAutoExtractionConditionView();
         this.#isExecuting = false;
         this.#targetColorMap = {};
 

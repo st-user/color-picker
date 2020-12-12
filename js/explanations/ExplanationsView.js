@@ -1,4 +1,4 @@
-export default class Explanations {
+export default class ExplanationsView {
 
 
     #$showExplanations;

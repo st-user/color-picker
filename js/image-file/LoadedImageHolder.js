@@ -1,5 +1,5 @@
-import Constants from './Constants.js';
-import CustomEventNames from './CustomEventNames.js';
+import Constants from '../common/Constants.js';
+import CustomEventNames from '../common/CustomEventNames.js';
 
 export default class LoadedImageHolder {
 

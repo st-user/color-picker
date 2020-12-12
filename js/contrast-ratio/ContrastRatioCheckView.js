@@ -1,6 +1,6 @@
 
 import ContrastRatioCalculator from './ContrastRatioCalculator.js';
-import HsvRgbConverter from './HsvRgbConverter.js';
+import HsvRgbConverter from '../common/HsvRgbConverter.js';
 import ContrastRatioExplanations from './ContrastRatioExplanations.js';
 
 const pickedColorTemplate = data => {
@@ -13,7 +13,7 @@ const pickedColorTemplate = data => {
 
 
 
-export default class ContrastRatioCheck {
+export default class ContrastRatioCheckView {
 
     #explanations;
 

@@ -1,4 +1,4 @@
-import StorageAccessor from './StorageAccessor.js';
+import StorageAccessor from '../common/StorageAccessor.js';
 
 const template = data => {
     return `
@@ -12,7 +12,7 @@ const template = data => {
 const HISTORY_MAX_SIZE = 30;
 const STORAGE_KEY = 'colorCodeHistories';
 
-export default class ColorCodeHistories {
+export default class ColorCodeHistoryView {
 
     #$historiesListArea;
     #$tabInput;

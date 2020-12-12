@@ -1,7 +1,7 @@
-import CanvasHandler from './CanvasHandler.js';
-import HsvRgbConverter from './HsvRgbConverter.js';
-import CommonEventDispatcher from './CommonEventDispatcher.js';
-import ElementUtil from './ElementUtil.js';
+import CanvasHandler from '../tool/CanvasHandler.js';
+import HsvRgbConverter from '../common/HsvRgbConverter.js';
+import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
+import ElementUtil from '../common/ElementUtil.js';
 
 const STROKE_WIDTH = 20;
 const CIRCLE_SIZE_CONFIGS = [
@@ -34,7 +34,7 @@ const rotate = (x, y, theta) => {
     ];
 };
 
-export default class HsvCircleCanvasHandler extends CanvasHandler {
+export default class HsvCircleCanvasView extends CanvasHandler {
 
     #$valueSliderPos;
     #$valueSlider;
@@ -69,7 +69,7 @@ export default class HsvCircleCanvasHandler extends CanvasHandler {
             const value = $valueSlider.value;
             this.#currentValue = parseInt(value);
             this.#drawHsvCircleFromConfigs();
-            CommonEventDispatcher.hideColorPointerPin();
+            CommonEventDispatcher.hideColorPointerPinView();
         });
         $valueSlider.value = DEFAULT_VALUE;
 
@@ -79,7 +79,7 @@ export default class HsvCircleCanvasHandler extends CanvasHandler {
                 const selectedSize = $switch.value;
                 this.#currentSizeConfig = CIRCLE_SIZE_CONFIGS[parseInt(selectedSize)];
                 this.#drawHsvCircleFromConfigs();
-                CommonEventDispatcher.hideColorPointerPin();
+                CommonEventDispatcher.hideColorPointerPinView();
             });
         });
 
@@ -89,7 +89,7 @@ export default class HsvCircleCanvasHandler extends CanvasHandler {
                 const selectedCount = $switch.value;
                 this.#currentArcStep = Math.PI / (parseInt(selectedCount) / 2);
                 this.#drawHsvCircleFromConfigs();
-                CommonEventDispatcher.hideColorPointerPin();
+                CommonEventDispatcher.hideColorPointerPinView();
             });
         });
 

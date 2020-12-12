@@ -1,12 +1,12 @@
-import CustomEventNames from './CustomEventNames.js';
-import debounce from './Debounce.js';
+import CustomEventNames from '../common/CustomEventNames.js';
+import debounce from '../common/Debounce.js';
 
 const CENTER = [20, 20];
 const R = 16;
 const PIN_LENGTH = 20;
 const RAD = Math.PI / 6;
 
-export default class ColorPointerPin {
+export default class ColorPointerPinView {
 
     #$pointerCanvas;
     #$pointedElements;

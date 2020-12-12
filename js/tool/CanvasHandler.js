@@ -1,6 +1,6 @@
-import CustomEventNames from './CustomEventNames.js';
+import CustomEventNames from '../common/CustomEventNames.js';
 import CurrentEventXY from './CurrentEventXY.js';
-import ElementUtil from './ElementUtil.js';
+import ElementUtil from '../common/ElementUtil.js';
 
 export default class CanvasHandler {
 

@@ -1,4 +1,4 @@
-import ContrastRatioAutoExtractionWorker from '../ContrastRatioAutoExtractionWorker.js';
+import ContrastRatioAutoExtractionWorker from '../contrast-ratio/ContrastRatioAutoExtractionWorker.js';
 
 /*globals assertEquals */
 const ContrastRatioAutoExtractionWorkerTest = (() => {

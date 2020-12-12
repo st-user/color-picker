@@ -1,7 +1,7 @@
 /*globals require */
-const noUiSlider = require('../node_modules/nouislider/distribute/nouislider.js');
-import { HsvColorBar } from './ColorBar.js';
-import RgbUtil from './RgbUtil.js';
+const noUiSlider = require('../../node_modules/nouislider/distribute/nouislider.js');
+import { HsvColorBar } from '../common/ColorBar.js';
+import RgbUtil from '../common/RgbUtil.js';
 
 const TASK_UNIT_COUNT = 1000;
 
@@ -15,7 +15,7 @@ const currentRangeTemplate = data => {
 };
 
 
-export default class ContrastRatioAutoExtractionCondition {
+export default class ContrastRatioAutoExtractionConditionView {
 
     #$contrastRatioExtractionConditionTitle;
     #$contrastRatioExtractionCondition;

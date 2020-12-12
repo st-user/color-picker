@@ -1,6 +1,6 @@
-import HsvRgbConverter from './HsvRgbConverter.js';
+import HsvRgbConverter from '../common/HsvRgbConverter.js';
 import ScatterChart from './ScatterChart.js';
-import CommonEventDispatcher from './CommonEventDispatcher.js';
+import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 
 const whitespaceRegExp = /^\s+$/;
 const charRegExp = /[<>&"'\\]/;
@@ -15,7 +15,7 @@ const colorTemplate = data => {
 };
 
 
-export default class ColorDesignCheck {
+export default class ColorDesignView {
 
     #$colorDesignListOfColors;
     #$colorDesignListOfColorsText;
@@ -242,7 +242,7 @@ export default class ColorDesignCheck {
 
         this.#toggleListOfColorsText();
         this.#$tabInput.checked = true;
-        CommonEventDispatcher.hideColorPointerPin();
+        CommonEventDispatcher.hideColorPointerPinView();
     }
 
     #generateBarId() {

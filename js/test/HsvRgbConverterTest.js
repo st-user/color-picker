@@ -1,4 +1,4 @@
-import HsvRgbConverter from '../HsvRgbConverter.js';
+import HsvRgbConverter from '../common/HsvRgbConverter.js';
 
 /*globals assertEquals */
 const HsvRgbConverterTest = (() => {

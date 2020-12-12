@@ -1,7 +1,7 @@
-import HsvRgbConverter from './HsvRgbConverter.js';
-import { RgbColorBar, HsvColorBar } from './ColorBar.js';
-import debounce from './Debounce.js';
-import CustomEventNames from './CustomEventNames.js';
+import HsvRgbConverter from '../common/HsvRgbConverter.js';
+import { RgbColorBar, HsvColorBar } from '../common/ColorBar.js';
+import debounce from '../common/Debounce.js';
+import CustomEventNames from '../common/CustomEventNames.js';
 
 const toHex = d => {
     const val = Number(d).toString(16);
@@ -54,7 +54,7 @@ const InputChecker = (() => {
 
 const DEBOUNCE_MILLIS = 300;
 
-export default class ChangeColorController {
+export default class ColorControlView {
 
     #$viewColor;
     #$rgbColorCode;

@@ -1,4 +1,4 @@
-import HsvRgbConverter from './HsvRgbConverter.js';
+import HsvRgbConverter from '../common/HsvRgbConverter.js';
 
 const POINTER_AREA_HEIGHT = 8;
 const GRADIENT_AREA_WIDTH = 296;

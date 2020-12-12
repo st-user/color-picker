@@ -1,7 +1,7 @@
-import CanvasHandler from './CanvasHandler.js';
-import CustomEventNames from './CustomEventNames.js';
+import CanvasHandler from '../tool/CanvasHandler.js';
+import CustomEventNames from '../common/CustomEventNames.js';
 
-export default class ImageCanvasHandler extends CanvasHandler {
+export default class ImageCanvasView extends CanvasHandler {
 
     #$noImageData;
     #$tab;

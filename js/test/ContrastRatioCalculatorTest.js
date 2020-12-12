@@ -1,4 +1,4 @@
-import ContrastRatioCalculator from '../ContrastRatioCalculator.js';
+import ContrastRatioCalculator from '../contrast-ratio/ContrastRatioCalculator.js';
 
 /*globals assertFuzzyEquals */
 const ContrastRatioCalculatorTest = (() => {

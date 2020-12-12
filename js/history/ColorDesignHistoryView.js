@@ -1,5 +1,4 @@
-
-import StorageAccessor from './StorageAccessor.js';
+import StorageAccessor from '../common/StorageAccessor.js';
 
 const template = data => {
     let background;
@@ -19,9 +18,9 @@ const template = data => {
 const HISTORY_MAX_SIZE = 30;
 const STORAGE_KEY = 'colorDesignHistories';
 
-export default class ColorDesignHistories {
+export default class ColorDesignHistoryView {
 
-    #$colorDesignHistoriesListArea;
+    #$colorDesignHistoryViewListArea;
     #$tabInput;
     #$clearHistories;
 
@@ -31,7 +30,7 @@ export default class ColorDesignHistories {
     #patternCounter;
 
     constructor() {
-        this.#$colorDesignHistoriesListArea = document.querySelector('#colorDesignHistoriesListArea');
+        this.#$colorDesignHistoryViewListArea = document.querySelector('#colorDesignHistoriesListArea');
         this.#$tabInput = document.querySelector('#colorDesignHistoryTabTitle');
         this.#$clearHistories = document.querySelector('#clearColorDesignHistories');
         this.#patternMap = {};
@@ -43,7 +42,7 @@ export default class ColorDesignHistories {
     setUpEvents() {
         this.#$clearHistories.addEventListener('click', () => {
             if(confirm('全ての履歴が削除されますがよろしいですか？')) {
-                this.#$colorDesignHistoriesListArea.innerHTML = '';
+                this.#$colorDesignHistoryViewListArea.innerHTML = '';
                 this.#patternMap = {};
                 StorageAccessor.removeItem(STORAGE_KEY);
             }
@@ -70,7 +69,7 @@ export default class ColorDesignHistories {
         const patternId = this.#generatePatternId();
         this.#patternMap[patternId] = patternInfo;
 
-        const $histories = this.#$colorDesignHistoriesListArea.querySelectorAll('.history-content-area__history-color-design-bar');
+        const $histories = this.#$colorDesignHistoryViewListArea.querySelectorAll('.history-content-area__history-color-design-bar');
         if (HISTORY_MAX_SIZE <= $histories.length) {
             const $oldest = $histories[$histories.length - 1];
             const oldestId = $oldest.dataset.dataPatternId;
@@ -78,13 +77,13 @@ export default class ColorDesignHistories {
             $oldest.remove();
         }
 
-        this.#$colorDesignHistoriesListArea.insertAdjacentHTML('afterbegin', template({
+        this.#$colorDesignHistoryViewListArea.insertAdjacentHTML('afterbegin', template({
             patternId: patternId,
             patternName: patternInfo.patternName,
             colorInfoList: patternInfo.colorInfoList
         }));
 
-        const $newHistory = this.#$colorDesignHistoriesListArea.querySelectorAll('.history-content-area__history-color-design-bar')[0];
+        const $newHistory = this.#$colorDesignHistoryViewListArea.querySelectorAll('.history-content-area__history-color-design-bar')[0];
         $newHistory.addEventListener('click', () => {
             const customEvent = new CustomEvent('historyClick',
                 { detail: patternInfo }

@@ -1,4 +1,4 @@
-import RgbUtil from '../RgbUtil.js';
+import RgbUtil from '../common/RgbUtil.js';
 
 /*globals assertEquals */
 const RgbUtilTest = (() => {
