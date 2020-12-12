@@ -1,5 +1,5 @@
-@import "global";
-@import "global-draggable";
+@import 'global';
+@import 'global-draggable';
 
 /*
 * コントラスト比機能のcss
@@ -11,19 +11,19 @@
 
     &__each-function-area {
         margin: auto;
-        min-width: 588px;
-        max-width: 682px;
-        overflow: hidden;
         margin-bottom: 36px;
+        max-width: 682px;
+        min-width: 588px;
+        overflow: hidden;
     }
 
     %__explanations {
         cursor: pointer;
-        text-decoration: underline;
-        font-size: 12px;
         display: inline-block;
-        margin-left: 24px;
+        font-size: 12px;
         line-height: 18px;
+        margin-left: 24px;
+        text-decoration: underline;
     }
 
     &__explanations-to-close {
@@ -37,10 +37,10 @@
     &__function-explanations {
         @extend %g__clear;
         @extend %g__font-small;
-        list-style: disc;
-        padding-left: 24px;
-        margin-bottom: 24px;
         line-height: 1.5;
+        list-style: disc;
+        margin-bottom: 24px;
+        padding-left: 24px;
     }
 
     &__check-title {
@@ -55,8 +55,8 @@
     &__picked-color {
         @extend %g__border-normal;
         @extend %g-draggable__droppable-area-bg;
-        width: 212px;
         height: 44px;
+        width: 212px;
     }
 
     &__picked-color-bar {
@@ -87,13 +87,13 @@
     }
 
     &__picked-color-contrast-ratio {
-        padding-top: 16px;
-        width: 160px;
-        height: 60px;
-        text-align: center;
-        font-weight: bold;
-        line-height: 48px;
         font-size: 24px;
+        font-weight: bold;
+        height: 60px;
+        line-height: 48px;
+        padding-top: 16px;
+        text-align: center;
+        width: 160px;
     }
 
     &__check-criteria-area {
@@ -116,8 +116,8 @@
 
     &__check-criteria-title {
         @extend %__check-criteria-title;
-        width: 212px;
         line-height: 48px;
+        width: 212px;
     }
 
     &__check-criteria-checked {
@@ -127,20 +127,20 @@
 
     &__check-criteria-checked-title {
         display: inline-block;
-        width: 116px;
         line-height: 24px;
+        width: 116px;
     }
 
-    &__check-criteria-AA,
-    &__check-criteria-AAA {
+    &__check-criteria-aa,
+    &__check-criteria-aaa {
         font-weight: bold;
 
-        &.is-OK {
-            color: #30821B;
+        &.is-ok {
+            color: #30821b;
         }
 
-        &.is-NG {
-            color: #821B1B;
+        &.is-ng {
+            color: #821b1b;
         }
     }
 
@@ -154,24 +154,26 @@
         line-height: 48px;
 
         &.is-normal {
-            &.is-not-bold {
-                font-weight: normal;
+            &.is-not-bold { /* stylelint-disable-line max-nesting-depth */
                 font-size: 16pt;
+                font-weight: normal;
             }
-            &.is-bold {
-                font-weight: bold;
+
+            &.is-bold { /* stylelint-disable-line max-nesting-depth */
                 font-size: 12pt;
+                font-weight: bold;
             }
         }
 
         &.is-large {
-            &.is-not-bold {
-                font-weight: normal;
+            &.is-not-bold { /* stylelint-disable-line max-nesting-depth */
                 font-size: 20pt;
+                font-weight: normal;
             }
-            &.is-bold {
-                font-weight: bold;
+
+            &.is-bold { /* stylelint-disable-line max-nesting-depth */
                 font-size: 16pt;
+                font-weight: bold;
             }
         }
     }
@@ -209,8 +211,8 @@
     }
 
     &__auto-extraction-condition-item-line {
-        min-height: 24px;
         margin-bottom: 24px;
+        min-height: 24px;
     }
 
     &__auto-extraction-condition-item-title {
@@ -223,19 +225,18 @@
     }
 
     &__auto-extraction-condition-slider-title {
-        width: 32px;
         display: inline-block;
+        width: 32px;
     }
 
     &__auto-extraction-condition-range-slider-current {
         @extend %g__font-small;
         display: inline-block;
-        width: 112px;
         padding-left: 6px;
+        width: 112px;
     }
 
     &__auto-extraction-condition-range-slider-wrapper {
-
         &.has-next-slider {
             @extend %g__margin-bottom;
         }
@@ -243,8 +244,8 @@
 
     &__auto-extraction-condition-range-slider {
         display: inline-block;
-        width: 180px;
         height: 12px;
+        width: 180px;
     }
 
     &__auto-extraction-condition-hue-range-bar {
@@ -262,8 +263,8 @@
     &__auto-extraction-target-color-list {
         @extend %g-draggable__droppable-area-bg;
         @extend %g__border-normal;
-        width: 212px;
         min-height: 240px;
+        width: 212px;
     }
 
     &__auto-extraction-target-color-list-message {
@@ -272,26 +273,26 @@
     }
 
     &__auto-extraction-btn-wrapper {
-        width: 160px;
-        margin-top: 32px;
         float: left;
+        margin-top: 32px;
+        width: 160px;
     }
 
     &__auto-extraction-btn {
         @extend %g__shadow;
-        margin: auto;
-        height: 64px;
-        width: 64px;
-        padding-top: 16px;
-        padding-left: 32px;
+        background-color: #d7dae0;
         border-radius: 6px;
         cursor: pointer;
-        background-color: #D7DAE0;
+        height: 64px;
+        margin: auto;
         opacity: 0.7;
+        padding-left: 32px;
+        padding-top: 16px;
+        width: 64px;
 
         &.is-disabled {
-            opacity: 0.3;
             cursor: default;
+            opacity: 0.3;
         }
 
         &.is-disabled:hover {
@@ -319,19 +320,19 @@
     }
 
     &__auto-extraction-result-color-table tbody {
+        max-height: 215px;
         overflow-x: hidden;
         overflow-y: scroll;
-        max-height: 215px;
         width: 212px;
     }
 
     &__auto-extraction-result-color-table th,
     &__auto-extraction-result-color-table td {
-        width: 88px;
-        height: 24px;
-        text-align: center;
-        line-height: 24px;
         border: 1px solid #333334;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        width: 88px;
     }
 
     &__auto-extraction-result-color-bar {

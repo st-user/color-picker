@@ -1,4 +1,4 @@
-@import "global";
+@import 'global';
 
 /*
 * メインのカラーコード編集領域のcss
@@ -6,8 +6,8 @@
 
 .color-control-area {
     margin: auto;
-    width: 564px;
     margin-bottom: 12px;
+    width: 564px;
 
     %__btn-add-history-wrapper {
         float: right;
@@ -17,17 +17,17 @@
 
     &__view-color-wrapper {
         float: left;
-        padding: 6px;
         margin: 36px 24px 0 12px;
+        padding: 6px;
     }
 
     &__view-color {
         @extend %g__border-normal;
         @extend %g__shadow;
         border-radius: 6px;
-        width: 120px;
         height: 120px;
         transition: background-color 0.3s ease-in-out;
+        width: 120px;
     }
 
     &__edit-color {

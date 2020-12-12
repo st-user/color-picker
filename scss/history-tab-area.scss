@@ -1,11 +1,10 @@
-@import "global";
+@import 'global';
 
 /*
 * 履歴機能のタブのcss
 */
 
 .history-tab-area {
-
     &__tab-item {
         @extend %g__tab-item;
     }

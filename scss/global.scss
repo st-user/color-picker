@@ -4,7 +4,7 @@
 */
 
 %g__shadow {
-    box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.2);
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
 %g__margin-bottom {
@@ -18,9 +18,9 @@
 %g__h1 {
     float: left;
     font-size: 32px;
+    height: 64px;
     line-height: 2;
     text-align: center;
-    height: 64px;
     width: 100%;
 }
 
@@ -29,8 +29,8 @@
 }
 
 %g__group-background {
+    background-color: #faf7f8;
     padding: 6px;
-    background-color: #FAF7F8;
 }
 
 %g__clear {
@@ -43,27 +43,26 @@
 
 
 %g__tab-area {
-  margin-left: 8%;
-  margin-right: 8%;
-  min-width: 586px;
+    margin-left: 8%;
+    margin-right: 8%;
+    min-width: 586px;
 }
 
 %g__tab-item {
-  display: block;
-  float: left;
-
-  transition: all 0.2s ease;
-  background-color: #E0E0E0;
-  padding: 6px 12px 6px 12px;
+    background-color: #e0e0e0;
+    display: block;
+    float: left;
+    padding: 6px 12px;
+    transition: all 0.2s ease;
 }
 
 %g__tab-item-hover {
-  opacity: 0.8;
+    opacity: 0.8;
 }
 
 %g__tab-content {
-  display: none;
-  clear: both;
+    clear: both;
+    display: none;
 }
 
 %g__open-close-triangle {

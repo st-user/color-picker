@@ -232,14 +232,14 @@ export default class ContrastRatioCheck {
 
         this.#checkSuccessCriteriaEach(
             $element,
-            '.tool-contrast-ratio-area__check-criteria-AA',
+            '.tool-contrast-ratio-area__check-criteria-aa',
             ratio,
             checkerForAA
         );
 
         this.#checkSuccessCriteriaEach(
             $element,
-            '.tool-contrast-ratio-area__check-criteria-AAA',
+            '.tool-contrast-ratio-area__check-criteria-aaa',
             ratio,
             checkerForAAA
         );
@@ -249,8 +249,8 @@ export default class ContrastRatioCheck {
 
         const isCriteriaSatisfied = checker(ratio);
         const result = isCriteriaSatisfied ? 'OK' : 'NG';
-        const addClass = isCriteriaSatisfied ? 'is-OK' : 'is-NG';
-        const removeClass = isCriteriaSatisfied ? 'is-NG' : 'is-OK';
+        const addClass = isCriteriaSatisfied ? 'is-ok' : 'is-ng';
+        const removeClass = isCriteriaSatisfied ? 'is-ng' : 'is-ok';
 
         const $check = $element.querySelector(elSelector);
         $check.textContent = result;

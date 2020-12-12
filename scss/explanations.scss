@@ -1,4 +1,4 @@
-@import "global";
+@import 'global';
 
 /*
 * ヘッダー横の「？」押下で表示される説明文のcss
@@ -6,15 +6,15 @@
 
 .explanations {
     @extend %g__shadow;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.2);
+    left: 10%;
+    list-style: disc;
+    padding: 24px 24px 24px 36px;
     position: absolute;
     top: 64px;
     width: 80%;
-    left: 10%;
-    background-color: #FFFFFF;
-    list-style: disc;
-    padding: 24px 24px 24px 36px;
-    border-radius: 4px;
-    box-shadow: 3px 3px 3px 3px rgba(0,0,0,0.2);
     z-index: 100;
 
     &__li {

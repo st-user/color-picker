@@ -1,4 +1,4 @@
-@import "global";
+@import 'global';
 
 /*
 * HSVチャートから抽出 機能のcss
@@ -25,23 +25,23 @@
 
     &__value-slider-wrapper {
         float: left;
-        margin-left: 32px;
         margin-bottom: 24px;
+        margin-left: 32px;
     }
 
     &__value-slider-positioning {
-        width: 32px;
         position: relative;
+        width: 32px;
     }
 
     &__value-slider {
         @extend %g__border-normal;
-        -webkit-appearance: none;
+        -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
         appearance: none;
+        background: linear-gradient(to left, #fff, #000);
         height: 32px;
-        background: linear-gradient(to left, white, black);
-        outline: none;
         opacity: 0.8;
+        outline: none;
         position: absolute;
         top: 45%;
         transform: rotate(270deg);
@@ -52,36 +52,36 @@
     }
 
     &__value-slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
+        -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
         appearance: none;
-        height: 32px;
-        width: 8px;
+        background-color: #fff;
+        border: 1px solid #333334;
         border-radius: 0;
         cursor: pointer;
-        border: 1px solid #333334;
-        background-color: #FFFFFF;
+        height: 32px;
+        width: 8px;
     }
 
     &__value-slider::-moz-range-thumb {
-        height: 32px;
-        width: 8px;
+        background-color: #fff;
+        border: 1px solid #333334;
         border-radius: 0;
         cursor: pointer;
-        border: 1px solid #333334;
-        background-color: #FFFFFF;
+        height: 32px;
+        width: 8px;
     }
 
     &__control-title {
-        float: left;
         display: inline-block;
-        width: 64px;
+        float: left;
         line-height: 1;
+        width: 64px;
     }
 
     &__control-line {
         margin: auto;
-        width: 178px;
         margin-bottom: 6px;
+        width: 178px;
 
         &.has-next-line {
             @extend %g__clear;
@@ -90,13 +90,13 @@
     }
 
     &__control-item {
+        background-color: #fff;
         display: block;
         float: left;
-        transition: all 0.2s ease;
-        background-color: #FFFFFF;
         padding: 3px;
-        width: 32px;
         text-align: center;
+        transition: all 0.2s ease;
+        width: 32px;
     }
 
     &__control-item:hover {

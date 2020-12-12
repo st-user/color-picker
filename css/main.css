@@ -1,57 +1,62 @@
 @charset "utf-8";
 
-.clearfixContainer:after {
-  content: "";
-  display: block;
-  clear: both;
+/*
+* BEM(sass)に落とし込むと煩雑になると思われるセレクタや
+* サードパーティのスタイルを上書きするセレクタなど
+*/
+
+.clearfixContainer::after {
+    clear: both;
+    content: '';
+    display: block;
 }
 
 /* tool tab control start */
-input[name="toolTabItem"] {
-  display: none;
+input[name='toolTabItem'] {
+    display: none;
 }
 
 #hsvCircleAreaTabTitle:checked ~ #hsvCircleArea,
 #imageFileAreaTabTitle:checked ~ #imageFileArea,
 #contrastRatioTabTitle:checked ~ #contrastRatioArea,
 #colorDesignAreaTabTitle:checked ~ #colorDesignArea {
-  display: block;
+    display: block;
 }
 
 #toolArea input:checked + .tool-tab-area__tab-item {
-  background-color: #54636E;
-  color: #FFFFFF;
+    background-color: #54636e;
+    color: #fff;
 }
 /* tool tab control end */
 
 
 /*HSVチャートから抽出*/
 /* tab control start */
-input[name="hsvCircleSizeSwitch"],
-input[name="hsvCircleDivisionCountSwitch"] {
+input[name='hsvCircleSizeSwitch'],
+input[name='hsvCircleDivisionCountSwitch'] {
     display: none;
 }
 
 .tool-hsv-circle-area__control-line input:checked + .tool-hsv-circle-area__control-item {
-  background-color: #151F52;
-  color: #FFFFFF;
+    background-color: #151f52;
+    color: #fff;
 }
 /* tab control end */
 
 
 /* history tab control start */
-input[name="historyTabItem"] {
-  display: none;
+input[name='historyTabItem'] {
+    display: none;
 }
 
 #colorCodeHistoryTabTitle:checked ~ #colorCodeHistoryArea,
 #colorDesignHistoryTabTitle:checked ~ #colorDesignHistoryArea {
-  display: block;
+    display: block;
 }
 
 #colorInfoHistoryArea input:checked + .history-tab-area__tab-item {
-  background-color: #54636E;
-  color: #fff;
+    background-color: #54636e;
+    color: #fff;
 }
 /* history tab control end */
 
@@ -59,17 +64,17 @@ input[name="historyTabItem"] {
 
 /* override noUi  :start*/
 .noUi-connect {
-  height: 18px;
+    height: 18px;
 }
 
 .noUi-horizontal .noUi-handle {
-  width: 12px;
-  right: -5px;
-  height: 24px
+    height: 24px;
+    right: -5px;
+    width: 12px;
 }
 
-.noUi-handle:before,
-.noUi-handle:after {
-  display: none;
+.noUi-handle::before,
+.noUi-handle::after {
+    display: none;
 }
 /* override noUi  :end*/

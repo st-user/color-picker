@@ -1,4 +1,4 @@
-@import "global";
+@import 'global';
 
 /*
 * 画像から抽出機能のcss
@@ -21,10 +21,10 @@
         @extend %g__border-normal;
         @extend %g__font-small;
         @extend %g__margin-bottom;
-        padding: 6px 6px 6px 24px;
+        height: 180px;
         line-height: 1.5;
         list-style: disc;
+        padding: 6px 6px 6px 24px;
         width: 320px;
-        height: 180px;
     }
 }

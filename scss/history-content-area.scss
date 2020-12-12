@@ -1,4 +1,4 @@
-@import "global";
+@import 'global';
 
 /*
 * 履歴機能のcss
@@ -19,59 +19,64 @@
 
     %__history-bar {
         @extend %g__border-normal;
-        float: left;
-        cursor: pointer;
-        border-radius: 3px;
         animation: history-content-area__expand 0.8s;
+        background-color: #fff;
+        border-radius: 3px;
+        cursor: pointer;
+        float: left;
         overflow: hidden;
-        background-color: #FFFFFF;
     }
 
     @keyframes history-content-area__expand {
-      0% { transform: scale(0); }
-      100% { transform: scale(1); }
+        0% {
+            transform: scale(0);
+        }
+
+        100% {
+            transform: scale(1);
+        }
     }
 
     &__history-color-bar {
         @extend %g__shadow;
         @extend %__history-bar;
-        width: 100px;
-        margin-right: 6px;
         margin-bottom: 24px;
+        margin-right: 6px;
+        width: 100px;
     }
 
     &__history-color-bar-color-mark {
         @extend %g__font-small;
-        float: left;
-        width: 20px;
-        height: 18px;
         border-right: 1px solid #333334;
+        float: left;
+        height: 18px;
+        width: 20px;
     }
 
     &__history-color-bar-color-code {
         @extend %g__font-small;
         float: left;
-        width: 79px;
-        text-align: center;
         line-height: 1.5;
+        text-align: center;
+        width: 79px;
     }
 
     &__history-color-design-bar {
         @extend %g__shadow;
         @extend %__history-bar;
-        width: 200px;
-        margin-right: 3px;
         margin-bottom: 12px;
+        margin-right: 3px;
+        width: 200px;
     }
 
     &__history-color-design-bar-name {
-        text-align: center;
         font-size: 12px;
         line-height: 1.5;
+        text-align: center;
     }
 
     &__history-color-design-bar-gradient {
-        width: 200px;
         height: 16px;
+        width: 200px;
     }
 }

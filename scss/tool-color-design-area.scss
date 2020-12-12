@@ -1,18 +1,15 @@
-@import "global";
-@import "global-draggable";
-
+@import 'global';
+@import 'global-draggable';
 /*
 * 配色チェック機能のcss
 */
-
 .tool-color-design-area {
     @extend %g__tab-content;
     @extend %g__group-background;
 
-
     &__color-design-container {
-        width: 586px;
         margin: auto;
+        width: 586px;
     }
 
     &__list-of-colors {
@@ -20,14 +17,13 @@
         @extend %g__margin-right;
         @extend %g-draggable__droppable-area-bg;
         float: left;
-        width: 200px;
         min-height: 360px;
+        width: 200px;
     }
 
     &__list-of-colors-text {
         @extend %g__font-small;
         @extend %g-draggable__droppable-area-message;
-
     }
 
     &__picked-color-bar {
@@ -44,9 +40,9 @@
 
     &__chart-area {
         @extend %g__margin-bottom;
+        background-color: #fff;
         float: left;
         height: 360px;
-        background-color: #FFFFFF;
     }
 
     &__chart {
@@ -54,43 +50,44 @@
     }
 
     &__chart-circle {
-        animation-name: tool-color-design-area__circle-slideIn;
         animation-duration: 1s;
+        animation-name: tool-color-design-area__circle-slideIn;
         opacity: 0.7;
     }
-
     @keyframes tool-color-design-area__circle-slideIn {
-      0% {
-        transform: translateX(-100px);
-        opacity: 0;
-      }
-      60% {
-        transform: translateX(20px);
-      }
-      100% {
-        transform: translateX(0);
-        opacity: 0.7;
-      }
+        0% {
+            opacity: 0;
+            transform: translateX(-100px);
+        }
+
+        60% {
+            transform: translateX(20px);
+        }
+
+        100% {
+            opacity: 0.7;
+            transform: translateX(0);
+        }
     }
 
     &__chart-tooptip {
-        position: absolute;
-        background-color: #FFFFFF;
+        background-color: #fff;
         border: 1px solid #333334;
         border-radius: 2px;
         padding: 6px;
+        position: absolute;
     }
 
     &__chart-tooltip-line-color-mark {
-        display: inline-block;;
-        width: 12px;
+        display: inline-block;
         height: 12px;
+        width: 12px;
     }
 
     &__chart-tooltip-line-color {
-        display: inline-block;;
-        width: 12px;
+        display: inline-block;
         height: 12px;
+        width: 12px;
     }
 
     &__chart-tooltip-line-color-code {
@@ -106,8 +103,8 @@
     &__history-control-wrapper {
         @extend %g__clear;
         float: right;
-        width: 330px;
         margin-right: 6px;
+        width: 330px;
     }
 
     &__input-pattern-name {
@@ -115,6 +112,6 @@
     }
 
     &__input-pattern-name-error {
-        color: #A63838;
+        color: #a63838;
     }
 }

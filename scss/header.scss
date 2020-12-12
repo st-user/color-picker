@@ -1,4 +1,4 @@
-@import "global";
+@import 'global';
 
 /*
 * ヘッダー部分のcss
@@ -10,38 +10,38 @@
     &__title {
         float: left;
         font-size: 32px;
+        height: 64px;
         line-height: 2;
         text-align: center;
-        height: 64px;
         width: 100%;
     }
 
     &__btn-show-explanations-wrapper {
-        width: 12%;
         position: absolute;
-        top: 0;
         right: 0;
+        top: 0;
+        width: 12%;
     }
 
     &__btn-show-explanations {
         @extend %g__shadow;
-        background-color: #54636E;
-        color: #FFFFFF;
+        background-color: #54636e;
         border-radius: 50%;
-        height: 24px;
-        width: 24px;
-        line-height: 1.5;
-        font-weight: bold;
-        text-align: center;
+        color: #fff;
         cursor: pointer;
+        font-weight: bold;
+        height: 24px;
+        line-height: 1.5;
         position: absolute;
+        text-align: center;
         top: 20px;
+        width: 24px;
     }
 
     &__remark-about-browser {
+        font-size: 12px;
         margin: auto;
         margin-bottom: 36px;
         width: 564px;
-        font-size: 12px;
     }
 }
