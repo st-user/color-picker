@@ -45,8 +45,8 @@ export default class HsvCircleCanvasView extends CanvasHandler {
     #currentArcStep;
     #currentValue;
 
-    constructor() {
-        super({
+    constructor(colorModel) {
+        super(colorModel, {
             canvasSelector: '#hsvCircleData',
             defaultWidth: DEFAULT_CIRCLE_SIZE_CONFIG.width,
             defaultHeight: DEFAULT_CIRCLE_SIZE_CONFIG.height

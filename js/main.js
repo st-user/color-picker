@@ -12,45 +12,38 @@ import ContrastRatioAutoExtractionView from './contrast-ratio/ContrastRatioAutoE
 import ColorDesignHistoryView from './history/ColorDesignHistoryView.js';
 import CustomEventNames from './common/CustomEventNames.js';
 
+import ColorModel from './common/ColorModel.js';
+import Color from './common/Color.js';
 
 
 export default function main() {
 
+    const colorModel = new ColorModel(
+        CustomEventNames.COLOR_PICKER__CHANGE_COLOR_ON_COLOR_CONTROL_VIEW,
+        new Color({ colorCode: '#ffffff' })
+    );
+
     const explanationsView = new ExplanationsView();
-    const colorControlView = new ColorControlView();
+    const colorControlView = new ColorControlView(colorModel);
     const toolTabsView = new ToolTabsView();
-    const hsvCircleCanvasView = new HsvCircleCanvasView();
-    const imageCanvasView = new ImageCanvasView();
+    const hsvCircleCanvasView = new HsvCircleCanvasView(colorModel);
+    const imageCanvasView = new ImageCanvasView(colorModel);
     const colorPointerPinView = new ColorPointerPinView();
     const loadedImageHolder = new LoadedImageHolder();
     const contrastRatioCheckView = new ContrastRatioCheckView();
     const contrastRatioAutoExtractionView = new ContrastRatioAutoExtractionView();
     const colorDesignView = new ColorDesignView();
-    const colorCodeHistoryView = new ColorCodeHistoryView();
+    const colorCodeHistoryView = new ColorCodeHistoryView(colorModel);
     const colorDesignHistoryView = new ColorDesignHistoryView();
 
+    /** 説明 */
     explanationsView.setUpEvents();
 
-    /*
-   * RGB, HSVのスライダー関係のイベントハンドラーの設定
-   */
-    colorControlView.setUpEvents(
-        colorCode => colorCodeHistoryView.addColorCode(colorCode, true),
-        colorCode => colorCodeHistoryView.addColorIfAutomatic(colorCode)
-    );
+    /** RGB, HSVのスライダー関係のイベントハンドラーの設定 */
+    colorControlView.setUpEvents();
     colorCodeHistoryView.setUpEvents();
 
-    colorCodeHistoryView.onChangeAutomationState(isAutomatic => {
-        colorControlView.changeAddHistoryControlState(isAutomatic);
-    });
-    colorCodeHistoryView.onClickHistory(colorCode => {
-        colorControlView.setColorValuesFromValidColorCode(colorCode);
-    });
-    colorControlView.changeAddHistoryControlState(true);
-
-    /*
-   * 画像ファイル関係のイベントハンドラーの設定
-   */
+    /** 画像ファイル関係のイベントハンドラーの設定 */
     toolTabsView.setUpEvent();
     hsvCircleCanvasView.setUpEvent();
     imageCanvasView.setUpEvent();
@@ -60,9 +53,7 @@ export default function main() {
     colorPointerPinView.setUpEvent();
 
 
-    /*
-   * 配色チェック関係のイベントハンドラーの設定
-   */
+    /** 配色チェック関係のイベントハンドラーの設定 */
     colorDesignView.setUpEvents(data => {
         colorDesignHistoryView.addHistoryThenShowColorDesignTab(data);
     });

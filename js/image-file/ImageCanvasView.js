@@ -6,8 +6,8 @@ export default class ImageCanvasView extends CanvasHandler {
     #$noImageData;
     #$tab;
 
-    constructor() {
-        super({
+    constructor(colorModel) {
+        super(colorModel, {
             canvasSelector: '#imageData',
             defaultWidth: 160,
             defaultHeight: 90

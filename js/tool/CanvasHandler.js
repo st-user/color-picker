@@ -4,12 +4,17 @@ import ElementUtil from '../common/ElementUtil.js';
 
 export default class CanvasHandler {
 
+    #colorModel;
+
     #$canvas;
 
     #currentEventXY;
     #shouldHandleMousemoveEvent;
 
-    constructor(config) {
+    constructor(colorModel, config) {
+
+        this.#colorModel = colorModel;
+
         const $canvas = document.querySelector(config.canvasSelector);
 
         $canvas.width = config.defaultWidth;
@@ -60,12 +65,12 @@ export default class CanvasHandler {
                 CustomEventNames.COLOR_PICKER__IMAGE_DATA_POINTED, {
                     detail: {
                         eventX: this.#currentEventXY.x(),
-                        eventY: this.#currentEventXY.y(),
-                        rgbaData: rgbaData
+                        eventY: this.#currentEventXY.y()
                     }
                 });
 
             document.dispatchEvent(newEvent);
+            this.#colorModel.setRgb(rgbaData[0], rgbaData[1], rgbaData[2]);
         }
     }
 

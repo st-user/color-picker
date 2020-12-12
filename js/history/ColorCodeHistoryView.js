@@ -1,4 +1,7 @@
 import StorageAccessor from '../common/StorageAccessor.js';
+import CustomEventNames from '../common/CustomEventNames.js';
+import Constants from '../common/Constants.js';
+import debounce from '../common/Debounce.js';
 
 const template = data => {
     return `
@@ -14,23 +17,25 @@ const STORAGE_KEY = 'colorCodeHistories';
 
 export default class ColorCodeHistoryView {
 
+    #colorModel;
+    #isHistoryUpdateAutomatically;
+    #isHistoryClickContext;
+
     #$historiesListArea;
     #$tabInput;
-    #$storeHistoriesAutomatically;
+
     #$clearHistories;
 
     #colorCodes;
 
-    #$observerOnClickHistory;
+    constructor(colorModel) {
 
-    constructor() {
+        this.#colorModel = colorModel;
+
         this.#$historiesListArea = document.querySelector('#historiesListArea');
         this.#$tabInput = document.querySelector('#colorCodeHistoryTabTitle');
-        this.#$storeHistoriesAutomatically = document.querySelector('#storeHistoriesAutomatically');
         this.#$clearHistories = document.querySelector('#clearHistories');
         this.#colorCodes = [];
-
-        this.#$observerOnClickHistory = document.createElement('div');
     }
 
     setUpEvents() {
@@ -41,33 +46,38 @@ export default class ColorCodeHistoryView {
                 StorageAccessor.removeItem(STORAGE_KEY);
             }
         });
+
+        document.addEventListener(CustomEventNames.COLOR_PICKER__UPDATE_COLOR_CODE_HISTORY, event => {
+            const color = event.detail.color;
+            this.#addColorCode(color.getColorCode(), true);
+        });
+
+        document.addEventListener(CustomEventNames.COLOR_PICKER__CHANGE_STATE_OF_AUTO_HISTORY_UPDATE, event => {
+            const stateValue = event.detail.stateValue;
+            this.#isHistoryUpdateAutomatically = stateValue;
+        });
+
+        document.addEventListener(CustomEventNames.COLOR_PICKER__CHANGE_COLOR_ON_COLOR_CONTROL_VIEW, debounce(event => {
+            const current = this.#isHistoryClickContext;
+            this.#isHistoryClickContext = false;
+            if (current || !this.#isHistoryUpdateAutomatically) {
+                this.#isHistoryClickContext = false;
+                return;
+            }
+            const color = event.detail.color;
+            this.#addColorCode(color.getColorCode(), false);
+        }, 500));
+
+        this.#isHistoryUpdateAutomatically = Constants.AUTO_HISTORY_UPDATE_STATE_DEFAULT;
+        this.#isHistoryClickContext = false;
+
         const storedColorCodes = StorageAccessor.getObject(STORAGE_KEY);
         if (storedColorCodes) {
-            storedColorCodes.forEach(cc => this.addColorCode(cc, false));
+            storedColorCodes.forEach(cc => this.#addColorCode(cc, false));
         }
     }
 
-    onChangeAutomationState(handler) {
-
-        this.#$storeHistoriesAutomatically.addEventListener('change', () => {
-            handler(this.#$storeHistoriesAutomatically.checked);
-        });
-    }
-
-    onClickHistory(handler) {
-        this.#$observerOnClickHistory.addEventListener('historyClick', event => {
-            const colorCode = event.detail;
-            handler(colorCode);
-        });
-    }
-
-    addColorIfAutomatic(newColorCode) {
-        if (this.#$storeHistoriesAutomatically.checked) {
-            this.addColorCode(newColorCode, false);
-        }
-    }
-
-    addColorCode(newColorCode, needsAlert) {
+    #addColorCode(newColorCode, needsAlert) {
         const colorCodes = this.#colorCodes;
         const isSameColorCode = newColorCode === colorCodes[colorCodes.length - 1];
 
@@ -89,14 +99,12 @@ export default class ColorCodeHistoryView {
             template({ colorCode: newColorCode })
         );
 
-
         const $newHistory = this.#$historiesListArea.querySelectorAll('.history-content-area__history-color-bar')[0];
         $newHistory.addEventListener('click', () => {
-            const customEvent = new CustomEvent('historyClick',
-                { detail: newColorCode }
-            );
-            this.#$observerOnClickHistory.dispatchEvent(customEvent);
+            this.#isHistoryClickContext = true;
+            this.#colorModel.setColorCode(newColorCode);
         });
+
         $newHistory.addEventListener('dragstart', e => {
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/plain', newColorCode);
