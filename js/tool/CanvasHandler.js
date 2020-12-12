@@ -70,7 +70,7 @@ export default class CanvasHandler {
                 });
 
             document.dispatchEvent(newEvent);
-            this.#colorModel.setRgb(rgbaData[0], rgbaData[1], rgbaData[2]);
+            this.#colorModel.setRgbFromValidInteger(rgbaData[0], rgbaData[1], rgbaData[2]);
         }
     }
 

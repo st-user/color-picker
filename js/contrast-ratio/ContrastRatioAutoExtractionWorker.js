@@ -18,7 +18,7 @@ const ContrastRatioAutoExtractionWorker = (() => {
         extractHighestContrastRatios: message => {
 
             const condition = message.condition;
-            const targetColors = message.targetColors;
+            const targetColorLuminances = message.targetColorLuminances;
 
             const targetRange = condition.targetRange;
             const hueRange = condition.hueRange;
@@ -28,9 +28,6 @@ const ContrastRatioAutoExtractionWorker = (() => {
 
             const resultArray = [];
             let currentMin = message.currentMinScore;
-            const targetColorLuminances = targetColors.map(
-                tc => ContrastRatioCalculator.calcLuminance(tc.r, tc.g, tc.b)
-            );
 
             for (let colorCodeCount = targetRange[0]; colorCodeCount < targetRange[1]; colorCodeCount++) {
 

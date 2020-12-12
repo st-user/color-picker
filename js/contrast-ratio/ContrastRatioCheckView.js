@@ -1,7 +1,8 @@
-
 import ContrastRatioCalculator from './ContrastRatioCalculator.js';
 import HsvRgbConverter from '../common/HsvRgbConverter.js';
 import ContrastRatioExplanations from './ContrastRatioExplanations.js';
+import ContrastRatioCheckModel from './ContrastRatioCheckModel.js';
+import CustomEventNames from '../common/CustomEventNames.js';
 
 const pickedColorTemplate = data => {
     return `
@@ -15,6 +16,8 @@ const pickedColorTemplate = data => {
 
 export default class ContrastRatioCheckView {
 
+    #contrastRatioCheckModel;
+
     #explanations;
 
     #$contrastRatioPickedColor1;
@@ -24,13 +27,13 @@ export default class ContrastRatioCheckView {
     #$contrastRatioCheckCriteriaNormal;
     #$contrastRatioCheckCriteriaLarge;
 
-    #colorInfo1;
-    #colorInfo2;
     #isSwapping;
 
     #droppedBarCounter;
 
     constructor() {
+
+        this.#contrastRatioCheckModel = new ContrastRatioCheckModel();
 
         this.#explanations = new ContrastRatioExplanations(
             '#contrastRatioCheckTitle .tool-contrast-ratio-area__explanations-to-close',
@@ -45,8 +48,6 @@ export default class ContrastRatioCheckView {
         this.#$contrastRatioCheckCriteriaNormal = document.querySelector('#contrastRatioCheckCriteriaNormal');
         this.#$contrastRatioCheckCriteriaLarge = document.querySelector('#contrastRatioCheckCriteriaLarge');
 
-        this.#colorInfo1 = {};
-        this.#colorInfo2 = {};
         this.#isSwapping = false;
 
         this.#droppedBarCounter = 0;
@@ -70,36 +71,13 @@ export default class ContrastRatioCheckView {
                 }
 
                 if (this.#isSwapping) {
-                    this.#swapColors();
+                    this.#contrastRatioCheckModel.swapColors();
                     return;
                 }
 
                 if (dataTransferred.indexOf('#') === 0) {
-
-                    const $existingBar = $element.querySelector('.tool-contrast-ratio-area__picked-color-bar');
-                    if ($existingBar) {
-                        $existingBar.remove();
-                    }
-                    const colorCode = dataTransferred;
-                    const id = this.#generateBarId();
-
-                    const colorBar = pickedColorTemplate({
-                        id: id, colorCode: colorCode
-                    });
-                    const r = HsvRgbConverter.colorCodeToR(colorCode);
-                    const g = HsvRgbConverter.colorCodeToG(colorCode);
-                    const b = HsvRgbConverter.colorCodeToB(colorCode);
-                    const luminance = ContrastRatioCalculator.calcLuminance(r, g, b);
-
-                    colorInfoSetter({
-                        colorCode: colorCode,
-                        luminance: luminance
-                    });
-
-                    $element.insertAdjacentHTML('beforeend', colorBar);
-
-                    this.#setUpBarEvent($element, colorCode);
-                    this.#reflectContrastRatioInfo();
+                    const colorCode = dataTransferred
+                    colorInfoSetter(colorCode);
                 }
 
             });
@@ -108,26 +86,31 @@ export default class ContrastRatioCheckView {
         preventDefaultOnDragover(this.#$contrastRatioPickedColor1);
         preventDefaultOnDragover(this.#$contrastRatioPickedColor2);
 
-        setPickedColor(this.#$contrastRatioPickedColor1, l => this.#colorInfo1 = l);
-        setPickedColor(this.#$contrastRatioPickedColor2, l => this.#colorInfo2 = l);
+        setPickedColor(this.#$contrastRatioPickedColor1,
+            color => this.#contrastRatioCheckModel.setBackgroundColorFromColorCode(color)
+        );
+        setPickedColor(this.#$contrastRatioPickedColor2,
+            color => this.#contrastRatioCheckModel.setTextColorFromColorCode(color)
+        );
+
+        document.addEventListener(CustomEventNames.COLOR_PICKER__CHANGE_CONTRAST_RATIO_CHECK_COLOR, event => {
+            const bgColor = event.detail.backgroundColor;
+            const textColor = event.detail.textColor;
+            this.#renderContrastRatioInfo(bgColor, textColor);
+        });
 
         this.#explanations.setUpEvent();
     }
 
-    #swapColors() {
-        const colorInfo1 = this.#colorInfo1;
-        const colorInfo2 = this.#colorInfo2;
+    #renderContrastRatioInfo(backgroundColor, textColor) {
 
-        this.#colorInfo2 = colorInfo1;
-        this.#colorInfo1 = colorInfo2;
+        this.#renewColorBar(this.#$contrastRatioPickedColor1, backgroundColor);
+        this.#renewColorBar(this.#$contrastRatioPickedColor2, textColor);
 
-        this.#renewColorBar(this.#$contrastRatioPickedColor1, this.#colorInfo1.colorCode);
-        this.#renewColorBar(this.#$contrastRatioPickedColor2, this.#colorInfo2.colorCode);
-
-        this.#reflectContrastRatioInfo();
+        this.#reflectContrastRatioInfo(backgroundColor, textColor);
     }
 
-    #renewColorBar($element, colorCode) {
+    #renewColorBar($element, color) {
 
         const $existingBar = $element.querySelector('.tool-contrast-ratio-area__picked-color-bar');
 
@@ -135,11 +118,12 @@ export default class ContrastRatioCheckView {
             $existingBar.remove();
         }
 
-        if (!colorCode) {
+        if (!color) {
             const $message = $element.querySelector('.tool-contrast-ratio-area__picked-color-message');
             $message.style.display = 'block';
             return;
         }
+        const colorCode = color.getColorCode();
 
         const id = this.#generateBarId();
         const colorBar = pickedColorTemplate({
@@ -178,20 +162,20 @@ export default class ContrastRatioCheckView {
         $message.style.display = 'none';
     }
 
-    #reflectContrastRatioInfo() {
-        if (!this.#colorInfo1.colorCode || !this.#colorInfo2.colorCode) {
+    #reflectContrastRatioInfo(backgroundColor, textColor) {
+        if (!backgroundColor || !textColor) {
             return;
         }
-        this.#drawContrastRatio();
+        this.#drawContrastRatio(backgroundColor, textColor);
         this.#changeColor(
             this.#$contrastRatioCheckCriteriaNormal,
-            this.#colorInfo1.colorCode,
-            this.#colorInfo2.colorCode
+            backgroundColor.getColorCode(),
+            textColor.getColorCode()
         );
         this.#changeColor(
             this.#$contrastRatioCheckCriteriaLarge,
-            this.#colorInfo1.colorCode,
-            this.#colorInfo2.colorCode
+            backgroundColor.getColorCode(),
+            textColor.getColorCode()
         );
     }
 
@@ -202,10 +186,10 @@ export default class ContrastRatioCheckView {
         });
     }
 
-    #drawContrastRatio() {
+    #drawContrastRatio(backgroundColor, textColor) {
 
-        const luminanceColor1 = this.#colorInfo1.luminance;
-        const luminanceColor2 = this.#colorInfo2.luminance;
+        const luminanceColor1 = backgroundColor.calcLuminance();
+        const luminanceColor2 = textColor.calcLuminance();
 
         const ratio = ContrastRatioCalculator.calcContrastRatio(luminanceColor1, luminanceColor2);
         let r1 = ratio, r2 = 1;

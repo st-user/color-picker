@@ -41,6 +41,8 @@ const InputChecker = (() => {
     };
 })();
 
+const parseInt10 = value => parseInt(value, 10);
+
 export default class ColorModel {
 
     #eventName;
@@ -64,16 +66,26 @@ export default class ColorModel {
         this.#dispatchEvent();
     }
 
-    setRgb(r, g, b) {
+    setRgbFromValidInteger(r, g, b) {
+        this.#color.setRgb(r, g, b);
+        this.#dispatchEvent();
+    }
+
+    setHsvFromValidInteger(h, s, v) {
+        this.#color.setHsv(h, s, v);
+        this.#dispatchEvent();
+    }
+
+    setRgbFromString(r, g, b) {
         if(InputChecker.checkRgbInputRange(r) && InputChecker.checkRgbInputRange(g) && InputChecker.checkRgbInputRange(b)) {
-            this.#color.setRgb(r, g, b);
+            this.#color.setRgb(parseInt10(r), parseInt10(g), parseInt10(b));
         }
         this.#dispatchEvent();
     }
 
-    setHsv(h, s, v) {
+    setHsvFromString(h, s, v) {
         if(InputChecker.checkHueInputRange(h) && InputChecker.checkSvInputRange(s) && InputChecker.checkSvInputRange(v)) {
-            this.#color.setHsv(h, s, v);
+            this.#color.setHsv(parseInt10(h), parseInt10(s), parseInt10(v));
         }
         this.#dispatchEvent();
     }

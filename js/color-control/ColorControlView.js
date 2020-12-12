@@ -72,7 +72,7 @@ export default class ColorControlView {
 
         const setHandlerOnRgbSilderChange = element => {
             element.addEventListener('change', () => {
-                this.#colorModel.setRgb(
+                this.#colorModel.setRgbFromString(
                     this.#$rgbSilder_r.value, this.#$rgbSilder_g.value, this.#$rgbSilder_b.value
                 );
             });
@@ -80,7 +80,7 @@ export default class ColorControlView {
 
         const setHandlerOnRgbTextChange = element => {
             element.addEventListener('change', () => {
-                this.#colorModel.setRgb(
+                this.#colorModel.setRgbFromString(
                     this.#$rgbText_r.value, this.#$rgbText_g.value, this.#$rgbText_b.value
                 );
             });
@@ -88,7 +88,7 @@ export default class ColorControlView {
 
         const setHandlerOnHsvSilderChange = element => {
             element.addEventListener('change', () => {
-                this.#colorModel.setHsv(
+                this.#colorModel.setHsvFromString(
                     this.#$hsvSilder_h.value, this.#$hsvSilder_s.value, this.#$hsvSilder_v.value
                 );
             });
@@ -96,7 +96,7 @@ export default class ColorControlView {
 
         const setHandlerOnHsvTextChange = element => {
             element.addEventListener('change', () => {
-                this.#colorModel.setHsv(
+                this.#colorModel.setHsvFromString(
                     this.#$hsvText_h.value, this.#$hsvText_s.value, this.#$hsvText_v.value
                 );
             });
@@ -151,7 +151,7 @@ export default class ColorControlView {
         });
 
         this.#stateOfAutoHistoryUpdate.setStateValue(Constants.AUTO_HISTORY_UPDATE_STATE_DEFAULT);
-        this.#colorModel.setRgb(151, 179, 237);
+        this.#colorModel.setRgbFromValidInteger(151, 179, 237);
     }
 
     getControllersUsingWithArrowKey() {

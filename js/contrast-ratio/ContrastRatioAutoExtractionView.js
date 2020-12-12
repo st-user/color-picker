@@ -1,7 +1,8 @@
-
 import HsvRgbConverter from '../common/HsvRgbConverter.js';
 import ContrastRatioAutoExtractionConditionView from './ContrastRatioAutoExtractionConditionView.js';
 import ContrastRatioExplanations from './ContrastRatioExplanations.js';
+import CustomEventNames from '../common/CustomEventNames.js';
+import ContrastRatioAutoExtractionColorListModel from './ContrastRatioAutoExtractionColorListModel.js';
 
 const targetColorTemplate = data => {
     return `
@@ -24,6 +25,8 @@ const resultColorTemplate = data => {
 
 export default class ContrastRatioAutoExtractionView {
 
+    #targetColorListModel;
+
     #explanations;
 
     #$contrastRatioExtractionAreaContents;
@@ -44,12 +47,12 @@ export default class ContrastRatioAutoExtractionView {
     #isDraggingTargetColor;
     #condition;
     #isExecuting;
-    #targetColorMap;
 
-    #droppedBarCounter;
     #workers;
 
     constructor() {
+
+        this.#targetColorListModel = new ContrastRatioAutoExtractionColorListModel();
 
         this.#explanations = new ContrastRatioExplanations(
             '#contrastRatioExtractionTitle .tool-contrast-ratio-area__explanations-to-close',
@@ -59,6 +62,7 @@ export default class ContrastRatioAutoExtractionView {
 
         this.#$contrastRatioExtractionAreaContents = document.querySelector('#contrastRatioExtractionAreaContents');
         this.#$contrastRatioExtractionTitle = document.querySelector('#contrastRatioExtractionTitle');
+        this.#isOpened = false;
 
         this.#$contrastRatioTargetColorList = document.querySelector('#contrastRatioTargetColorList');
         this.#$contrastRatioResultColorList = document.querySelector('#contrastRatioResultColorList');
@@ -70,13 +74,9 @@ export default class ContrastRatioAutoExtractionView {
         this.#$contrastRatioResultColorExecuting = document.querySelector('#contrastRatioResultColorExecuting');
         this.#$contrastRatioResultColorMessage = document.querySelector('#contrastRatioResultColorMessage');
 
-        this.#isOpened = false;
         this.#isDraggingTargetColor = false;
         this.#condition = new ContrastRatioAutoExtractionConditionView();
         this.#isExecuting = false;
-        this.#targetColorMap = {};
-
-        this.#droppedBarCounter = 0;
 
         this.#workers = [];
 
@@ -115,14 +115,13 @@ export default class ContrastRatioAutoExtractionView {
             if (dataTransferred.indexOf('#') === 0) {
 
                 const colorCode = dataTransferred;
-                this.#appendToColorList(colorCode);
-
+                this.#targetColorListModel.addOneColorCode(colorCode);
 
             } else {
 
                 const patternInfo = JSON.parse(dataTransferred);
-                patternInfo.colorInfoList.forEach(
-                    colorInfo => this.#appendToColorList(colorInfo.colorCode)
+                this.#targetColorListModel.addColorCodeList(
+                    patternInfo.colorInfoList.map(colorInfo => colorInfo.colorCode)
                 );
 
             }
@@ -138,6 +137,17 @@ export default class ContrastRatioAutoExtractionView {
 
         });
 
+
+        document.addEventListener(CustomEventNames.COLOR_PICKER__ADD_CONTRAST_RATIO_AUTO_EXTRACTION_TARGET_COLOR, event => {
+            const colorInfos = event.detail.addedColorInfos;
+            colorInfos.forEach(colorInfo => this.#renderColorList(colorInfo.id, colorInfo.color));
+        });
+
+        document.addEventListener(CustomEventNames.COLOR_PICKER__REMOVE_CONTRAST_RATIO_AUTO_EXTRACTION_TARGET_COLOR, event => {
+            const id = event.detail.id;
+            this.#removeColorInfoById(id);
+        });
+
         toggleArea();
         this.#refleshResultState(0);
 
@@ -145,16 +155,12 @@ export default class ContrastRatioAutoExtractionView {
         this.#condition.setUpEvent();
     }
 
-    #appendToColorList(colorCode) {
+    #renderColorList(id, color) {
 
-        const id = this.#generateBarId();
         const colorBar = targetColorTemplate({
-            id: id, colorCode: colorCode
+            id: id,
+            colorCode: color.getColorCode()
         });
-        const r = HsvRgbConverter.colorCodeToR(colorCode);
-        const g = HsvRgbConverter.colorCodeToG(colorCode);
-        const b = HsvRgbConverter.colorCodeToB(colorCode);
-        this.#targetColorMap[id] = { colorCode: colorCode, r: r, g: g, b: b };
 
         this.#$contrastRatioTargetColorList.insertAdjacentHTML('beforeend', colorBar);
 
@@ -162,10 +168,10 @@ export default class ContrastRatioAutoExtractionView {
         const $newBar = $bars[$bars.length - 1];
         const $newBarDelMark = $newBar.querySelector('.tool-contrast-ratio-area__pick-color-bar-del');
 
-        this.#makeSingleBarDraggable($newBar, colorCode, true);
+        this.#makeSingleBarDraggable($newBar, color.getColorCode(), true);
 
         $newBarDelMark.addEventListener('click', () => {
-            this.#removeColorInfo($newBar);
+            this.#targetColorListModel.removeById(id);
         });
 
         $newBar.addEventListener('mouseover', () => {
@@ -195,17 +201,19 @@ export default class ContrastRatioAutoExtractionView {
         });
     }
 
-    #removeColorInfo($newBar) {
-        const colorInfoId = $newBar.dataset.colorInfoId;
-        delete this.#targetColorMap[colorInfoId];
-        $newBar.remove();
+    #removeColorInfoById(id) {
+        const $bars = this.#$contrastRatioTargetColorList.querySelectorAll('.tool-contrast-ratio-area__picked-color-bar');
+        $bars.forEach($bar => {
+            if(parseInt($bar.dataset.colorInfoId) === id) {
+                $bar.remove()
+            }
+        });
         this.#toggleListOfColorsText();
     }
 
     #toggleListOfColorsText() {
-        const $bars = this.#$contrastRatioTargetColorList.querySelectorAll('.tool-contrast-ratio-area__picked-color-bar');
         const $message = this.#$contrastRatioTargetColorList.querySelector('.tool-contrast-ratio-area__auto-extraction-target-color-list-message');
-        if ($bars.length === 0) {
+        if (this.#targetColorListModel.isEmpty()) {
             $message.style.display = 'block';
         } else {
             $message.style.display = 'none';
@@ -213,7 +221,7 @@ export default class ContrastRatioAutoExtractionView {
     }
 
     #checkCondition() {
-        if (Object.values(this.#targetColorMap).length === 0) {
+        if (this.#targetColorListModel.isEmpty()) {
             alert('抽出元となる色が選択されていません');
             return false;
         }
@@ -254,6 +262,8 @@ export default class ContrastRatioAutoExtractionView {
 
         this.#isExecuting = true;
 
+        const targetColorLuminances = this.#targetColorListModel.getColors()
+                                          .map(color => color.calcLuminance());
         const conditions = this.#condition.createConditionsForCalculators();
 
         let processedTaskCount = 0;
@@ -287,7 +297,7 @@ export default class ContrastRatioAutoExtractionView {
                 processedTaskCount++;
                 worker.postMessage({
                     condition: condition,
-                    targetColors: Object.values(this.#targetColorMap),
+                    targetColorLuminances: targetColorLuminances,
                     currentMinScore: currentMinScore
                 });
             };
@@ -365,9 +375,5 @@ export default class ContrastRatioAutoExtractionView {
         }
     }
 
-    #generateBarId() {
-        const ret = this.#droppedBarCounter;
-        this.#droppedBarCounter++;
-        return ret;
-    }
+
 }

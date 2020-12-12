@@ -1,4 +1,5 @@
 import HsvRgbConverter from './HsvRgbConverter.js';
+import ContrastRatioCalculator from '../contrast-ratio/ContrastRatioCalculator.js';
 
 export default class Color {
 
@@ -80,10 +81,15 @@ export default class Color {
         this.#hsv = { h: h, s: s, v: v };
     }
 
-    #colorCodeToRgb(colorCode) {
-        const r = HsvRgbConverter.colorCodeToR(colorCode);
-        const g = HsvRgbConverter.colorCodeToG(colorCode);
-        const b = HsvRgbConverter.colorCodeToB(colorCode);
+    calcLuminance() {
+        const rgb = this.getRgb();
+        return ContrastRatioCalculator.calcLuminance(rgb.r, rgb.g, rgb.b);
+    }
+
+    #colorCodeToRgb() {
+        const r = HsvRgbConverter.colorCodeToR(this.#colorCode);
+        const g = HsvRgbConverter.colorCodeToG(this.#colorCode);
+        const b = HsvRgbConverter.colorCodeToB(this.#colorCode);
         return { r: r, g: g, b: b };
     }
 
