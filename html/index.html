@@ -46,7 +46,7 @@
         <li class="explanations__li">「配色チェック」を使用し、複数の色をリストアップして、色の組み合わせを確認できます。リストアップした配色は後述する「履歴」に保存することも可能です。</li>
         <li class="explanations__li">「履歴」には編集したカラーコード（「色」タブ）、配色（「配色」タブ）が保存されます。「履歴」はブラウザ(localStorage)に、新しいものから最大30個まで保存されます。</li>
         <li class="explanations__li">ブラウザは、Google Chrome, Firefox, Microsoft Edge(Chromium版), Safariを使用してください。</li>
-        <li class="explanations__li">ソースコード、不具合報告などは<a target="_blank" rel="noopener noreferrer" href="https://github.com/st-user/color-picker">こちら</a></li>
+        <li class="explanations__li">ソースコード、不具合報告など→<a target="_blank" rel="noopener noreferrer" href="https://github.com/st-user/color-picker">GitHubのst-user/color-picker</a></li>
     </ul>
 
 
@@ -63,7 +63,7 @@
 
             <div class="color-control-area__rgb-color-code-wrapper">
                 カラーコード:
-                <input type="text" size="8" maxlength="7" name="rgbColorCode" id="rgbColorCode" class="color-control-area__rgb-color-code" />
+                <input type="text" size="8" maxlength="7" name="rgbColorCode" value="#FFFFFF" id="rgbColorCode" class="color-control-area__rgb-color-code" />
             </div>
 
             <div id="rgbaSliderArea" class="color-control-area__rgb-slider-area">
@@ -72,7 +72,7 @@
                     <div>
                         <span class="color-control-area__slider-title">R:</span>
                         <input type="range" min="0" max="255" value="0" id="rgbSilder_r" class="color-control-area__slider-input">
-                        <input type="text" size="3" maxlength="3" id="rgbText_r" class="color-control-area__slider-text-input" />
+                        <input type="text" size="3" maxlength="3" value="255" id="rgbText_r" class="color-control-area__slider-text-input" />
                     </div>
                     <div class="color-control-area__slider-element has-next-slider">
                         <canvas id="rgbColorBar" class="color-control-area__color-bar"></canvas>
@@ -81,12 +81,12 @@
                     <div class="color-control-area__slider-element has-next-slider">
                         <span class="color-control-area__slider-title">G:</span>
                         <input type="range" min="0" max="255" value="0" id="rgbSilder_g" class="color-control-area__slider-input">
-                        <input type="text" size="3" maxlength="3" id="rgbText_g" class="color-control-area__slider-text-input" />
+                        <input type="text" size="3" maxlength="3" value="255" id="rgbText_g" class="color-control-area__slider-text-input" />
                     </div>
                     <div>
                         <span class="color-control-area__slider-title">B:</span>
                         <input type="range" min="0" max="255" value="0" id="rgbSilder_b" class="color-control-area__slider-input">
-                        <input type="text" size="3" maxlength="3" id="rgbText_b" class="color-control-area__slider-text-input" />
+                        <input type="text" size="3" maxlength="3" value="255" id="rgbText_b" class="color-control-area__slider-text-input" />
                     </div>
                 </div>
 
@@ -98,7 +98,7 @@
                     <div>
                         <span class="color-control-area__slider-title">H:</span>
                         <input type="range" min="0" max="360" value="0" id="hsvSilder_h" class="color-control-area__slider-input">
-                        <input type="text" size="3" maxlength="3" id="hsvText_h" class="color-control-area__slider-text-input" />
+                        <input type="text" size="3" maxlength="3" value="0" id="hsvText_h" class="color-control-area__slider-text-input" />
                     </div>
                     <div class="color-control-area__slider-element has-next-slider">
                         <canvas id="hsvColorBar" class="color-control-area__color-bar"></canvas>
@@ -107,12 +107,12 @@
                     <div class="color-control-area__slider-element has-next-slider">
                         <span class="color-control-area__slider-title">S:</span>
                         <input type="range" min="0" max="100" value="0" id="hsvSilder_s" class="color-control-area__slider-input">
-                        <input type="text" size="3" maxlength="3" id="hsvText_s" class="color-control-area__slider-text-input" />
+                        <input type="text" size="3" maxlength="3" value="100" id="hsvText_s" class="color-control-area__slider-text-input" />
                     </div>
                     <div>
                         <span class="color-control-area__slider-title">V:</span>
                         <input type="range" min="0" max="100" value="0" id="hsvSilder_v" class="color-control-area__slider-input">
-                        <input type="text" size="3" maxlength="3" id="hsvText_v" class="color-control-area__slider-text-input" />
+                        <input type="text" size="3" maxlength="3" value="100" id="hsvText_v" class="color-control-area__slider-text-input" />
                     </div>
                 </div>
 
@@ -120,11 +120,11 @@
 
             <div class="color-control-area__history_control clearfixContainer">
                 <div class="color-control-area__btn-add-history-wrapper">
-                    <button type="button" id="addHistory">履歴に追加</button>
+                    <button tabindex="0" type="button" id="addHistory">履歴に追加</button>
                 </div>
                 <div class="color-control-area__toggle-btn-state-wrapper">
                     <label>
-                        <input type="checkbox" name="storeHistoriesAutomatically" id="storeHistoriesAutomatically" checked />履歴に自動反映
+                        <input type="checkbox" name="storeHistoriesAutomatically" value="true" id="storeHistoriesAutomatically" checked />履歴に自動反映
                     </label>
                 </div>
             </div>
@@ -138,6 +138,8 @@
 
     <!-- tool area -->
     <div id="toolArea" class="tool-area">
+
+        <h2 class="tool-area__title">ツール</h2>
 
         <input id="hsvCircleAreaTabTitle" type="radio" name="toolTabItem" value="0" checked />
         <label class="tool-tab-area__tab-item" for="hsvCircleAreaTabTitle">HSVチャートから抽出</label>
@@ -220,15 +222,15 @@
 
                 <ul class="tool-contrast-ratio-area__function-explanations">
                     <li>背景色/文字色の組み合わせが、<a target="_blank" rel="noopener noreferrer" href="https://www.w3.org/TR/WCAG21/#contrast-minimum">WCAGにおける基準</a>を満たしているかを確認できます</li>
-                    <li>Drag&Dropで、背景色/文字色の両方を選択すると、AA,AAAの各基準を満たしているかの判定結果が表示されます。</li>
-                    <li>Drag&Dropで、背景色/文字色は入れ替えることもできます。</li>
+                    <li>Drag&amp;Dropで、背景色/文字色の両方を選択すると、AA,AAAの各基準を満たしているかの判定結果が表示されます。</li>
+                    <li>Drag&amp;Dropで、背景色/文字色は入れ替えることもできます。</li>
                     <li>画面に表示される比の値は、小数点以下第3位を四捨五入した値です。</li>
                 </ul>
 
                 <div class="tool-contrast-ratio-area__picked-col">
                     <div>背景色</div>
                     <div id="contrastRatioPickedColor1" class="tool-contrast-ratio-area__picked-color">
-                        <div class="tool-contrast-ratio-area__picked-color-message">履歴や自動抽出等からDrag&Dropで色を選択</div>
+                        <div class="tool-contrast-ratio-area__picked-color-message">履歴や自動抽出等からDrag&amp;Dropで色を選択</div>
                     </div>
                 </div>
 
@@ -239,7 +241,7 @@
                 <div class="tool-contrast-ratio-area__picked-col">
                     <div>文字色</div>
                     <div id="contrastRatioPickedColor2" class="tool-contrast-ratio-area__picked-color">
-                        <div class="tool-contrast-ratio-area__picked-color-message">履歴や自動抽出等からDrag&Dropで色を選択</div>
+                        <div class="tool-contrast-ratio-area__picked-color-message">履歴や自動抽出等からDrag&amp;Dropで色を選択</div>
                     </div>
                 </div>
 
@@ -250,11 +252,11 @@
                         </div>
                         <div class="tool-contrast-ratio-area__check-criteria-checked">
                             <div>
-                                <span class="tool-contrast-ratio-area__check-criteria-checked-title">AA(4.5:1<=):< /span>
+                                <span class="tool-contrast-ratio-area__check-criteria-checked-title">AA(4.5:1&lt;=):</span>
                                         <span class="tool-contrast-ratio-area__check-criteria-aa"></span>
                             </div>
                             <div>
-                                <span class="tool-contrast-ratio-area__check-criteria-checked-title">AAA(7:1<=):< /span>
+                                <span class="tool-contrast-ratio-area__check-criteria-checked-title">AAA(7:1&lt;=):</span>
                                         <span class="tool-contrast-ratio-area__check-criteria-aaa"></span>
                             </div>
                         </div>
@@ -269,11 +271,11 @@
                         </div>
                         <div class="tool-contrast-ratio-area__check-criteria-checked">
                             <div>
-                                <span class="tool-contrast-ratio-area__check-criteria-checked-title">AA(3:1<=):< /span>
+                                <span class="tool-contrast-ratio-area__check-criteria-checked-title">AA(3:1&lt;=):</span>
                                         <span class="tool-contrast-ratio-area__check-criteria-aa"></span>
                             </div>
                             <div>
-                                <span class="tool-contrast-ratio-area__check-criteria-checked-title">AAA(4.5:1<=):< /span>
+                                <span class="tool-contrast-ratio-area__check-criteria-checked-title">AAA(4.5:1&lt;=):</span>
                                         <span class="tool-contrast-ratio-area__check-criteria-aaa"></span>
                             </div>
                         </div>
@@ -302,7 +304,7 @@
                         <li>より正確には、「HSVの範囲」を満たし、かつ、「抽出元の色」全てに対して「コントラスト比の範囲」を満たす色を「抽出結果」に表示します。</li>
                         <li>「抽出結果」には、「スコア」が高い順に「抽出結果に表示する件数」分表示されます。「スコア」は「抽出元の色」に対するその色のcontrast ratioの平均値です。</li>
                         <li>「HSVの範囲」「コントラスト比の範囲」は、「設定」で選択できます。</li>
-                        <li>「抽出元の色」「抽出結果」の色はDrag&Dropし、「コントラスト比の確認」で確認できます。</li>
+                        <li>「抽出元の色」「抽出結果」の色はDrag&amp;Dropし、「コントラスト比の確認」で確認できます。</li>
                     </ul>
 
                     <div class="tool-contrast-ratio-area__auto-extraction-condition-area">
@@ -352,8 +354,8 @@
                             <div class="tool-contrast-ratio-area__auto-extraction-condition-item-line clearfixContainer">
                                 <div class="tool-contrast-ratio-area__auto-extraction-condition-item-title">抽出結果に表示する件数:</div>
                                 <div class="tool-contrast-ratio-area__auto-extraction-condition-item-content">
-                                    <select name="contrastRatioExtractionCount" id="contrastRatioExtractionCount">
-                                        <option value="10">10</option>
+                                    <select tabindex="0" name="contrastRatioExtractionCount" id="contrastRatioExtractionCount">
+                                        <option value="10" selected>10</option>
                                         <option value="20">20</option>
                                         <option value="30">30</option>
                                     </select>
@@ -362,8 +364,8 @@
                             <div class="tool-contrast-ratio-area__auto-extraction-condition-item-line clearfixContainer">
                                 <div class="tool-contrast-ratio-area__auto-extraction-condition-item-title">処理実行スレッド数:</div>
                                 <div class="tool-contrast-ratio-area__auto-extraction-condition-item-content">
-                                    <select name="contrastRatioExtractionThreadCount" id="contrastRatioExtractionThreadCount">
-                                        <option value="1">1</option>
+                                    <select tabindex="0" name="contrastRatioExtractionThreadCount" id="contrastRatioExtractionThreadCount">
+                                        <option value="1" selected>1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
                                         <option value="4">4</option>
@@ -379,7 +381,7 @@
                         <div class="tool-contrast-ratio-area__auto-extraction-execution-col">
                             <div>抽出元の色</div>
                             <div id="contrastRatioTargetColorList" class="tool-contrast-ratio-area__auto-extraction-target-color-list">
-                                <div class="tool-contrast-ratio-area__auto-extraction-target-color-list-message">履歴や「コントラスト比の確認」等からDrag&Dropで色を追加</div>
+                                <div class="tool-contrast-ratio-area__auto-extraction-target-color-list-message">履歴や「コントラスト比の確認」等からDrag&amp;Dropで色を追加</div>
                             </div>
                         </div>
 
@@ -396,8 +398,10 @@
                             <div>抽出結果</div>
                             <table id="contrastRatioResultColorTable" class="tool-contrast-ratio-area__auto-extraction-result-color-table">
                                 <thead>
-                                    <th>色</th>
-                                    <th>スコア</th>
+                                    <tr>
+                                        <th>色</th>
+                                        <th>スコア</th>
+                                    </tr>
                                 </thead>
                                 <tbody id="contrastRatioResultColorListBody">
 
@@ -426,7 +430,7 @@
 
             <div id="colorDesignContainer" class="tool-color-design-area__color-design-container">
                 <div id="colorDesignListOfColors" class="tool-color-design-area__list-of-colors">
-                    <div id="colorDesignListOfColorsText" class="tool-color-design-area__list-of-colors-text">編集中の色や、履歴からDrag&Dropで色を追加してください</div>
+                    <div id="colorDesignListOfColorsText" class="tool-color-design-area__list-of-colors-text">編集中の色や、履歴からDrag&amp;Dropで色を追加してください</div>
                 </div>
 
                 <div id="colorDesignChartArea" class="tool-color-design-area__chart-area">
@@ -437,8 +441,8 @@
 
                 <div id="colorDesignPatternUpdates" class="tool-color-design-area__history-control-wrapper">
                     <span>配色名:</span>
-                    <input type="text" size="20" maxlength="10" name="colorDesignPatternName" id="colorDesignPatternName" class="tool-color-design-area__input-pattern-name" />
-                    <button type="button" id="addColorDesignPattern">履歴に追加</button>
+                    <input type="text" size="20" maxlength="10" name="colorDesignPatternName" value="" id="colorDesignPatternName" class="tool-color-design-area__input-pattern-name" />
+                    <button tabindex="0" type="button" id="addColorDesignPattern">履歴に追加</button>
                     <div id="colorDesignPatternNameError" class="tool-color-design-area__input-pattern-name-error"></div>
                 </div>
             </div>
@@ -456,10 +460,10 @@
 
         <h2 class="history-area__title">履歴</h2>
 
-        <input id="colorCodeHistoryTabTitle" type="radio" name="historyTabItem" checked>
+        <input id="colorCodeHistoryTabTitle" type="radio" name="historyTabItem" value="0" checked>
         <label class="history-tab-area__tab-item" for="colorCodeHistoryTabTitle">色</label>
 
-        <input id="colorDesignHistoryTabTitle" type="radio" name="historyTabItem">
+        <input id="colorDesignHistoryTabTitle" type="radio" name="historyTabItem" value="1">
         <label class="history-tab-area__tab-item" for="colorDesignHistoryTabTitle">配色</label>
 
 
@@ -467,7 +471,7 @@
 
             <div>
                 <ul id="historyControllers" class="history-content-area__controls">
-                    <li class="history-content-area__controls-li"><button type="button" id="clearHistories">クリア</button></li>
+                    <li class="history-content-area__controls-li"><button tabindex="0" type="button" id="clearHistories">クリア</button></li>
                 </ul>
 
                 <div id="historiesListArea" class="clearfixContainer">
@@ -480,7 +484,7 @@
         <div id="colorDesignHistoryArea" class="history-content-area">
 
             <ul id="colorDesignHistoryControllers" class="history-content-area__controls">
-                <li class="history-content-area__controls-li"><button type="button" id="clearColorDesignHistories">クリア</button></li>
+                <li class="history-content-area__controls-li"><button tabindex="0" type="button" id="clearColorDesignHistories">クリア</button></li>
             </ul>
             <div id="colorDesignHistoriesListArea" class="clearfixContainer">
             </div>

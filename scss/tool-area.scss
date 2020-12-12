@@ -9,6 +9,9 @@
     margin-bottom: 24px;
     position: static;
 
+    &__title {
+        margin-bottom: 6px;
+    }
 
     &__color-pointer-pin {
         position: absolute;
