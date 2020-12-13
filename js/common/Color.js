@@ -1,5 +1,5 @@
-import HsvRgbConverter from './HsvRgbConverter.js';
 import ContrastRatioCalculator from '../contrast-ratio/ContrastRatioCalculator.js';
+import HsvRgbConverter from './HsvRgbConverter.js';
 
 export default class Color {
 

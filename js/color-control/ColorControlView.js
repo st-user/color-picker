@@ -1,8 +1,8 @@
 import { RgbColorBar, HsvColorBar } from '../common/ColorBar.js';
-import CustomEventNames from '../common/CustomEventNames.js';
-import StateModel from '../common/StateModel.js';
 import Constants from '../common/Constants.js';
+import CustomEventNames from '../common/CustomEventNames.js';
 import debounce from '../common/Debounce.js';
+import StateModel from '../common/StateModel.js';
 
 export default class ColorControlView {
 

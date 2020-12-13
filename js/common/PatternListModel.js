@@ -1,6 +1,6 @@
 import Color from '../common/Color.js';
-import Pattern from '../common/Pattern.js';
 import ListModel from '../common/ListModel.js';
+import Pattern from '../common/Pattern.js';
 
 export default class PatternListModel extends ListModel {
 

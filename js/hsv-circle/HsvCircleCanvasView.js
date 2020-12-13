@@ -1,7 +1,7 @@
 import CanvasHandler from '../tool/CanvasHandler.js';
-import HsvRgbConverter from '../common/HsvRgbConverter.js';
 import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import ElementUtil from '../common/ElementUtil.js';
+import HsvRgbConverter from '../common/HsvRgbConverter.js';
 
 const STROKE_WIDTH = 20;
 const CIRCLE_SIZE_CONFIGS = [

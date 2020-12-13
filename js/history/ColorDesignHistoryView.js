@@ -1,5 +1,5 @@
-import StorageAccessor from '../common/StorageAccessor.js';
 import CustomEventNames from '../common/CustomEventNames.js';
+import StorageAccessor from '../common/StorageAccessor.js';
 
 const template = data => {
     let background;

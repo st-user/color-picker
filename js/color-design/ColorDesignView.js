@@ -1,6 +1,6 @@
-import ScatterChart from './ScatterChart.js';
 import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import CustomEventNames from '../common/CustomEventNames.js';
+import ScatterChart from './ScatterChart.js';
 
 
 const colorTemplate = data => {

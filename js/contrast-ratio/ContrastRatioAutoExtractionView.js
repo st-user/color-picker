@@ -1,8 +1,8 @@
-import HsvRgbConverter from '../common/HsvRgbConverter.js';
+import ColorListModel from '../common/ColorListModel.js';
 import ContrastRatioAutoExtractionConditionView from './ContrastRatioAutoExtractionConditionView.js';
 import ContrastRatioExplanations from './ContrastRatioExplanations.js';
 import CustomEventNames from '../common/CustomEventNames.js';
-import ColorListModel from '../common/ColorListModel.js';
+import HsvRgbConverter from '../common/HsvRgbConverter.js';
 
 const targetColorTemplate = data => {
     return `

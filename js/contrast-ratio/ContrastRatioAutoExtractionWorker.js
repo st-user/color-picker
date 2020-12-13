@@ -1,4 +1,3 @@
-
 import ContrastRatioCalculator from './ContrastRatioCalculator.js';
 import HsvRgbConverter from '../common/HsvRgbConverter.js';
 import RgbUtil from '../common/RgbUtil.js';

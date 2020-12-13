@@ -1,6 +1,6 @@
 import ContrastRatioCalculator from './ContrastRatioCalculator.js';
-import ContrastRatioExplanations from './ContrastRatioExplanations.js';
 import ContrastRatioCheckModel from './ContrastRatioCheckModel.js';
+import ContrastRatioExplanations from './ContrastRatioExplanations.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 
 const pickedColorTemplate = data => {
