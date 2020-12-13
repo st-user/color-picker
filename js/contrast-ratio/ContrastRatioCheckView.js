@@ -1,6 +1,6 @@
 import ContrastRatioCalculator from './ContrastRatioCalculator.js';
 import ContrastRatioCheckModel from './ContrastRatioCheckModel.js';
-import ContrastRatioExplanations from './ContrastRatioExplanations.js';
+import ContrastRatioExplanationsView from './ContrastRatioExplanationsView.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 
 const pickedColorTemplate = data => {
@@ -34,7 +34,7 @@ export default class ContrastRatioCheckView {
 
         this.#contrastRatioCheckModel = new ContrastRatioCheckModel();
 
-        this.#explanations = new ContrastRatioExplanations(
+        this.#explanations = new ContrastRatioExplanationsView(
             '#contrastRatioCheckTitle .tool-contrast-ratio-area__explanations-to-close',
             '#contrastRatioCheckTitle .tool-contrast-ratio-area__explanations-to-open',
             '#contrastRatioCheckArea .tool-contrast-ratio-area__function-explanations'

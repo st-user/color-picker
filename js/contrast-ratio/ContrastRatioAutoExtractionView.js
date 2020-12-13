@@ -1,8 +1,9 @@
 import ColorListModel from '../common/ColorListModel.js';
 import ContrastRatioAutoExtractionConditionView from './ContrastRatioAutoExtractionConditionView.js';
-import ContrastRatioExplanations from './ContrastRatioExplanations.js';
+import ContrastRatioExplanationsView from './ContrastRatioExplanationsView.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 import HsvRgbConverter from '../common/HsvRgbConverter.js';
+import ContrastRatioAutoExtractionService from './ContrastRatioAutoExtractionService.js';
 
 const targetColorTemplate = data => {
     return `
@@ -48,7 +49,7 @@ export default class ContrastRatioAutoExtractionView {
     #condition;
     #isExecuting;
 
-    #workers;
+    #service;
 
     constructor() {
 
@@ -57,7 +58,7 @@ export default class ContrastRatioAutoExtractionView {
             CustomEventNames.COLOR_PICKER__REMOVE_CONTRAST_RATIO_AUTO_EXTRACTION_TARGET_COLOR
         );
 
-        this.#explanations = new ContrastRatioExplanations(
+        this.#explanations = new ContrastRatioExplanationsView(
             '#contrastRatioExtractionTitle .tool-contrast-ratio-area__explanations-to-close',
             '#contrastRatioExtractionTitle .tool-contrast-ratio-area__explanations-to-open',
             '#contrastRatioAutoExtractionArea .tool-contrast-ratio-area__function-explanations'
@@ -81,8 +82,7 @@ export default class ContrastRatioAutoExtractionView {
         this.#condition = new ContrastRatioAutoExtractionConditionView();
         this.#isExecuting = false;
 
-        this.#workers = [];
-
+        this.#service = new ContrastRatioAutoExtractionService();
     }
 
     setUpEvent() {
@@ -266,70 +266,18 @@ export default class ContrastRatioAutoExtractionView {
         const targetColorLuminances = this.#targetColorListModel.getItems().map(
             color => color.calcLuminance()
         );
-        const conditions = this.#condition.createConditionsForCalculators();
-
-        let processedTaskCount = 0;
-        const threadCount = this.#condition.getThreadCount();
-        let resultFromWrokers = [];
-        const numberOfResults = this.#condition.getContrastRatioExtractionCount();
-        let currentMinScore = -Infinity;
-        let error = false;
-
-        for (let i = 0; i < threadCount; i++) {
-            let worker = this.#workers[i];
-            if (!worker) {
-                worker = new Worker('js/contrast-ratio-auto-extraction-worker.js?q=' + window.APP_VERSION);
-                this.#workers[i] = worker;
-                worker.onerror = () => {
-                    alert('処理実行中にエラーが発生しました。ネットワークの切断などの問題が発生した可能性があります。');
-                    error = true;
-                    this.#workers.forEach(w => w.terminate());
-                    this.#workers = [];
-                    this.#showExtractionResult([]);
-                };
-            }
-
-            const postMessage = () => {
-
-                if (error) {
-                    return;
-                }
-
-                const condition = conditions[processedTaskCount];
-                processedTaskCount++;
-                worker.postMessage({
-                    condition: condition,
-                    targetColorLuminances: targetColorLuminances,
-                    currentMinScore: currentMinScore
-                });
-            };
-
-            worker.onmessage = event => {
-
-                if (error) {
-                    return;
-                }
-
-                event.data.results.filter(result => currentMinScore < result.avg)
-                    .forEach(result => resultFromWrokers.push(result));
-
-                if (!currentMinScore || numberOfResults < resultFromWrokers.length) {
-                    resultFromWrokers.sort((a, b) => b.avg - a.avg);
-                    resultFromWrokers = resultFromWrokers.slice(0, numberOfResults);
-                    currentMinScore = resultFromWrokers[resultFromWrokers.length - 1].avg;
-                }
-
-                if (processedTaskCount < conditions.length) {
-                    postMessage();
-                } else {
-                    this.#showExtractionResult(resultFromWrokers);
-                }
-            };
-
-            postMessage();
-        }
-
-
+        this.#service.doService(
+            targetColorLuminances,
+            this.#condition.createConditions(),
+            this.#condition.getThreadCount(),
+            this.#condition.getContrastRatioExtractionCount()
+        ).then(result => {
+            this.#showExtractionResult(result.scoreWithRgbs);
+        }).catch(result => {
+            const alertMsg = result.error || '処理実行中にエラーが発生しました';
+            alert(alertMsg);
+            this.#showExtractionResult([]);
+        });
     }
 
     #showExtractionResult(resultFromWrokers) {

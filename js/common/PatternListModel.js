@@ -17,7 +17,7 @@ export default class PatternListModel extends ListModel {
     }
 
     toStorageObject() {
-        return this.getItems().map(pattern => {
+        return this.getOrderedItems().map(pattern => {
             return {
                 patternName: pattern.getPatternName(),
                 colorInfoList: pattern.toColorInfoList()

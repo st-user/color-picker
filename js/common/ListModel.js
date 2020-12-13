@@ -26,6 +26,10 @@ export default class ListModel {
         return Object.values(this.#itemMap);
     }
 
+    getOrderedItems() {
+        return this.#idsAsc().map(id => this.getItemById(id));
+    }
+
     getItemById(id) {
         return this.#itemMap[id];
     }
@@ -95,9 +99,17 @@ export default class ListModel {
     }
 
     #idsDesc() {
+        return this.#idsSorted((a, b) => b - a);
+    }
+
+    #idsAsc() {
+        return this.#idsSorted((a, b) => a - b);
+    }
+
+    #idsSorted(comparator) {
         return Object.keys(this.#itemMap)
             .map(idStr => parseInt(idStr))
-            .sort((a, b) => b - a);
+            .sort(comparator);
     }
 
     #dispatchEventOnRemove(ids) {

@@ -94,7 +94,7 @@ export default class ColorCodeHistoryView {
         if (this.#colorListModel.isEmpty()) {
             StorageAccessor.removeItem(STORAGE_KEY);
         } else {
-            const colorCodes = this.#colorListModel.getItems().map(color => color.getColorCode());
+            const colorCodes = this.#colorListModel.getOrderedItems().map(color => color.getColorCode());
             StorageAccessor.setObject(STORAGE_KEY, colorCodes);
         }
     }

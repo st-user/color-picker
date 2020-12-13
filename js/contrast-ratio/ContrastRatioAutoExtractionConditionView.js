@@ -148,7 +148,7 @@ export default class ContrastRatioAutoExtractionConditionView {
         }
     }
 
-    createConditionsForCalculators() {
+    createConditions() {
         const cond = this.#createCondition();
         return RgbUtil.divideSRGBSpace(TASK_UNIT_COUNT)
             .map(r => {
