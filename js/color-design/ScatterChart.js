@@ -12,13 +12,15 @@ const TICKS_COUNT_Y = 10;
 const CIRCLE_R = 8;
 
 const eachToolTipLineTemplate = datum => {
+    const colorCode = datum.color.getColorCode();
+    const hsv = datum.color.getHsv();
     return `
     <div>
       <div>
-        <span class="tool-color-design-area__chart-tooltip-line-color-mark" style="background-color: ${datum.colorCode}"></span>
-        <span class="tool-color-design-area__chart-tooltip-line-color-code">${datum.colorCode}</span>
+        <span class="tool-color-design-area__chart-tooltip-line-color-mark" style="background-color: ${colorCode}"></span>
+        <span class="tool-color-design-area__chart-tooltip-line-color-code">${colorCode}</span>
       </div>
-      <span class="tool-color-design-area__chart-tooltip-line-hsv font-small">hsv(${datum.hsv.h}°,${datum.hsv.s}%,${datum.hsv.v}%)</span>
+      <span class="tool-color-design-area__chart-tooltip-line-hsv font-small">hsv(${hsv.h}°,${hsv.s}%,${hsv.v}%)</span>
     </div>
   `;
 };
@@ -112,9 +114,9 @@ export default class ScatterChart {
             .data(data)
             .enter()
             .append('circle')
-            .attr('fill', d => d['colorCode'])
-            .attr('cy', d => this.#y(d.hsv.v))
-            .attr('cx', d => this.#x(d.hsv.s))
+            .attr('fill', d => d.color.getColorCode())
+            .attr('cy', d => this.#y(d.color.getHsv().v))
+            .attr('cx', d => this.#x(d.color.getHsv().s))
             .attr('r', CIRCLE_R)
             .attr('stroke', '#333334')
             .attr('stroke-width', 1)
@@ -148,8 +150,10 @@ export default class ScatterChart {
                 const squaredR = CIRCLE_R * CIRCLE_R;
                 const dataGroup = [];
                 for (const existingDatum of data) {
-                    const squaredDistance = Math.pow(existingDatum.hsv.s - datum.hsv.s, 2)
-                            + Math.pow(existingDatum.hsv.v - datum.hsv.v, 2);
+                    const existingHsv = existingDatum.color.getHsv();
+                    const hsv = datum.color.getHsv();
+                    const squaredDistance = Math.pow(existingHsv.s - hsv.s, 2)
+                            + Math.pow(existingHsv.v - hsv.v, 2);
                     if (squaredDistance < squaredR) {
                         dataGroup.push(existingDatum);
                     }
@@ -166,8 +170,8 @@ export default class ScatterChart {
 
         this.#tooltip
             .html(toolTipHtml)
-            .style('left', (this.#x(datum.hsv.s)+90) + 'px')
-            .style('top', this.#y(datum.hsv.v) + 'px');
+            .style('left', (this.#x(datum.color.getHsv().s)+90) + 'px')
+            .style('top', this.#y(datum.color.getHsv().v) + 'px');
     }
 
     #mouseleave() {

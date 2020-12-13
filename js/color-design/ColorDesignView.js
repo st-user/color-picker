@@ -1,9 +1,7 @@
-import HsvRgbConverter from '../common/HsvRgbConverter.js';
 import ScatterChart from './ScatterChart.js';
 import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
+import CustomEventNames from '../common/CustomEventNames.js';
 
-const whitespaceRegExp = /^\s+$/;
-const charRegExp = /[<>&"'\\]/;
 
 const colorTemplate = data => {
     return `
@@ -17,12 +15,14 @@ const colorTemplate = data => {
 
 export default class ColorDesignView {
 
+    #listOfColorsModel;
+    #patternInputModel;
+    #colorDesignHistoryPatternListModel;
+
     #$colorDesignListOfColors;
     #$colorDesignListOfColorsText;
     #$tabInput;
 
-    #droppedBarCounter;
-    #droppedColorInfoMap;
     #$movingBar;
 
     #scatterChart;
@@ -31,27 +31,25 @@ export default class ColorDesignView {
     #$addColorDesignPattern;
     #$colorDesignPatternNameError;
 
-    #completeSettingColorInfo;
 
-    constructor() {
+    constructor(listOfColorsModel, patternInputModel, colorDesignHistoryPatternListModel) {
+
+        this.#listOfColorsModel = listOfColorsModel;
+        this.#patternInputModel = patternInputModel;
+        this.#colorDesignHistoryPatternListModel = colorDesignHistoryPatternListModel;
 
         this.#$colorDesignListOfColors = document.querySelector('#colorDesignListOfColors');
         this.#$colorDesignListOfColorsText = document.querySelector('#colorDesignListOfColorsText');
         this.#$tabInput = document.querySelector('#colorDesignAreaTabTitle');
-
-        this.#droppedBarCounter = 0;
-        this.#droppedColorInfoMap = {};
 
         this.#scatterChart = new ScatterChart();
 
         this.#$colorDesignPatternName = document.querySelector('#colorDesignPatternName');
         this.#$addColorDesignPattern = document.querySelector('#addColorDesignPattern');
         this.#$colorDesignPatternNameError = document.querySelector('#colorDesignPatternNameError');
-
-        this.#completeSettingColorInfo = true;
     }
 
-    setUpEvents(onAddColorDesignPattern) {
+    setUpEvents() {
 
         this.#$colorDesignListOfColors.addEventListener('dragover', e => {
             e.preventDefault();
@@ -67,24 +65,12 @@ export default class ColorDesignView {
             if (dataTransferred.indexOf('#') === 0) {
 
                 const colorCode = dataTransferred;
-                const r = HsvRgbConverter.colorCodeToR(colorCode);
-                const g = HsvRgbConverter.colorCodeToG(colorCode);
-                const b = HsvRgbConverter.colorCodeToB(colorCode);
-                const hsv = HsvRgbConverter.rgbToHsv(r, g, b);
-                const hsl = HsvRgbConverter.hsvToHsl(hsv.h, hsv.s / 100, hsv.v / 100);
-
-                const colorInfoWithoutId = {
-                    colorCode: colorCode,
-                    rgb: { r: r, g: b, b: b },
-                    hsv: hsv,
-                    hsl: hsl
-                };
-                this.#setColorInfo(colorInfoWithoutId);
+                this.#listOfColorsModel.addOneColorCode(colorCode);
 
             } else {
 
                 const patternInfo = JSON.parse(dataTransferred);
-                this.setColorInfoFromPatternInfoIfConfirmed(patternInfo);
+                this.#doReflectPatternInfoIfConfirmed(patternInfo);
             }
 
             e.preventDefault();
@@ -92,97 +78,67 @@ export default class ColorDesignView {
         });
 
         this.#$colorDesignPatternName.addEventListener('keyup', () => {
-
-            const inputName = this.#$colorDesignPatternName.value;
-            let error;
-            if (!inputName) {
-                error = '配色名を入力してください';
-            }
-
-            if (whitespaceRegExp.test(inputName)) {
-                error = '配色名は空白文字のみで入力することはできません';
-            }
-
-            if (charRegExp.test(inputName)) {
-                error = '配色名に「<」「>」「&」「"」「\'」「\\」を使用することはできません';
-            }
-
-            if (error) {
-                this.#$colorDesignPatternNameError.textContent = error;
-                this.#$addColorDesignPattern.disabled = true;
-            } else {
-                this.#$colorDesignPatternNameError.textContent = '';
-                this.#$addColorDesignPattern.disabled = false;
-            }
+            this.#patternInputModel.setName(this.#$colorDesignPatternName.value);
         });
-        this.#$addColorDesignPattern.disabled = true;
-        this.#$colorDesignPatternName.value = '';
-        this.#$colorDesignPatternName.disabled = true;
 
         this.#$addColorDesignPattern.addEventListener('click', () => {
 
             const inputName = this.#$colorDesignPatternName.value;
-            const indexArray = [];
+            const orderedIdArray = [];
             this.#$colorDesignListOfColors.querySelectorAll('.tool-color-design-area__picked-color-bar').forEach($bar => {
-                indexArray.push(parseInt($bar.dataset.colorInfoId));
+                orderedIdArray.push(parseInt($bar.dataset.colorInfoId));
             });
-            const colorInfoOrderedList = indexArray.map(d => this.#droppedColorInfoMap[d]);
+            const colors = orderedIdArray.map(id => this.#listOfColorsModel.getItemById(id));
 
-            onAddColorDesignPattern({
-                patternName: inputName,
-                colorInfoList: colorInfoOrderedList
-            });
-
+            this.#colorDesignHistoryPatternListModel.addOnePattern(
+                inputName, colors
+            );
         });
+
+        document.addEventListener(CustomEventNames.COLOR_PICKER__ADD_COLOR_DESIGN_TARGET_COLOR, event => {
+            const colorInfos = event.detail.addedItemInfos;
+            colorInfos.forEach(colorInfo => this.#renderColorInfo(colorInfo.id, colorInfo.item));
+        });
+
+        document.addEventListener(CustomEventNames.COLOR_PICKER__REMOVE_COLOR_DESIGN_TARGET_COLOR, event => {
+            const ids = event.detail.ids;
+            ids.forEach(id => this.#removeColorInfoById(id));
+        });
+
+        document.addEventListener(CustomEventNames.COLOR_PICKER__INPUT_COLOR_DESIGN_PATTERN_NAME, event => {
+            const error = event.detail.error;
+            this.#renderPatternInput(error);
+        });
+
+        this.#renderPatternInputFrom(true, true, '', '');
     }
 
     getControllersUsingWithArrowKey() {
         return [ this.#$colorDesignPatternName ];
     }
 
-    setColorInfoFromPatternInfoIfConfirmed(patternInfo) {
-
-        if (!this.#completeSettingColorInfo) {
-            return;
-        }
-
-        if (Object.values(this.#droppedColorInfoMap).length === 0
-          || confirm('現在編集中の配色を破棄して選択した配色を読み込みますか？')) {
-
-            this.#completeSettingColorInfo = false;
-            const $bars = this.#$colorDesignListOfColors.querySelectorAll('.tool-color-design-area__picked-color-bar');
-            $bars.forEach($bar => this.#removeColorInfo($bar));
-            let colorInfoIndex = 0;
-            const setColorInfoWithDelay = () => {
-                const colorInfo = patternInfo.colorInfoList[colorInfoIndex];
-                this.#setColorInfo(colorInfo);
-                colorInfoIndex++;
-                if (colorInfoIndex === patternInfo.colorInfoList.length) {
-                    this.#completeSettingColorInfo = true;
-                    return;
-                }
-                setTimeout(setColorInfoWithDelay, 200);
-            };
-            setColorInfoWithDelay();
-
-            this.#$colorDesignPatternName.disabled = false;
-            this.#$colorDesignPatternName.value = patternInfo.patternName;
-            this.#$colorDesignPatternNameError.textContent = '';
-            this.#$addColorDesignPattern.disabled = false;
+    #doReflectPatternInfoIfConfirmed(patternInfo) {
+        const confirmed = this.#listOfColorsModel.addColorCodesWithDelayIfConfirmed(patternInfo.colorCodes);
+        if (confirmed) {
+            this.#patternInputModel.setName(patternInfo.patternName);
         }
     }
 
-    #setColorInfo(colorInfo) {
+    #renderColorInfo(id, color) {
 
-        const id = this.#generateBarId();
-        colorInfo.id = id;
-        this.#droppedColorInfoMap[id] = colorInfo;
-        const colorBar = colorTemplate(colorInfo);
+        const data = {
+            id: id,
+            colorCode: color.getColorCode()
+        };
+        const colorBar = colorTemplate(data);
         this.#$colorDesignListOfColors.insertAdjacentHTML('beforeend', colorBar);
         const bars = this.#$colorDesignListOfColors.querySelectorAll('.tool-color-design-area__picked-color-bar');
         const $newBar = bars[bars.length - 1];
         this.#setUpBarElement($newBar);
-        this.#scatterChart.appendData(colorInfo);
+        this.#scatterChart.appendData({
+            id: id,
+            color: color
+        });
 
         $newBar.addEventListener('dragover', e => {
             e.preventDefault();
@@ -245,20 +201,15 @@ export default class ColorDesignView {
         CommonEventDispatcher.hideColorPointerPinView();
     }
 
-    #generateBarId() {
-        const ret = this.#droppedBarCounter;
-        this.#droppedBarCounter++;
-        return ret;
-    }
-
     #setUpBarElement($element) {
 
         const colorInfoId = $element.dataset.colorInfoId;
-        $element.style.backgroundColor = this.#droppedColorInfoMap[colorInfoId].colorCode;
+        const color = this.#listOfColorsModel.getItemByIdString(colorInfoId);
+        $element.style.backgroundColor = color.getColorCode();
         const $newBarDelMark = $element.querySelector('.tool-color-design-area__picked-color-bar-del');
 
         $newBarDelMark.addEventListener('click', () => {
-            this.#removeColorInfo($element);
+            this.#listOfColorsModel.removeById(parseInt(colorInfoId));
         });
 
         $element.addEventListener('mouseover', () => {
@@ -272,23 +223,40 @@ export default class ColorDesignView {
         $newBarDelMark.style.display = 'none';
     }
 
-    #removeColorInfo($element) {
-        const colorInfoId = $element.dataset.colorInfoId;
-        delete this.#droppedColorInfoMap[colorInfoId];
-        $element.remove();
+    #removeColorInfoById(idInteger) {
+        const $bars = this.#$colorDesignListOfColors.querySelectorAll('.tool-color-design-area__picked-color-bar');
+        $bars.forEach($bar => {
+            if (parseInt($bar.dataset.colorInfoId) === idInteger) {
+                $bar.remove();
+            }
+        });
         this.#toggleListOfColorsText();
-        this.#scatterChart.removeData(parseInt(colorInfoId));
+        this.#scatterChart.removeData(idInteger);
     }
 
     #toggleListOfColorsText() {
-        if (this.#$colorDesignListOfColors.querySelectorAll('.tool-color-design-area__picked-color-bar').length === 0) {
+
+        if (this.#listOfColorsModel.isEmpty()) {
+
             this.#$colorDesignListOfColorsText.style.display = 'block';
-            this.#$colorDesignPatternName.disabled = true;
-            this.#$colorDesignPatternName.value = '';
-            this.#$addColorDesignPattern.disabled = true;
+            this.#renderPatternInputFrom(true, true, '', '');
+
         } else {
+
             this.#$colorDesignListOfColorsText.style.display = 'none';
-            this.#$colorDesignPatternName.disabled = false;
+            this.#renderPatternInput(this.#patternInputModel.getCurrentError());
         }
+    }
+
+    #renderPatternInput(error) {
+        const buttonDisabled = !!(error);
+        this.#renderPatternInputFrom(false, buttonDisabled, this.#patternInputModel.getName(), error);
+    }
+
+    #renderPatternInputFrom(textDisabled, buttonDisabled, patternName, error) {
+        this.#$colorDesignPatternName.disabled = textDisabled;
+        this.#$addColorDesignPattern.disabled = buttonDisabled;
+        this.#$colorDesignPatternName.value = patternName;
+        this.#$colorDesignPatternNameError.textContent = error;
     }
 }

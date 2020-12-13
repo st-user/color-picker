@@ -11,56 +11,73 @@ import ContrastRatioCheckView from './contrast-ratio/ContrastRatioCheckView.js';
 import ContrastRatioAutoExtractionView from './contrast-ratio/ContrastRatioAutoExtractionView.js';
 import ColorDesignHistoryView from './history/ColorDesignHistoryView.js';
 import CustomEventNames from './common/CustomEventNames.js';
+import Constants from './common/Constants.js';
 
 import ColorModel from './common/ColorModel.js';
 import Color from './common/Color.js';
+import PatternColorListModel from './common/PatternColorListModel.js';
+import PatternInputModel from './common/PatternInputModel.js';
+import PatternListModel from './common/PatternListModel.js';
 
 
 export default function main() {
 
+    /* Viewを跨って使用するModel群 */
+
+    /* メインの編集領域 */    
     const colorModel = new ColorModel(
         CustomEventNames.COLOR_PICKER__CHANGE_COLOR_ON_COLOR_CONTROL_VIEW,
         new Color({ colorCode: '#ffffff' })
     );
+    /* 配色チェックの色リスト */
+    const colorDesignCheckListOfColorModel = new PatternColorListModel(
+        CustomEventNames.COLOR_PICKER__ADD_COLOR_DESIGN_TARGET_COLOR,
+        CustomEventNames.COLOR_PICKER__REMOVE_COLOR_DESIGN_TARGET_COLOR
+    );
+    /* 配色チェックの配色名記入箇所 */
+    const colorDesignCheckPatternInputModel = new PatternInputModel();
+    /* 配色の履歴 */
+    const colorDesignHistoryPatternListModel = new PatternListModel(
+        CustomEventNames.COLOR_PICKER__ADD_PATTERN_TO_HISTORY,
+        CustomEventNames.COLOR_PICKER__REMOVE_PATTERN_TO_HISTORY,
+        Constants.HISTORY_MAX_SIZE
+    );
 
+    /** 説明 */
     const explanationsView = new ExplanationsView();
+    explanationsView.setUpEvents();
+
+    /** RGB, HSVのスライダー */
     const colorControlView = new ColorControlView(colorModel);
+    colorControlView.setUpEvents();
+
+    /** ツール */
     const toolTabsView = new ToolTabsView();
     const hsvCircleCanvasView = new HsvCircleCanvasView(colorModel);
     const imageCanvasView = new ImageCanvasView(colorModel);
-    const colorPointerPinView = new ColorPointerPinView();
     const loadedImageHolder = new LoadedImageHolder();
+    const colorPointerPinView = new ColorPointerPinView();
     const contrastRatioCheckView = new ContrastRatioCheckView();
     const contrastRatioAutoExtractionView = new ContrastRatioAutoExtractionView();
-    const colorDesignView = new ColorDesignView();
-    const colorCodeHistoryView = new ColorCodeHistoryView(colorModel);
-    const colorDesignHistoryView = new ColorDesignHistoryView();
-
-    /** 説明 */
-    explanationsView.setUpEvents();
-
-    /** RGB, HSVのスライダー関係のイベントハンドラーの設定 */
-    colorControlView.setUpEvents();
-    colorCodeHistoryView.setUpEvents();
-
-    /** 画像ファイル関係のイベントハンドラーの設定 */
+    const colorDesignView = new ColorDesignView(
+        colorDesignCheckListOfColorModel, colorDesignCheckPatternInputModel, colorDesignHistoryPatternListModel
+    );
     toolTabsView.setUpEvent();
     hsvCircleCanvasView.setUpEvent();
     imageCanvasView.setUpEvent();
-    contrastRatioCheckView.setUpEvent();
-    contrastRatioAutoExtractionView.setUpEvent();
     loadedImageHolder.setUpEvent();
     colorPointerPinView.setUpEvent();
+    contrastRatioCheckView.setUpEvent();
+    contrastRatioAutoExtractionView.setUpEvent();
+    colorDesignView.setUpEvents();
 
-
-    /** 配色チェック関係のイベントハンドラーの設定 */
-    colorDesignView.setUpEvents(data => {
-        colorDesignHistoryView.addHistoryThenShowColorDesignTab(data);
-    });
+    /** 履歴 */
+    const colorCodeHistoryView = new ColorCodeHistoryView(colorModel);
+    const colorDesignHistoryView = new ColorDesignHistoryView(
+        colorDesignCheckListOfColorModel, colorDesignCheckPatternInputModel, colorDesignHistoryPatternListModel
+    );
+    colorCodeHistoryView.setUpEvents();
     colorDesignHistoryView.setUpEvents();
-    colorDesignHistoryView.onClickHistory(patternInfo => {
-        colorDesignView.setColorInfoFromPatternInfoIfConfirmed(patternInfo);
-    });
 
     /*
    * キーボード、マウス操作によるイメージの色取得関係のイベントハンドドラーの設定

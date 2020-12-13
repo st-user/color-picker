@@ -1,5 +1,4 @@
 import ContrastRatioCalculator from './ContrastRatioCalculator.js';
-import HsvRgbConverter from '../common/HsvRgbConverter.js';
 import ContrastRatioExplanations from './ContrastRatioExplanations.js';
 import ContrastRatioCheckModel from './ContrastRatioCheckModel.js';
 import CustomEventNames from '../common/CustomEventNames.js';
@@ -76,7 +75,7 @@ export default class ContrastRatioCheckView {
                 }
 
                 if (dataTransferred.indexOf('#') === 0) {
-                    const colorCode = dataTransferred
+                    const colorCode = dataTransferred;
                     colorInfoSetter(colorCode);
                 }
 

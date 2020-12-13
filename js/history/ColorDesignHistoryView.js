@@ -1,11 +1,12 @@
 import StorageAccessor from '../common/StorageAccessor.js';
+import CustomEventNames from '../common/CustomEventNames.js';
 
 const template = data => {
     let background;
-    if (1 < data.colorInfoList.length) {
-        background = `background: linear-gradient(to right, ${data.colorInfoList.map(d => d.colorCode).join(',')});`;
+    if (1 < data.colorCodes.length) {
+        background = `background: linear-gradient(to right, ${data.colorCodes.join(',')});`;
     } else {
-        background = `background-color: ${data.colorInfoList[0].colorCode}`;
+        background = `background-color: ${data.colorCodes[0]}`;
     }
     return `
     <div class="history-content-area__history-color-design-bar" data-pattern-id="${data.patternId}" draggable="true">
@@ -15,92 +16,100 @@ const template = data => {
   `;
 };
 
-const HISTORY_MAX_SIZE = 30;
 const STORAGE_KEY = 'colorDesignHistories';
 
 export default class ColorDesignHistoryView {
+
+    #colorDesignCheckListOfColorModel;
+    #colorDesignCheckPatternInputModel;
+
+    #patternListModel;
+    #initializing;
 
     #$colorDesignHistoryViewListArea;
     #$tabInput;
     #$clearHistories;
 
-    #patternMap;
+    constructor(colorDesignCheckListOfColorModel, colorDesignCheckPatternInputModel, patternListModel) {
 
-    #$observerOnClickHistory;
-    #patternCounter;
+        this.#colorDesignCheckListOfColorModel = colorDesignCheckListOfColorModel;
+        this.#colorDesignCheckPatternInputModel = colorDesignCheckPatternInputModel;
+        this.#patternListModel = patternListModel;
+        this.#initializing = true;
 
-    constructor() {
         this.#$colorDesignHistoryViewListArea = document.querySelector('#colorDesignHistoriesListArea');
         this.#$tabInput = document.querySelector('#colorDesignHistoryTabTitle');
         this.#$clearHistories = document.querySelector('#clearColorDesignHistories');
-        this.#patternMap = {};
-
-        this.#$observerOnClickHistory = document.createElement('div');
-        this.#patternCounter = 0;
     }
 
     setUpEvents() {
         this.#$clearHistories.addEventListener('click', () => {
             if(confirm('全ての履歴が削除されますがよろしいですか？')) {
-                this.#$colorDesignHistoryViewListArea.innerHTML = '';
-                this.#patternMap = {};
-                StorageAccessor.removeItem(STORAGE_KEY);
+                this.#patternListModel.removeAll();
             }
         });
+
+        document.addEventListener(CustomEventNames.COLOR_PICKER__ADD_PATTERN_TO_HISTORY, event => {
+            const patterns = event.detail.addedItemInfos;
+            patterns.forEach(pattern => this.#renderOneHistory(pattern.id, pattern.item));
+            this.#updateStorage();
+        });
+
+        document.addEventListener(CustomEventNames.COLOR_PICKER__REMOVE_PATTERN_TO_HISTORY, event => {
+            const ids = event.detail.ids;
+            this.#removeHistoryByIds(ids);
+            this.#updateStorage();
+        });
+
         const storedPatterns = StorageAccessor.getObject(STORAGE_KEY);
         if (storedPatterns) {
-            storedPatterns.forEach(p => this.#addHistory(p, false));
+            this.#patternListModel.addStorageObject(storedPatterns);
         }
+        this.#initializing = false;
     }
 
-    onClickHistory(handler) {
-        this.#$observerOnClickHistory.addEventListener('historyClick', event => {
-            const patternInfo = event.detail;
-            handler(patternInfo);
-        });
-    }
+    #renderOneHistory(id, pattern) {
 
-    addHistoryThenShowColorDesignTab(patternData) {
-        this.#addHistory(patternData, true);
-    }
-
-    #addHistory(patternInfo, selectTab) {
-
-        const patternId = this.#generatePatternId();
-        this.#patternMap[patternId] = patternInfo;
-
-        const $histories = this.#$colorDesignHistoryViewListArea.querySelectorAll('.history-content-area__history-color-design-bar');
-        if (HISTORY_MAX_SIZE <= $histories.length) {
-            const $oldest = $histories[$histories.length - 1];
-            const oldestId = $oldest.dataset.dataPatternId;
-            delete this.#patternMap[oldestId];
-            $oldest.remove();
-        }
-
-        this.#$colorDesignHistoryViewListArea.insertAdjacentHTML('afterbegin', template({
-            patternId: patternId,
-            patternName: patternInfo.patternName,
-            colorInfoList: patternInfo.colorInfoList
-        }));
+        const colorCodes = pattern.getColors().map(color => color.getColorCode());
+        const data = {
+            patternId: id,
+            patternName: pattern.getPatternName(),
+            colorCodes: colorCodes
+        };
+        this.#$colorDesignHistoryViewListArea.insertAdjacentHTML('afterbegin', template(data));
 
         const $newHistory = this.#$colorDesignHistoryViewListArea.querySelectorAll('.history-content-area__history-color-design-bar')[0];
+
         $newHistory.addEventListener('click', () => {
-            const customEvent = new CustomEvent('historyClick',
-                { detail: patternInfo }
-            );
-            this.#$observerOnClickHistory.dispatchEvent(customEvent);
+
+            const confirmed = this.#colorDesignCheckListOfColorModel.addColorCodesWithDelayIfConfirmed(colorCodes);
+            if (confirmed) {
+                this.#colorDesignCheckPatternInputModel.setName(pattern.getPatternName());
+            }
         });
         $newHistory.addEventListener('dragstart', e => {
             e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/plain', JSON.stringify(patternInfo));
+            e.dataTransfer.setData('text/plain', JSON.stringify(data));
         });
-        StorageAccessor.setObject(STORAGE_KEY, Object.values(this.#patternMap));
-        this.#$tabInput.checked = selectTab;
+
+        this.#$tabInput.checked = !this.#initializing;
     }
 
-    #generatePatternId() {
-        const ret = this.#patternCounter;
-        this.#patternCounter++;
-        return ret;
+    #removeHistoryByIds(idsInt) {
+        const $histories = this.#$colorDesignHistoryViewListArea.querySelectorAll('.history-content-area__history-color-design-bar');
+        $histories.forEach($history => {
+            if (idsInt.includes(parseInt($history.dataset.patternId))) {
+                $history.remove();
+            }
+        });
     }
+
+    #updateStorage() {
+        if (this.#patternListModel.isEmpty()) {
+            StorageAccessor.removeItem(STORAGE_KEY);
+        } else {
+            StorageAccessor.setObject(STORAGE_KEY, this.#patternListModel.toStorageObject());
+        }
+    }
+
 }
