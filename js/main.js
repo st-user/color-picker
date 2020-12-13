@@ -138,15 +138,13 @@ export default function main() {
     });
 
     const dispatchControlKeyPressedEvent = (event, state) => {
-        if (event.key === 'Control') {
-            CommonEventDispatcher.dispatch(CustomEventNames.COLOR_PICKER__CONTROL_KEY_PRESSED,
-                { state: state }
-            );
-        }
+        CommonEventDispatcher.dispatch(CustomEventNames.COLOR_PICKER__ENABLE_TO_PICK_UP_COLOR_ON_MOUSE_MOVE,
+            { state: state }
+        );
     };
 
-    document.addEventListener('keydown', event => dispatchControlKeyPressedEvent(event, true));
-    document.addEventListener('keyup', event => dispatchControlKeyPressedEvent(event, false));
+    document.addEventListener('mousedown', event => dispatchControlKeyPressedEvent(event, true));
+    document.addEventListener('mouseup', event => dispatchControlKeyPressedEvent(event, false));
 
     const $remark = document.querySelector('#remarkAboutBrowser');
     $remark.setAttribute('style', '');

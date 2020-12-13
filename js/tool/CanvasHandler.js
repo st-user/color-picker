@@ -36,7 +36,7 @@ export default class CanvasHandler {
             event => this.#dispatchArrowKeyPressedEvent(event));
 
         CommonEventDispatcher.on(
-            CustomEventNames.COLOR_PICKER__CONTROL_KEY_PRESSED,
+            CustomEventNames.COLOR_PICKER__ENABLE_TO_PICK_UP_COLOR_ON_MOUSE_MOVE,
             event => this.#controlKeyPressed(event));
 
 

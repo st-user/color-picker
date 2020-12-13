@@ -6,7 +6,7 @@ const CustomEventNames = {
     /* ツール 画像/HSV chart */
     COLOR_PICKER__IMAGE_DATA_POINTED: 'color-picker/image-data-pointed',
     COLOR_PICKER__ARROW_KEY_PRESSED: 'color-picker/arrow-key-pressed',
-    COLOR_PICKER__CONTROL_KEY_PRESSED: 'color-picker/control-key-pressed',
+    COLOR_PICKER__ENABLE_TO_PICK_UP_COLOR_ON_MOUSE_MOVE: 'color-picker/enable-to-pick-up-color-on-mouse-move',
     COLOR_PICKER__IMAGE_FILE_LOADED: 'color-picker/image-file-loaded',
     COLOR_PICKER__HIDE_COLOR_POINTER_PIN: 'color-picker/color-pointer-pin-hide',
     /* コントラスト比 */
