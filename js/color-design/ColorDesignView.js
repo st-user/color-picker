@@ -95,17 +95,17 @@ export default class ColorDesignView {
             );
         });
 
-        document.addEventListener(CustomEventNames.COLOR_PICKER__ADD_COLOR_DESIGN_TARGET_COLOR, event => {
+        CommonEventDispatcher.on(CustomEventNames.COLOR_PICKER__ADD_COLOR_DESIGN_TARGET_COLOR, event => {
             const colorInfos = event.detail.addedItemInfos;
             colorInfos.forEach(colorInfo => this.#renderColorInfo(colorInfo.id, colorInfo.item));
         });
 
-        document.addEventListener(CustomEventNames.COLOR_PICKER__REMOVE_COLOR_DESIGN_TARGET_COLOR, event => {
+        CommonEventDispatcher.on(CustomEventNames.COLOR_PICKER__REMOVE_COLOR_DESIGN_TARGET_COLOR, event => {
             const ids = event.detail.ids;
             ids.forEach(id => this.#removeColorInfoById(id));
         });
 
-        document.addEventListener(CustomEventNames.COLOR_PICKER__INPUT_COLOR_DESIGN_PATTERN_NAME, event => {
+        CommonEventDispatcher.on(CustomEventNames.COLOR_PICKER__INPUT_COLOR_DESIGN_PATTERN_NAME, event => {
             const error = event.detail.error;
             this.#renderPatternInput(error);
         });

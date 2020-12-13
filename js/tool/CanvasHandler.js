@@ -1,3 +1,4 @@
+import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import CurrentEventXY from './CurrentEventXY.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 import ElementUtil from '../common/ElementUtil.js';
@@ -30,11 +31,11 @@ export default class CanvasHandler {
         this.#$canvas.addEventListener('click', event => this.#dispatchPointEvent(event));
         this.#$canvas.addEventListener('mousemove', event => this.#dispatchMoveEvent(event));
 
-        document.addEventListener(
+        CommonEventDispatcher.on(
             CustomEventNames.COLOR_PICKER__ARROW_KEY_PRESSED,
             event => this.#dispatchArrowKeyPressedEvent(event));
 
-        document.addEventListener(
+        CommonEventDispatcher.on(
             CustomEventNames.COLOR_PICKER__CONTROL_KEY_PRESSED,
             event => this.#controlKeyPressed(event));
 
@@ -61,15 +62,11 @@ export default class CanvasHandler {
             const y = this.#currentEventXY.y();
             const rgbaData = this.#extractRgb(x, y);
 
-            const newEvent = new CustomEvent(
-                CustomEventNames.COLOR_PICKER__IMAGE_DATA_POINTED, {
-                    detail: {
-                        eventX: this.#currentEventXY.x(),
-                        eventY: this.#currentEventXY.y()
-                    }
-                });
+            CommonEventDispatcher.dispatch(CustomEventNames.COLOR_PICKER__IMAGE_DATA_POINTED,{
+                eventX: this.#currentEventXY.x(),
+                eventY: this.#currentEventXY.y()
+            });
 
-            document.dispatchEvent(newEvent);
             const r = rgbaData[0];
             const g = rgbaData[1];
             const b = rgbaData[2];

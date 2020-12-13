@@ -6,6 +6,7 @@ import ColorDesignView from './color-design/ColorDesignView.js';
 import ColorListModel from './common/ColorListModel.js';
 import ColorModel from './common/ColorModel.js';
 import ColorPointerPinView from './tool/ColorPointerPinView.js';
+import CommonEventDispatcher from './common/CommonEventDispatcher.js';
 import Constants from './common/Constants.js';
 import ContrastRatioAutoExtractionView from './contrast-ratio/ContrastRatioAutoExtractionView.js';
 import ContrastRatioCheckView from './contrast-ratio/ContrastRatioCheckView.js';
@@ -18,7 +19,6 @@ import PatternColorListModel from './common/PatternColorListModel.js';
 import PatternInputModel from './common/PatternInputModel.js';
 import PatternListModel from './common/PatternListModel.js';
 import ToolTabsView from './tool/ToolTabsView.js';
-
 
 export default function main() {
 
@@ -93,11 +93,7 @@ export default function main() {
     let shouldPreventCircleFromMovingByArrow;
 
     const dispatchArrowKeyPressedEvent = detail => {
-        const customEvent = new CustomEvent(
-            CustomEventNames.COLOR_PICKER__ARROW_KEY_PRESSED,
-            { detail: detail }
-        );
-        document.dispatchEvent(customEvent);
+        CommonEventDispatcher.dispatch(CustomEventNames.COLOR_PICKER__ARROW_KEY_PRESSED, detail);
     };
 
     document.addEventListener('keydown', event => {
@@ -143,11 +139,9 @@ export default function main() {
 
     const dispatchControlKeyPressedEvent = (event, state) => {
         if (event.key === 'Control') {
-            const customEvent = new CustomEvent(
-                CustomEventNames.COLOR_PICKER__CONTROL_KEY_PRESSED,
-                { detail: { state: state } }
+            CommonEventDispatcher.dispatch(CustomEventNames.COLOR_PICKER__CONTROL_KEY_PRESSED,
+                { state: state }
             );
-            document.dispatchEvent(customEvent);
         }
     };
 

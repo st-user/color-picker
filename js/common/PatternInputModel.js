@@ -1,3 +1,4 @@
+import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 
 const whitespaceRegExp = /^\s+$/;
@@ -56,10 +57,8 @@ export default class PatternInputModel {
     }
 
     #dispatchEvent(error) {
-        document.dispatchEvent(new CustomEvent(CustomEventNames.COLOR_PICKER__INPUT_COLOR_DESIGN_PATTERN_NAME, {
-            detail: {
-                error: error
-            }
-        }));
+        CommonEventDispatcher.dispatch(CustomEventNames.COLOR_PICKER__INPUT_COLOR_DESIGN_PATTERN_NAME, {
+            error: error
+        });
     }
 }

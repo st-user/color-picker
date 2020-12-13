@@ -1,3 +1,4 @@
+import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 import StorageAccessor from '../common/StorageAccessor.js';
 
@@ -38,13 +39,13 @@ export default class ColorCodeHistoryView {
             }
         });
 
-        document.addEventListener(CustomEventNames.COLOR_PICKER__ADD_COLOR_CODE_TO_HISTORY, event => {
+        CommonEventDispatcher.on(CustomEventNames.COLOR_PICKER__ADD_COLOR_CODE_TO_HISTORY, event => {
             const colorInfos = event.detail.addedItemInfos;
             colorInfos.forEach(colorInfo => this.#renderOneHistory(colorInfo.id, colorInfo.item));
             this.#updateStorage();
         });
 
-        document.addEventListener(CustomEventNames.COLOR_PICKER__REMOVE_COLOR_CODE_TO_HISTORY, event => {
+        CommonEventDispatcher.on(CustomEventNames.COLOR_PICKER__REMOVE_COLOR_CODE_TO_HISTORY, event => {
             const ids = event.detail.ids;
             this.#removeHistoryByIds(ids);
             this.#updateStorage();

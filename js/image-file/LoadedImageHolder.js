@@ -1,4 +1,5 @@
 import Constants from '../common/Constants.js';
+import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 
 export default class LoadedImageHolder {
@@ -48,17 +49,11 @@ export default class LoadedImageHolder {
 
     #dispatchImageLoadedEvent() {
         const wh = this.#calcWidthAndHeight();
-        const customEvent = new CustomEvent(
-            CustomEventNames.COLOR_PICKER__IMAGE_FILE_LOADED,
-            {
-                detail: {
-                    image: this.#currentLoadedImage,
-                    width: wh.width,
-                    height: wh.height
-                }
-            }
-        );
-        document.dispatchEvent(customEvent);
+        CommonEventDispatcher.dispatch(CustomEventNames.COLOR_PICKER__IMAGE_FILE_LOADED, {
+            image: this.#currentLoadedImage,
+            width: wh.width,
+            height: wh.height
+        });
     }
 
     #calcWidthAndHeight() {

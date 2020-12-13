@@ -1,9 +1,10 @@
 import ColorListModel from '../common/ColorListModel.js';
+import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import ContrastRatioAutoExtractionConditionView from './ContrastRatioAutoExtractionConditionView.js';
+import ContrastRatioAutoExtractionService from './ContrastRatioAutoExtractionService.js';
 import ContrastRatioExplanationsView from './ContrastRatioExplanationsView.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 import HsvRgbConverter from '../common/HsvRgbConverter.js';
-import ContrastRatioAutoExtractionService from './ContrastRatioAutoExtractionService.js';
 
 const targetColorTemplate = data => {
     return `
@@ -139,12 +140,12 @@ export default class ContrastRatioAutoExtractionView {
         });
 
 
-        document.addEventListener(CustomEventNames.COLOR_PICKER__ADD_CONTRAST_RATIO_AUTO_EXTRACTION_TARGET_COLOR, event => {
+        CommonEventDispatcher.on(CustomEventNames.COLOR_PICKER__ADD_CONTRAST_RATIO_AUTO_EXTRACTION_TARGET_COLOR, event => {
             const colorInfos = event.detail.addedItemInfos;
             colorInfos.forEach(colorInfo => this.#renderColorList(colorInfo.id, colorInfo.item));
         });
 
-        document.addEventListener(CustomEventNames.COLOR_PICKER__REMOVE_CONTRAST_RATIO_AUTO_EXTRACTION_TARGET_COLOR, event => {
+        CommonEventDispatcher.on(CustomEventNames.COLOR_PICKER__REMOVE_CONTRAST_RATIO_AUTO_EXTRACTION_TARGET_COLOR, event => {
             const ids = event.detail.ids;
             ids.forEach(id => this.#removeColorInfoById(id));
         });

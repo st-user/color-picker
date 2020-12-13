@@ -1,4 +1,5 @@
 import { RgbColorBar, HsvColorBar } from '../common/ColorBar.js';
+import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import Constants from '../common/Constants.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 import debounce from '../common/Debounce.js';
@@ -163,7 +164,7 @@ export default class ColorControlView {
             this.#colorCodeHistoryColorListModel.addOneColorIfChanged(color);
         }, 500);
 
-        document.addEventListener(CustomEventNames.COLOR_PICKER__CHANGE_COLOR_ON_COLOR_CONTROL_VIEW, event => {
+        CommonEventDispatcher.on(CustomEventNames.COLOR_PICKER__CHANGE_COLOR_ON_COLOR_CONTROL_VIEW, event => {
             const color = event.detail.color;
             const preventAddHistory = event.detail.contextInfo && event.detail.contextInfo.isHistoryClickContext;
             this.#renderColor(color);
@@ -173,7 +174,7 @@ export default class ColorControlView {
             this.#isInitializing = false;
         });
 
-        document.addEventListener(CustomEventNames.COLOR_PICKER__CHANGE_STATE_OF_AUTO_HISTORY_UPDATE, event => {
+        CommonEventDispatcher.on(CustomEventNames.COLOR_PICKER__CHANGE_STATE_OF_AUTO_HISTORY_UPDATE, event => {
             const stateValue = event.detail.stateValue;
             this.#renderHistoryBtn(stateValue);
         });

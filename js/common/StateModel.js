@@ -1,3 +1,5 @@
+import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
+
 export default class StateModel {
 
     #eventName;
@@ -14,10 +16,8 @@ export default class StateModel {
 
     setStateValue(stateValue) {
         this.#stateValue = stateValue;
-        document.dispatchEvent(new CustomEvent(this.#eventName, {
-            detail: {
-                stateValue: this.#stateValue
-            }
-        }));
+        CommonEventDispatcher.dispatch(this.#eventName, {
+            stateValue: this.#stateValue
+        });
     }
 }

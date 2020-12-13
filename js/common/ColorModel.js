@@ -1,3 +1,4 @@
+import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import HsvRgbConverter from '../common/HsvRgbConverter.js';
 
 const InputChecker = (() => {
@@ -114,12 +115,10 @@ export default class ColorModel {
     }
 
     #dispatchEvent() {
-        document.dispatchEvent(new CustomEvent(this.#eventName, {
-            detail: {
-                contextInfo: this.#eventContextInfo,
-                color: this.#color
-            }
-        }));
+        CommonEventDispatcher.dispatch(this.#eventName, {
+            contextInfo: this.#eventContextInfo,
+            color: this.#color
+        });
         this.#eventContextInfo = undefined;
     }
 

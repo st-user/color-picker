@@ -1,4 +1,5 @@
 import Color from '../common/Color.js';
+import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 
 export default class ContrastRatioCheckModel {
@@ -33,11 +34,9 @@ export default class ContrastRatioCheckModel {
     }
 
     #dispatchEvent() {
-        document.dispatchEvent(new CustomEvent(CustomEventNames.COLOR_PICKER__CHANGE_CONTRAST_RATIO_CHECK_COLOR, {
-            detail: {
-                backgroundColor: this.#backgroundColor,
-                textColor: this.#textColor
-            }
-        }));
+        CommonEventDispatcher.dispatch(CustomEventNames.COLOR_PICKER__CHANGE_CONTRAST_RATIO_CHECK_COLOR, {
+            backgroundColor: this.#backgroundColor,
+            textColor: this.#textColor
+        });
     }
 }

@@ -1,3 +1,5 @@
+import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
+
 export default class ListModel {
 
     #eventNameOnAdd;
@@ -77,7 +79,10 @@ export default class ListModel {
         }
         const idsDesc = this.#idsDesc();
         const deletedIds = idsDesc.splice(this.#maxSize, idsDesc.length);
-        if (deletedIds) {
+        if (deletedIds && 0 < deletedIds.length) {
+            deletedIds.forEach(id => {
+                delete this.#itemMap[id];
+            });
             this.#dispatchEventOnRemove(deletedIds);
         }
     }
@@ -91,11 +96,9 @@ export default class ListModel {
     }
 
     #dispatchEventOnAdd(itemInfos) {
-        document.dispatchEvent(new CustomEvent(this.#eventNameOnAdd, {
-            detail: {
-                addedItemInfos: itemInfos
-            }
-        }));
+        CommonEventDispatcher.dispatch(this.#eventNameOnAdd, {
+            addedItemInfos: itemInfos
+        });
     }
 
     #idsDesc() {
@@ -116,11 +119,9 @@ export default class ListModel {
         if (!ids) {
             return;
         }
-        document.dispatchEvent(new CustomEvent(this.#eventNameOnRemove, {
-            detail: {
-                ids: ids
-            }
-        }));
+        CommonEventDispatcher.dispatch(this.#eventNameOnRemove, {
+            ids: ids
+        });
     }
 
     #generateId() {

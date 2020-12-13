@@ -1,4 +1,5 @@
 import CanvasHandler from '../tool/CanvasHandler.js';
+import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 
 export default class ImageCanvasView extends CanvasHandler {
@@ -21,7 +22,7 @@ export default class ImageCanvasView extends CanvasHandler {
 
     setUpEvent() {
         super.setUpEvent();
-        document.addEventListener(CustomEventNames.COLOR_PICKER__IMAGE_FILE_LOADED, event => {
+        CommonEventDispatcher.on(CustomEventNames.COLOR_PICKER__IMAGE_FILE_LOADED, event => {
             const detail = event.detail;
             this.#drawImageWithSpecificSize(detail.image, detail.width, detail.height);
         });

@@ -1,3 +1,4 @@
+import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 import debounce from '../common/Debounce.js';
 
@@ -47,13 +48,13 @@ export default class ColorPointerPinView {
             });
         });
 
-        document.addEventListener(CustomEventNames.COLOR_PICKER__IMAGE_DATA_POINTED, event => {
+        CommonEventDispatcher.on(CustomEventNames.COLOR_PICKER__IMAGE_DATA_POINTED, event => {
             const detail = event.detail;
             this.#show(detail.eventX, detail.eventY);
         });
 
-        document.addEventListener(CustomEventNames.COLOR_PICKER__IMAGE_FILE_LOADED, () => this.#hide());
-        document.addEventListener(CustomEventNames.COLOR_PICKER__HIDE_COLOR_POINTER_PIN, () => this.#hide());
+        CommonEventDispatcher.on(CustomEventNames.COLOR_PICKER__IMAGE_FILE_LOADED, () => this.#hide());
+        CommonEventDispatcher.on(CustomEventNames.COLOR_PICKER__HIDE_COLOR_POINTER_PIN, () => this.#hide());
 
         window.addEventListener('resize', debounce(() => {
             this.#hide();

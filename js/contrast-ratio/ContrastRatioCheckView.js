@@ -1,3 +1,4 @@
+import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import ContrastRatioCalculator from './ContrastRatioCalculator.js';
 import ContrastRatioCheckModel from './ContrastRatioCheckModel.js';
 import ContrastRatioExplanationsView from './ContrastRatioExplanationsView.js';
@@ -92,7 +93,7 @@ export default class ContrastRatioCheckView {
             color => this.#contrastRatioCheckModel.setTextColorFromColorCode(color)
         );
 
-        document.addEventListener(CustomEventNames.COLOR_PICKER__CHANGE_CONTRAST_RATIO_CHECK_COLOR, event => {
+        CommonEventDispatcher.on(CustomEventNames.COLOR_PICKER__CHANGE_CONTRAST_RATIO_CHECK_COLOR, event => {
             const bgColor = event.detail.backgroundColor;
             const textColor = event.detail.textColor;
             this.#renderContrastRatioInfo(bgColor, textColor);
