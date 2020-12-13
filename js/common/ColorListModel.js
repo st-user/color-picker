@@ -20,4 +20,15 @@ export default class ColorListModel extends ListModel {
         }));
         super.addList(colors);
     }
+
+    addOneColorIfChanged(color, alertMessage) {
+        const latestColor = super.getLatestItem();
+        if (latestColor && latestColor.equals(color)) {
+            if (alertMessage) {
+                alert(alertMessage);
+            }
+            return;
+        }
+        this.addOneColorCode(color.getColorCode());
+    }
 }

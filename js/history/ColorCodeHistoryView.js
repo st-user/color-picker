@@ -1,116 +1,101 @@
-import StorageAccessor from '../common/StorageAccessor.js';
 import CustomEventNames from '../common/CustomEventNames.js';
-import Constants from '../common/Constants.js';
-import debounce from '../common/Debounce.js';
+import StorageAccessor from '../common/StorageAccessor.js';
 
 const template = data => {
     return `
-    <div class="history-content-area__history-color-bar historyBar shadow clearfixContainer" data-color-code="${data.colorCode}" draggable="true">
+    <div class="history-content-area__history-color-bar clearfixContainer" data-id="${data.id}" draggable="true">
       <div style="background-color: ${data.colorCode};" class="history-content-area__history-color-bar-color-mark"></div>
       <div class="history-content-area__history-color-bar-color-code">${data.colorCode}</div>
     </div>
   `;
 };
 
-const HISTORY_MAX_SIZE = 30;
 const STORAGE_KEY = 'colorCodeHistories';
 
 export default class ColorCodeHistoryView {
 
     #colorModel;
-    #isHistoryUpdateAutomatically;
-    #isHistoryClickContext;
+    #colorListModel;
 
     #$historiesListArea;
     #$tabInput;
-
     #$clearHistories;
 
-    #colorCodes;
-
-    constructor(colorModel) {
+    constructor(colorModel, colorListModel) {
 
         this.#colorModel = colorModel;
+        this.#colorListModel = colorListModel;
 
         this.#$historiesListArea = document.querySelector('#historiesListArea');
         this.#$tabInput = document.querySelector('#colorCodeHistoryTabTitle');
         this.#$clearHistories = document.querySelector('#clearHistories');
-        this.#colorCodes = [];
     }
 
     setUpEvents() {
         this.#$clearHistories.addEventListener('click', () => {
             if(confirm('全ての履歴が削除されますがよろしいですか？')) {
-                this.#$historiesListArea.innerHTML = '';
-                this.#colorCodes.length = 0;
-                StorageAccessor.removeItem(STORAGE_KEY);
+                this.#colorListModel.removeAll();
             }
         });
 
-        document.addEventListener(CustomEventNames.COLOR_PICKER__UPDATE_COLOR_CODE_HISTORY, event => {
-            const color = event.detail.color;
-            this.#addColorCode(color.getColorCode(), true);
+        document.addEventListener(CustomEventNames.COLOR_PICKER__ADD_COLOR_CODE_TO_HISTORY, event => {
+            const colorInfos = event.detail.addedItemInfos;
+            colorInfos.forEach(colorInfo => this.#renderOneHistory(colorInfo.id, colorInfo.item));
+            this.#updateStorage();
         });
 
-        document.addEventListener(CustomEventNames.COLOR_PICKER__CHANGE_STATE_OF_AUTO_HISTORY_UPDATE, event => {
-            const stateValue = event.detail.stateValue;
-            this.#isHistoryUpdateAutomatically = stateValue;
+        document.addEventListener(CustomEventNames.COLOR_PICKER__REMOVE_COLOR_CODE_TO_HISTORY, event => {
+            const ids = event.detail.ids;
+            this.#removeHistoryByIds(ids);
+            this.#updateStorage();
         });
-
-        document.addEventListener(CustomEventNames.COLOR_PICKER__CHANGE_COLOR_ON_COLOR_CONTROL_VIEW, debounce(event => {
-            const current = this.#isHistoryClickContext;
-            this.#isHistoryClickContext = false;
-            if (current || !this.#isHistoryUpdateAutomatically) {
-                this.#isHistoryClickContext = false;
-                return;
-            }
-            const color = event.detail.color;
-            this.#addColorCode(color.getColorCode(), false);
-        }, 500));
-
-        this.#isHistoryUpdateAutomatically = Constants.AUTO_HISTORY_UPDATE_STATE_DEFAULT;
-        this.#isHistoryClickContext = false;
 
         const storedColorCodes = StorageAccessor.getObject(STORAGE_KEY);
         if (storedColorCodes) {
-            storedColorCodes.forEach(cc => this.#addColorCode(cc, false));
+            this.#colorListModel.addColorCodeList(storedColorCodes);
         }
     }
 
-    #addColorCode(newColorCode, needsAlert) {
-        const colorCodes = this.#colorCodes;
-        const isSameColorCode = newColorCode === colorCodes[colorCodes.length - 1];
+    #renderOneHistory(id, color) {
 
-        if (isSameColorCode) {
-            if (needsAlert) {
-                alert('直近の履歴と相違がないため、履歴に追加されませんでした');
-            }
-            return;
-        }
-
-        const $allHistories = this.#$historiesListArea.querySelectorAll('.history-content-area__history-color-bar');
-        if (colorCodes.length === HISTORY_MAX_SIZE) {
-            colorCodes.shift();
-            $allHistories[$allHistories.length - 1].remove();
-        }
-
-        colorCodes.push(newColorCode);
+        const colorCode = color.getColorCode();
         this.#$historiesListArea.insertAdjacentHTML('afterbegin',
-            template({ colorCode: newColorCode })
+            template({
+                id: id,
+                colorCode: colorCode
+            })
         );
 
         const $newHistory = this.#$historiesListArea.querySelectorAll('.history-content-area__history-color-bar')[0];
         $newHistory.addEventListener('click', () => {
-            this.#isHistoryClickContext = true;
-            this.#colorModel.setColorCode(newColorCode);
+            this.#colorModel.setEventContextInfo({
+                isHistoryClickContext: true
+            });
+            this.#colorModel.setColorCode(colorCode);
         });
 
         $newHistory.addEventListener('dragstart', e => {
             e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/plain', newColorCode);
+            e.dataTransfer.setData('text/plain', colorCode);
         });
-        StorageAccessor.setObject(STORAGE_KEY, this.#colorCodes);
         this.#$tabInput.checked = true;
     }
 
+    #removeHistoryByIds(idsInt) {
+        const $histories = this.#$historiesListArea.querySelectorAll('.history-content-area__history-color-bar');
+        $histories.forEach($history => {
+            if (idsInt.includes(parseInt($history.dataset.id))) {
+                $history.remove();
+            }
+        });
+    }
+
+    #updateStorage() {
+        if (this.#colorListModel.isEmpty()) {
+            StorageAccessor.removeItem(STORAGE_KEY);
+        } else {
+            const colorCodes = this.#colorListModel.getItems().map(color => color.getColorCode());
+            StorageAccessor.setObject(STORAGE_KEY, colorCodes);
+        }
+    }
 }

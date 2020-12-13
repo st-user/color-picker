@@ -1,30 +1,30 @@
+import Color from './common/Color.js';
+import ColorCodeHistoryView from './history/ColorCodeHistoryView.js';
+import ColorControlView from './color-control/ColorControlView.js';
+import ColorDesignHistoryView from './history/ColorDesignHistoryView.js';
+import ColorDesignView from './color-design/ColorDesignView.js';
+import ColorListModel from './common/ColorListModel.js';
+import ColorModel from './common/ColorModel.js';
+import ColorPointerPinView from './tool/ColorPointerPinView.js';
+import Constants from './common/Constants.js';
+import ContrastRatioAutoExtractionView from './contrast-ratio/ContrastRatioAutoExtractionView.js';
+import ContrastRatioCheckView from './contrast-ratio/ContrastRatioCheckView.js';
+import CustomEventNames from './common/CustomEventNames.js';
 import ExplanationsView from './explanations/ExplanationsView.js';
-import ToolTabsView from './tool/ToolTabsView.js';
 import HsvCircleCanvasView from './hsv-circle/HsvCircleCanvasView.js';
 import ImageCanvasView from './image-file/ImageCanvasView.js';
-import ColorPointerPinView from './tool/ColorPointerPinView.js';
 import LoadedImageHolder from './image-file/LoadedImageHolder.js';
-import ColorControlView from './color-control/ColorControlView.js';
-import ColorCodeHistoryView from './history/ColorCodeHistoryView.js';
-import ColorDesignView from './color-design/ColorDesignView.js';
-import ContrastRatioCheckView from './contrast-ratio/ContrastRatioCheckView.js';
-import ContrastRatioAutoExtractionView from './contrast-ratio/ContrastRatioAutoExtractionView.js';
-import ColorDesignHistoryView from './history/ColorDesignHistoryView.js';
-import CustomEventNames from './common/CustomEventNames.js';
-import Constants from './common/Constants.js';
-
-import ColorModel from './common/ColorModel.js';
-import Color from './common/Color.js';
 import PatternColorListModel from './common/PatternColorListModel.js';
 import PatternInputModel from './common/PatternInputModel.js';
 import PatternListModel from './common/PatternListModel.js';
+import ToolTabsView from './tool/ToolTabsView.js';
 
 
 export default function main() {
 
     /* Viewを跨って使用するModel群 */
 
-    /* メインの編集領域 */    
+    /* メインの編集領域 */
     const colorModel = new ColorModel(
         CustomEventNames.COLOR_PICKER__CHANGE_COLOR_ON_COLOR_CONTROL_VIEW,
         new Color({ colorCode: '#ffffff' })
@@ -36,6 +36,12 @@ export default function main() {
     );
     /* 配色チェックの配色名記入箇所 */
     const colorDesignCheckPatternInputModel = new PatternInputModel();
+    /* 色の履歴 */
+    const colorCodeHistoryColorListModel = new ColorListModel(
+        CustomEventNames.COLOR_PICKER__ADD_COLOR_CODE_TO_HISTORY,
+        CustomEventNames.COLOR_PICKER__REMOVE_COLOR_CODE_TO_HISTORY,
+        Constants.HISTORY_MAX_SIZE
+    );
     /* 配色の履歴 */
     const colorDesignHistoryPatternListModel = new PatternListModel(
         CustomEventNames.COLOR_PICKER__ADD_PATTERN_TO_HISTORY,
@@ -48,7 +54,7 @@ export default function main() {
     explanationsView.setUpEvents();
 
     /** RGB, HSVのスライダー */
-    const colorControlView = new ColorControlView(colorModel);
+    const colorControlView = new ColorControlView(colorModel, colorCodeHistoryColorListModel);
     colorControlView.setUpEvents();
 
     /** ツール */
@@ -72,7 +78,9 @@ export default function main() {
     colorDesignView.setUpEvents();
 
     /** 履歴 */
-    const colorCodeHistoryView = new ColorCodeHistoryView(colorModel);
+    const colorCodeHistoryView = new ColorCodeHistoryView(
+        colorModel, colorCodeHistoryColorListModel
+    );
     const colorDesignHistoryView = new ColorDesignHistoryView(
         colorDesignCheckListOfColorModel, colorDesignCheckPatternInputModel, colorDesignHistoryPatternListModel
     );

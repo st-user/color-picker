@@ -11,6 +11,7 @@ export default class Color {
         if (!info || (!info.colorCode && !info.rgb && !info.hsv)) {
             throw 'colorCode, rgb, hsvのいずれかを指定してください';
         }
+
         this.#colorCode = info.colorCode;
         if (info.rgb) {
             this.#rgb = Object.assign(info.rgb, {});
@@ -84,6 +85,16 @@ export default class Color {
     calcLuminance() {
         const rgb = this.getRgb();
         return ContrastRatioCalculator.calcLuminance(rgb.r, rgb.g, rgb.b);
+    }
+
+    equals(obj) {
+        if (!obj) {
+            return false;
+        }
+        if (!obj.getColorCode) {
+            return false;
+        }
+        return this.getColorCode().toUpperCase() === obj.getColorCode().toUpperCase();
     }
 
     #colorCodeToRgb() {

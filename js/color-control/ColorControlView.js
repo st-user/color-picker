@@ -2,11 +2,14 @@ import { RgbColorBar, HsvColorBar } from '../common/ColorBar.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 import StateModel from '../common/StateModel.js';
 import Constants from '../common/Constants.js';
+import debounce from '../common/Debounce.js';
 
 export default class ColorControlView {
 
     #colorModel;
+    #colorCodeHistoryColorListModel;
     #stateOfAutoHistoryUpdate;
+    #isInitializing;
 
     #$viewColor;
     #$rgbColorCode;
@@ -30,14 +33,16 @@ export default class ColorControlView {
     #$storeHistoriesAutomatically;
     #$addHistory;
 
-    constructor(colorModel) {
+    constructor(colorModel, colorCodeHistoryColorListModel) {
 
         this.#colorModel = colorModel;
+        this.#colorCodeHistoryColorListModel = colorCodeHistoryColorListModel;
 
         this.#stateOfAutoHistoryUpdate = new StateModel(
             CustomEventNames.COLOR_PICKER__CHANGE_STATE_OF_AUTO_HISTORY_UPDATE,
             true
         );
+        this.#isInitializing = true;
 
         this.#$viewColor = document.querySelector('#viewColor');
 
@@ -64,9 +69,16 @@ export default class ColorControlView {
 
     setUpEvents() {
 
+        const alertIfNecessary = error => {
+            if (error) {
+                alert(error);
+            }
+        };
+
         const setHandlerOnColorCodeChange = element => {
             element.addEventListener('change', () => {
-                this.#colorModel.setColorCode(this.#$rgbColorCode.value);
+                const error = this.#colorModel.setColorCode(this.#$rgbColorCode.value);
+                alertIfNecessary(error);
             });
         };
 
@@ -80,9 +92,10 @@ export default class ColorControlView {
 
         const setHandlerOnRgbTextChange = element => {
             element.addEventListener('change', () => {
-                this.#colorModel.setRgbFromString(
+                const error = this.#colorModel.setRgbFromString(
                     this.#$rgbText_r.value, this.#$rgbText_g.value, this.#$rgbText_b.value
                 );
+                alertIfNecessary(error);
             });
         };
 
@@ -96,9 +109,10 @@ export default class ColorControlView {
 
         const setHandlerOnHsvTextChange = element => {
             element.addEventListener('change', () => {
-                this.#colorModel.setHsvFromString(
+                const error = this.#colorModel.setHsvFromString(
                     this.#$hsvText_h.value, this.#$hsvText_s.value, this.#$hsvText_v.value
                 );
+                alertIfNecessary(error);
             });
         };
 
@@ -133,16 +147,30 @@ export default class ColorControlView {
             if (this.#stateOfAutoHistoryUpdate.getStateValue()) {
                 return;
             }
-            document.dispatchEvent(new CustomEvent(CustomEventNames.COLOR_PICKER__UPDATE_COLOR_CODE_HISTORY, {
-                detail: {
-                    color: this.#colorModel.getColor()
-                }
-            }));
+            const color = this.#colorModel.getColor();
+            this.#colorCodeHistoryColorListModel.addOneColorIfChanged(
+                color,
+                '直近の履歴と相違がないため、履歴に追加されませんでした'
+            );
         });
+
+        //size制限&removeもModelで管理しているため、追加のタイミングを間引かなければならない
+        const debounceAddList = debounce(() => {
+            if (!this.#stateOfAutoHistoryUpdate.getStateValue()) {
+                return;
+            }
+            const color = this.#colorModel.getColor();
+            this.#colorCodeHistoryColorListModel.addOneColorIfChanged(color);
+        }, 500);
 
         document.addEventListener(CustomEventNames.COLOR_PICKER__CHANGE_COLOR_ON_COLOR_CONTROL_VIEW, event => {
             const color = event.detail.color;
+            const preventAddHistory = event.detail.contextInfo && event.detail.contextInfo.isHistoryClickContext;
             this.#renderColor(color);
+            if (!this.#isInitializing && !preventAddHistory) {
+                debounceAddList();
+            }
+            this.#isInitializing = false;
         });
 
         document.addEventListener(CustomEventNames.COLOR_PICKER__CHANGE_STATE_OF_AUTO_HISTORY_UPDATE, event => {

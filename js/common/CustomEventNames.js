@@ -18,6 +18,8 @@ const CustomEventNames = {
     COLOR_PICKER__REMOVE_COLOR_DESIGN_TARGET_COLOR: 'color-picker/remove-color-design-target-color',
     COLOR_PICKER__INPUT_COLOR_DESIGN_PATTERN_NAME: 'color-picker/input-color-design-pattern-name',
     /* 履歴 */
+    COLOR_PICKER__ADD_COLOR_CODE_TO_HISTORY: 'color-picker/add-color-code-to-history',
+    COLOR_PICKER__REMOVE_COLOR_CODE_TO_HISTORY: 'color-picker/remove-color-code-to-history',
     COLOR_PICKER__ADD_PATTERN_TO_HISTORY: 'color-picker/add-pattern-to-history',
     COLOR_PICKER__REMOVE_PATTERN_TO_HISTORY: 'color-picker/remove-pattern-to-history'
 };

@@ -34,6 +34,11 @@ export default class ListModel {
         return this.getItemById(parseInt(idString));
     }
 
+    getLatestItem() {
+        const idsDesc = this.#idsDesc();
+        return this.getItemById(idsDesc[0]);
+    }
+
     addOne(item) {
         const id = this.#generateId();
         this.#itemMap[id] = item;
@@ -66,9 +71,7 @@ export default class ListModel {
         if (!this.#maxSize || this.#maxSize <= 0) {
             return;
         }
-        const idsDesc = Object.keys(this.#itemMap)
-            .map(idStr => parseInt(idStr))
-            .sort((a, b) => b - a);
+        const idsDesc = this.#idsDesc();
         const deletedIds = idsDesc.splice(this.#maxSize, idsDesc.length);
         if (deletedIds) {
             this.#dispatchEventOnRemove(deletedIds);
@@ -89,6 +92,12 @@ export default class ListModel {
                 addedItemInfos: itemInfos
             }
         }));
+    }
+
+    #idsDesc() {
+        return Object.keys(this.#itemMap)
+            .map(idStr => parseInt(idStr))
+            .sort((a, b) => b - a);
     }
 
     #dispatchEventOnRemove(ids) {

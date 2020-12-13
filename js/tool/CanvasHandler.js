@@ -1,5 +1,5 @@
-import CustomEventNames from '../common/CustomEventNames.js';
 import CurrentEventXY from './CurrentEventXY.js';
+import CustomEventNames from '../common/CustomEventNames.js';
 import ElementUtil from '../common/ElementUtil.js';
 
 export default class CanvasHandler {
@@ -70,7 +70,10 @@ export default class CanvasHandler {
                 });
 
             document.dispatchEvent(newEvent);
-            this.#colorModel.setRgbFromValidInteger(rgbaData[0], rgbaData[1], rgbaData[2]);
+            const r = rgbaData[0];
+            const g = rgbaData[1];
+            const b = rgbaData[2];
+            this.#colorModel.setRgbFromValidInteger(r, g, b);
         }
     }
 
