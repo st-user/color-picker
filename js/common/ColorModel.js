@@ -28,7 +28,7 @@ const InputChecker = (() => {
         },
 
         checkRgbInputRange: (input) => {
-            return checkInputRange(input, 'R、G、B', 0, 255);
+            return checkInputRange(input, 'R, G, B', 0, 255);
         },
 
         checkHueInputRange: (input) => {
@@ -36,7 +36,7 @@ const InputChecker = (() => {
         },
 
         checkSvInputRange: (input) => {
-            return checkInputRange(input, 'S、V', 0, 100);
+            return checkInputRange(input, 'S, V', 0, 100);
         }
     };
 })();

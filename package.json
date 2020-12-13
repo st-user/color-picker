@@ -4,14 +4,13 @@
   "description": "color picker application",
   "private": true,
   "scripts": {
-    "watch": "webpack --config webpack.dev.js --watch",
     "build": "webpack --config webpack.prod.js",
+    "build:test": "webpack --config webpack.dev.js",
+    "build:watch": "webpack --config webpack.dev.js --watch",
     "start": "webpack serve --config webpack.dev.js",
     "lint:one": "eslint",
     "lint:all": "eslint 'js/**/*.js'",
-    "lint:test": "eslint js/test/*.js",
-    "build-css": "node-sass scss --output scss-dest",
-    "watch-css": "node-sass scss --output scss-dest --watch"
+    "build-css": "node-sass scss --output scss-dest"
   },
   "repository": {
     "type": "git",
@@ -34,7 +33,10 @@
     "copy-webpack-plugin": "^6.3.2",
     "css-loader": "^5.0.1",
     "eslint": "^7.15.0",
+    "expect.js": "^0.3.1",
     "htmlhint": "^0.14.2",
+    "mocha": "^8.2.1",
+    "mocha-webpack": "^1.1.0",
     "node-sass": "^5.0.0",
     "style-loader": "^2.0.0",
     "stylelint": "^13.8.0",

@@ -12,7 +12,9 @@ export default class Color {
             throw 'colorCode, rgb, hsvのいずれかを指定してください';
         }
 
-        this.#colorCode = info.colorCode;
+        if (info.colorCode) {
+            this.#colorCode = info.colorCode.toUpperCase();    
+        }
         if (info.rgb) {
             this.#rgb = Object.assign(info.rgb, {});
         }
@@ -65,7 +67,7 @@ export default class Color {
     }
 
     setColorCode(colorCode) {
-        this.#colorCode = colorCode;
+        this.#colorCode = colorCode.toUpperCase();
         this.#rgb = undefined;
         this.#hsv = undefined;
     }
