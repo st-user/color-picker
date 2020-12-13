@@ -12,6 +12,7 @@ RGB/HSVをスライダーバーで調整してカラーコードを作成する�
 git clone https://github.com/st-user/color-picker.git
 cd color-picker
 npm install
+npm run build-css
 npm run start
 ```
 
