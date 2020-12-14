@@ -232,6 +232,7 @@ export default class ColorControlView {
     }
 
     #renderHistoryBtn(checked) {
+        this.#$storeHistoriesAutomatically.checked = checked;
         this.#$addHistory.disabled = checked;
     }
 }

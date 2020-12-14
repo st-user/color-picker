@@ -93,6 +93,12 @@ describe('Color', () => {
             color.setHsv(220, 36, 93);
             expect(color.getHsv()).to.eql({ h: 220, s: 36, v: 93 });
         });
+
+        it('setHsv - 4', () => {
+            const color = getColor();
+            color.setHsv(360, 36, 93);
+            expect(color.getRgb()).to.eql({ r: 237, g: 152, b: 152 });
+        });
     });
 
     describe('#calcLuminance', () => {

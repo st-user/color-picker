@@ -13,7 +13,7 @@ export default class Color {
         }
 
         if (info.colorCode) {
-            this.#colorCode = info.colorCode.toUpperCase();    
+            this.#colorCode = info.colorCode.toUpperCase();
         }
         if (info.rgb) {
             this.#rgb = Object.assign(info.rgb, {});
@@ -114,7 +114,7 @@ export default class Color {
 
     #hsvToRgb() {
         return HsvRgbConverter.hsvToRgb(
-            this.#hsv.h, this.#hsv.s / 100, this.#hsv.v / 100
+            this.#hsv.h % 360, this.#hsv.s / 100, this.#hsv.v / 100
         );
     }
 

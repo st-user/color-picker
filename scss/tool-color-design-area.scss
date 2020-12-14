@@ -28,6 +28,14 @@
 
     &__picked-color-bar {
         @extend %g-draggable__picked-color-bar;
+        
+        &.is-over {
+            @extend %g-draggable__picked-color-bar-over;
+        }
+
+        &.is-dragging {
+            @extend %g-draggable__picked-color-bar-dragging;
+        }
     }
 
     &__picked-color-bar-text {

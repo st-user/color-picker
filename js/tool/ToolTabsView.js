@@ -12,5 +12,6 @@ export default class ToolTabsView {
             });
         });
 
+        $toolTabItems[0].checked = true;
     }
 }

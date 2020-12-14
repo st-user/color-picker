@@ -37,7 +37,7 @@ export default class CanvasHandler {
 
         CommonEventDispatcher.on(
             CustomEventNames.COLOR_PICKER__ENABLE_TO_PICK_UP_COLOR_ON_MOUSE_MOVE,
-            event => this.#controlKeyPressed(event));
+            event => this.#enableToPickUpColorOnMousemove(event));
 
 
     }
@@ -101,6 +101,7 @@ export default class CanvasHandler {
             if (!this.containsXY(event.pageX, event.pageY)) {
                 return;
             }
+            event.preventDefault();
             this.#dispatchPointEvent(event);
         }
     }
@@ -132,7 +133,7 @@ export default class CanvasHandler {
         }
     }
 
-    #controlKeyPressed(event) {
+    #enableToPickUpColorOnMousemove(event) {
         const detail = event.detail;
         this.#shouldHandleMousemoveEvent = detail.state;
     }

@@ -146,7 +146,7 @@ export default class ColorDesignView {
 
         $newBar.addEventListener('dragstart', e => {
 
-            $newBar.classList.add('dragging');
+            $newBar.classList.add('is-dragging');
             this.#$movingBar = $newBar;
             e.dataTransfer.effectAllowed = 'move';
             e.dataTransfer.setData('text/html', $newBar.innerHTML);
@@ -174,20 +174,20 @@ export default class ColorDesignView {
 
         $newBar.addEventListener('dragenter', () => {
             if (this.#$movingBar) {
-                $newBar.classList.add('over');
+                $newBar.classList.add('is-over');
             }
         });
 
         $newBar.addEventListener('dragleave', () => {
-            $newBar.classList.remove('over');
+            $newBar.classList.remove('is-over');
         });
 
         $newBar.addEventListener('dragend', () => {
 
-            $newBar.classList.remove('dragging');
+            $newBar.classList.remove('is-dragging');
             const $bars = this.#$colorDesignListOfColors.querySelectorAll('.tool-color-design-area__picked-color-bar');
             $bars.forEach($bar => {
-                $bar.classList.remove('over');
+                $bar.classList.remove('is-over');
             });
             const $barDelMarks = this.#$colorDesignListOfColors.querySelectorAll('.tool-color-design-area__picked-color-bar-del');
             $barDelMarks.forEach($mark => {

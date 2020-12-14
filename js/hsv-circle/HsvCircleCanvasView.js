@@ -82,6 +82,7 @@ export default class HsvCircleCanvasView extends CanvasHandler {
                 CommonEventDispatcher.hideColorPointerPinView();
             });
         });
+        document.querySelector('#hsvCircleSizeSwitchMedium').checked = true;
 
         const $hsvCircleDivisionCountSwitches = document.querySelectorAll('input[name="hsvCircleDivisionCountSwitch"]');
         $hsvCircleDivisionCountSwitches.forEach($switch => {
@@ -92,6 +93,7 @@ export default class HsvCircleCanvasView extends CanvasHandler {
                 CommonEventDispatcher.hideColorPointerPinView();
             });
         });
+        document.querySelector('#hsvCircleDivisionCountSwitchNone').checked = true;
 
         this.#drawHsvCircleFromConfigs();
     }
