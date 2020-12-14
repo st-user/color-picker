@@ -251,9 +251,9 @@ export default class ContrastRatioAutoExtractionView {
     #setResultMessageState(btnDisabled, tableDisplay, animationDisplay, messageDisplay) {
 
         if (btnDisabled) {
-            this.#$contrastRatioExtractHighestRatios.classList.add('disabled');
+            this.#$contrastRatioExtractHighestRatios.classList.add('is-disabled');
         } else {
-            this.#$contrastRatioExtractHighestRatios.classList.remove('disabled');
+            this.#$contrastRatioExtractHighestRatios.classList.remove('is-disabled');
         }
         this.#$contrastRatioResultColorTable.style.display = tableDisplay;
         this.#$contrastRatioResultColorExecuting.style.display = animationDisplay;
