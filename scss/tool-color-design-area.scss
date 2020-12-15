@@ -28,7 +28,7 @@
 
     &__picked-color-bar {
         @extend %g-draggable__picked-color-bar;
-        
+
         &.is-over {
             @extend %g-draggable__picked-color-bar-over;
         }
@@ -111,8 +111,8 @@
     &__history-control-wrapper {
         @extend %g__clear;
         float: right;
-        margin-right: 6px;
-        width: 330px;
+        margin-right: 12px;
+        text-align: right;
     }
 
     &__input-pattern-name {
@@ -121,5 +121,8 @@
 
     &__input-pattern-name-error {
         color: #a63838;
+        float: right;
+        text-align: left;
+        width: 324px;
     }
 }
