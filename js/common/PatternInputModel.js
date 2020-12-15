@@ -35,6 +35,12 @@ export default class PatternInputModel {
         this.#currentError = '';
     }
 
+    clear() {
+        this.#patternName = '';
+        this.#currentError = '';
+        this.#dispatchEvent('');
+    }
+
     setName(name) {
 
         let error = '';

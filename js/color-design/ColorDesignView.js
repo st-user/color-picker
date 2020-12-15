@@ -210,6 +210,9 @@ export default class ColorDesignView {
 
         $newBarDelMark.addEventListener('click', () => {
             this.#listOfColorsModel.removeById(parseInt(colorInfoId));
+            if (this.#listOfColorsModel.isEmpty()) {
+                this.#patternInputModel.clear();
+            }
         });
 
         $element.addEventListener('mouseover', () => {
@@ -249,8 +252,10 @@ export default class ColorDesignView {
     }
 
     #renderPatternInput(error) {
-        const buttonDisabled = !!(error);
-        this.#renderPatternInputFrom(false, buttonDisabled, this.#patternInputModel.getName(), error);
+        const name = this.#patternInputModel.getName();
+        const textDisabled = this.#listOfColorsModel.isEmpty();
+        const buttonDisabled = textDisabled || !!(error) || !name;
+        this.#renderPatternInputFrom(textDisabled, buttonDisabled, name, error);
     }
 
     #renderPatternInputFrom(textDisabled, buttonDisabled, patternName, error) {
