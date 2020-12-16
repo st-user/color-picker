@@ -4,6 +4,7 @@
 const expect = require('expect.js');
 import ContrastRatioAutoExtractionWorker from '../contrast-ratio/ContrastRatioAutoExtractionWorker.js';
 import ContrastRatioCalculator from '../contrast-ratio/ContrastRatioCalculator.js';
+import HsvRgbConverter from '../common/HsvRgbConverter.js';
 
 describe('ContrastRatioAutoExtractionWorker', () => {
 
@@ -46,8 +47,7 @@ describe('ContrastRatioAutoExtractionWorker', () => {
                         selectedSaturationRange: [0, 100],
                         selectedValueRange: [0, 100],
                         selectedContrastRatioRange: [1, 21]
-                    },
-                    currentMinScore: undefined
+                    }
                 };
             };
 
@@ -80,7 +80,10 @@ describe('ContrastRatioAutoExtractionWorker', () => {
             });
 
             const saturationChecker = collectedSaturations => {
-                return (h, s, v) => collectedSaturations[s] = s; // eslint-disable-line no-unused-vars
+                return (h, s, v) => {
+                    collectedSaturations[s] = s; // eslint-disable-line no-unused-vars
+                    return HsvRgbConverter.hsvToRgb(h % 360, s / 100, v / 100);
+                };
             };
 
             it('saturation', () => {
@@ -98,7 +101,10 @@ describe('ContrastRatioAutoExtractionWorker', () => {
             });
 
             const valueChecker = collectedValues => {
-                return (h, s, v) => collectedValues[v] = v; // eslint-disable-line no-unused-vars
+                return (h, s, v) => {
+                    collectedValues[v] = v; // eslint-disable-line no-unused-vars
+                    return HsvRgbConverter.hsvToRgb(h % 360, s / 100, v / 100);
+                };
             };
 
             it('value', () => {
@@ -131,8 +137,7 @@ describe('ContrastRatioAutoExtractionWorker', () => {
                         selectedSaturationRange: [0, 100],
                         selectedValueRange: [0, 100],
                         selectedContrastRatioRange: [1, 21]
-                    },
-                    currentMinScore: undefined
+                    }
                 };
             };
 
