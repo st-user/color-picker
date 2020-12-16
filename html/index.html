@@ -303,10 +303,12 @@
                 <div id="contrastRatioExtractionAreaContents">
 
                     <ul class="tool-contrast-ratio-area__function-explanations">
-                        <li>「HSVの範囲」を満たす色の中から、<a target="_blank" rel="noopener noreferrer" href="https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio">WCAGで示されているcontrast ratio</a>が「コントラスト比の範囲」を満たすものを自動で抽出します。</li>
-                        <li>より正確には、「HSVの範囲」を満たし、かつ、「抽出元の色」全てに対して「コントラスト比の範囲」を満たす色を「抽出結果」に表示します。</li>
-                        <li>「抽出結果」には、「スコア」が高い順に「抽出結果に表示する件数」分表示されます。「スコア」は「抽出元の色」に対するその色のcontrast ratioの平均値です。</li>
-                        <li>「HSVの範囲」「コントラスト比の範囲」は、「設定」で選択できます。</li>
+                        <li>色相(HUE)毎に<a target="_blank" rel="noopener noreferrer" href="https://www.w3.org/TR/WCAG21/#dfn-contrast-ratio">WCAGで示されているcontrast ratio</a>が高い色を自動で抽出します。</li>
+                        <li>より正確には、色相を「HUEの分割数」で分割し、それぞれの分割毎に「スコア」が最も高い色を抽出します。</li>
+                        <li>「スコア」とは、「抽出元の色」に対するその色のcontrast ratioの平均値です。</li>
+                        <li>「HSVの範囲」を満たしている色のみが抽出されます。</li>
+                        <li>「抽出元の色」全てに対して「コントラスト比の範囲」を満たしている色のみが抽出されます。</li>
+                        <li>「HUEの分割数」「HSVの範囲」「コントラスト比の範囲」は、「設定」で選択できます。</li>
                         <li>「抽出元の色」「抽出結果」の色はDrag&amp;Dropし、「コントラスト比の確認」で確認できます。</li>
                     </ul>
 
@@ -315,8 +317,20 @@
                             <span class="tool-contrast-ratio-area__auto-extraction-title-toggle-mark">▲</span>
                             設定
                         </div>
-                        <div id="contrastRatioExtractionCondition" class="tool-contrast-ratio-area__auto-extraction-condition">
 
+                        <div id="contrastRatioExtractionCondition" class="tool-contrast-ratio-area__auto-extraction-condition">
+                            <div class="tool-contrast-ratio-area__auto-extraction-condition-item-line clearfixContainer">
+                                <div class="tool-contrast-ratio-area__auto-extraction-condition-item-title">HUEの分割数:</div>
+                                <div class="tool-contrast-ratio-area__auto-extraction-condition-item-content">
+                                    <select tabindex="0" name="contrastRatioHueDivisionCount" id="contrastRatioHueDivisionCount">
+                                        <option value="10" selected>10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="60">60</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="tool-contrast-ratio-area__auto-extraction-condition-item-line clearfixContainer">
                                 <div class="tool-contrast-ratio-area__auto-extraction-condition-item-title">HSVの範囲:</div>
                                 <div class="tool-contrast-ratio-area__auto-extraction-condition-item-content">
@@ -354,16 +368,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tool-contrast-ratio-area__auto-extraction-condition-item-line clearfixContainer">
-                                <div class="tool-contrast-ratio-area__auto-extraction-condition-item-title">抽出結果に表示する件数:</div>
-                                <div class="tool-contrast-ratio-area__auto-extraction-condition-item-content">
-                                    <select tabindex="0" name="contrastRatioExtractionCount" id="contrastRatioExtractionCount">
-                                        <option value="10" selected>10</option>
-                                        <option value="20">20</option>
-                                        <option value="30">30</option>
-                                    </select>
-                                </div>
-                            </div>
+
                             <div class="tool-contrast-ratio-area__auto-extraction-condition-item-line clearfixContainer">
                                 <div class="tool-contrast-ratio-area__auto-extraction-condition-item-title">処理実行スレッド数:</div>
                                 <div class="tool-contrast-ratio-area__auto-extraction-condition-item-content">

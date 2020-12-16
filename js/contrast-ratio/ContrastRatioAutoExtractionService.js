@@ -7,13 +7,13 @@ export default class ContrastRatioAutoExtractionService {
         this.#workers = [];
     }
 
-    doService(targetColorLuminances, conditions, threadCount, numberOfResults) {
+    doService(targetColorLuminances, conditions, threadCount) {
 
         return new Promise((resolve, reject) => {
 
-            let resultFromWrokers = [];
+            let allResults = {};
             let processedTaskCount = 0;
-            let currentMinScore = -Infinity;
+            let postedTaskCount = 0;
             let error = false;
 
             for (let i = 0; i < threadCount; i++) {
@@ -37,12 +37,14 @@ export default class ContrastRatioAutoExtractionService {
                         return;
                     }
 
-                    const condition = conditions[processedTaskCount];
-                    processedTaskCount++;
+                    const condition = conditions[postedTaskCount];
+                    if (!condition) {
+                        return;
+                    }
+                    postedTaskCount++;
                     worker.postMessage({
                         condition: condition,
-                        targetColorLuminances: targetColorLuminances,
-                        currentMinScore: currentMinScore
+                        targetColorLuminances: targetColorLuminances
                     });
                 };
 
@@ -52,20 +54,37 @@ export default class ContrastRatioAutoExtractionService {
                         return;
                     }
 
-                    event.data.results.filter(result => currentMinScore < result.avg)
-                        .forEach(result => resultFromWrokers.push(result));
-
-                    if (!currentMinScore || numberOfResults < resultFromWrokers.length) {
-                        resultFromWrokers.sort((a, b) => b.avg - a.avg);
-                        resultFromWrokers = resultFromWrokers.slice(0, numberOfResults);
-                        currentMinScore = resultFromWrokers[resultFromWrokers.length - 1].avg;
+                    const eachDivisionResult = event.data.results;
+                    console.log(eachDivisionResult);
+                    const resultDivisions = Object.keys(eachDivisionResult).map(d => parseInt(d));
+                    for (const divIndex of resultDivisions) {
+                        const currentMax = allResults[divIndex];
+                        const resultMax = eachDivisionResult[divIndex];
+                        if (!currentMax || currentMax < resultMax) {
+                            allResults[divIndex] = resultMax;
+                        }
                     }
+                    processedTaskCount++;
 
                     if (processedTaskCount < conditions.length) {
                         postMessage();
                     } else {
+
+                        const uniqueResults = []
+                        Object.values(allResults).forEach(result => {
+                            for (const existingRgb of uniqueResults) {
+                                if (existingRgb.r === result.r
+                                        && existingRgb.g === result.g
+                                        && existingRgb.b === result.b) {
+                                    return;
+                                }
+                            }
+                            uniqueResults.push(result);
+                        })
+                        uniqueResults.sort((a, b) => b.avg - a.avg);
+
                         resolve({
-                            scoreWithRgbs: resultFromWrokers
+                            scoreWithRgbs: uniqueResults
                         });
                     }
                 };

@@ -3,7 +3,7 @@ import ContrastRatioAutoExtractionWorker from './contrast-ratio/ContrastRatioAut
 onmessage = event => {
 
     const message = event.data;
-    const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
+    const results = ContrastRatioAutoExtractionWorker.calcContrastRatioScore(message);
 
     postMessage({ results: results });
 

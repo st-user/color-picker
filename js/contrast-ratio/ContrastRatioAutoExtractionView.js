@@ -270,8 +270,7 @@ export default class ContrastRatioAutoExtractionView {
         this.#service.doService(
             targetColorLuminances,
             this.#condition.createConditions(),
-            this.#condition.getThreadCount(),
-            this.#condition.getContrastRatioExtractionCount()
+            this.#condition.getThreadCount()
         ).then(result => {
             this.#showExtractionResult(result.scoreWithRgbs);
         }).catch(result => {

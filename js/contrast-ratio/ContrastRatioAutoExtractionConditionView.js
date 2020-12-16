@@ -21,6 +21,7 @@ export default class ContrastRatioAutoExtractionConditionView {
     #$contrastRatioExtractionCondition;
     #isConditionOpend;
 
+    #$contrastRatioHueDivisionCount;
 
     #$contrastRatioRangeHsvSilder_h;
     #$contrastRatioRangeSliderCurrent_h;
@@ -35,12 +36,9 @@ export default class ContrastRatioAutoExtractionConditionView {
     #$contrastRatioRangeSliderCurrent_v;
     #slider_v;
 
-
     #$contrastRatioExtractionRange;
     #$contrastRatioRangeSliderCurrent_ratioRange;
     #extractionRangeSlider;
-
-    #$contrastRatioExtractionCount;
 
     #$contrastRatioExtractionThreadCount;
 
@@ -48,6 +46,8 @@ export default class ContrastRatioAutoExtractionConditionView {
 
         this.#$contrastRatioExtractionConditionTitle = document.querySelector('#contrastRatioExtractionConditionTitle');
         this.#$contrastRatioExtractionCondition = document.querySelector('#contrastRatioExtractionCondition');
+
+        this.#$contrastRatioHueDivisionCount = document.querySelector('#contrastRatioHueDivisionCount');
 
         this.#$contrastRatioRangeHsvSilder_h = document.querySelector('#contrastRatioRangeHsvSilder_h');
         this.#$contrastRatioRangeSliderCurrent_h = document.querySelector('#contrastRatioRangeSliderCurrent_h');
@@ -58,8 +58,6 @@ export default class ContrastRatioAutoExtractionConditionView {
 
         this.#$contrastRatioExtractionRange = document.querySelector('#contrastRatioExtractionRange');
         this.#$contrastRatioRangeSliderCurrent_ratioRange = document.querySelector('#contrastRatioRangeSliderCurrent_ratioRange');
-
-        this.#$contrastRatioExtractionCount = document.querySelector('#contrastRatioExtractionCount');
 
         this.#$contrastRatioExtractionThreadCount = document.querySelector('#contrastRatioExtractionThreadCount');
 
@@ -80,6 +78,7 @@ export default class ContrastRatioAutoExtractionConditionView {
                 'max': 100
             }
         });
+        this.#slider_s.set([40, 90]);
 
         this.#slider_v = noUiSlider.create(this.#$contrastRatioRangeHsvSilder_v, {
             start: [0, 100],
@@ -89,6 +88,7 @@ export default class ContrastRatioAutoExtractionConditionView {
                 'max': 100
             }
         });
+        this.#slider_v.set([40, 90]);
 
         this.#extractionRangeSlider = noUiSlider.create(this.#$contrastRatioExtractionRange, {
             start: [1, 21],
@@ -150,10 +150,23 @@ export default class ContrastRatioAutoExtractionConditionView {
 
     createConditions() {
         const cond = this.#createCondition();
-        return RgbUtil.divideSRGBSpace(TASK_UNIT_COUNT)
-            .map(r => {
+        const hueDivisionCount = this.getHueDivisionCount();
+        const targetHueRanges = [];
+        const hueCountOfEachDivision = Math.floor(360 / hueDivisionCount);
+        for (let i = 0; i < hueDivisionCount; i++) {
+
+            let end = (i + 1) * hueCountOfEachDivision;
+            if (360 < end) {
+                end = 360;
+            }
+            targetHueRanges.push([
+                i * hueCountOfEachDivision, end,
+            ]);
+        }
+        return targetHueRanges.map(r => {
                 return Object.assign({
-                    targetRange: r
+                    targetHueRange: r,
+                    hueDivisionCount: hueDivisionCount
                 }, cond);
             });
     }
@@ -162,16 +175,16 @@ export default class ContrastRatioAutoExtractionConditionView {
         return this.#extractNumberFromSelect(this.#$contrastRatioExtractionThreadCount);
     }
 
-    getContrastRatioExtractionCount() {
-        return this.#extractNumberFromSelect(this.#$contrastRatioExtractionCount);
+    getHueDivisionCount() {
+        return this.#extractNumberFromSelect(this.#$contrastRatioHueDivisionCount);
     }
 
     #createCondition() {
         return {
-            hueRange: this.#extractRangeFromNoSlider(this.#slider_h),
-            saturationRange: this.#extractRangeFromNoSlider(this.#slider_s),
-            valueRange: this.#extractRangeFromNoSlider(this.#slider_v),
-            contrastRatioRange: this.#extractRangeFromNoSlider(this.#extractionRangeSlider)
+            selectedHueRange: this.#extractRangeFromNoSlider(this.#slider_h),
+            selectedSaturationRange: this.#extractRangeFromNoSlider(this.#slider_s),
+            selectedValueRange: this.#extractRangeFromNoSlider(this.#slider_v),
+            selectedContrastRatioRange: this.#extractRangeFromNoSlider(this.#extractionRangeSlider)
         };
     }
 

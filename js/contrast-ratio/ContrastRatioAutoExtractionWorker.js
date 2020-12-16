@@ -14,58 +14,67 @@ const ContrastRatioAutoExtractionWorker = (() => {
 
     return {
 
-        extractHighestContrastRatios: message => {
+        calcContrastRatioScore: message => {
 
             const condition = message.condition;
             const targetColorLuminances = message.targetColorLuminances;
 
-            const targetRange = condition.targetRange;
-            const hueRange = condition.hueRange;
-            const saturationRange = condition.saturationRange;
-            const valueRange = condition.valueRange;
-            const contrastRatioRange = condition.contrastRatioRange;
+            const targetHueRange = condition.targetHueRange;
+            const hueDivisionCount = condition.hueDivisionCount;
+            const hueCountOfEachDivision = 360 / hueDivisionCount;
 
-            const resultArray = [];
-            let currentMin = message.currentMinScore;
+            const selectedHueRange = condition.selectedHueRange;
+            const selectedSaturationRange = condition.selectedSaturationRange;
+            const saturationEndExclusive = selectedSaturationRange[1] + 1;
+            const selectedValueRange = condition.selectedValueRange;
+            const valueEndExclusive = selectedValueRange[1] + 1;
+            const selectedContrastRatioRange = condition.selectedContrastRatioRange;
 
-            for (let colorCodeCount = targetRange[0]; colorCodeCount < targetRange[1]; colorCodeCount++) {
+            const eachDivisionCurrentMax = {};
+            const eachDivisionResult = {};
 
-                const r_i = RgbUtil.decToR(colorCodeCount),
-                    g_i = RgbUtil.decToG(colorCodeCount),
-                    b_i = RgbUtil.decToB(colorCodeCount);
+            for (let hueIndex = targetHueRange[0]; hueIndex < targetHueRange[1]; hueIndex++) {
 
-                const hsv = HsvRgbConverter.rgbToHsv(r_i, g_i, b_i);
-                if (!inRange(hsv.h, hueRange) || !inRange(hsv.s, saturationRange) || !inRange(hsv.v, valueRange)) {
+                if (!inRange(hueIndex, selectedHueRange)) {
                     continue;
                 }
+                const divisionIndex = Math.floor(hueIndex / hueCountOfEachDivision);
 
-                const ratios = targetColorLuminances.map(
-                    targetColorLuminance => ContrastRatioCalculator.calcContrastRatio(
-                        ContrastRatioCalculator.calcLuminance(r_i, g_i, b_i),
-                        targetColorLuminance
-                    )
-                );
+                for (let saturationIndex = selectedSaturationRange[0]; saturationIndex < saturationEndExclusive; saturationIndex++) {
+                    for (let valueIndex = selectedValueRange[0]; valueIndex < valueEndExclusive; valueIndex++) {
 
-                let ratioNotInRange = false;
-                for (const ratio of ratios) {
-                    if (!inRange(ratio, contrastRatioRange)) {
-                        ratioNotInRange = true;
-                        continue;
+                        const rgb = HsvRgbConverter.hsvToRgb(hueIndex % 360, saturationIndex / 100, valueIndex / 100);
+
+                        const ratios = targetColorLuminances.map(
+                            targetColorLuminance => ContrastRatioCalculator.calcContrastRatio(
+                                ContrastRatioCalculator.calcLuminance(rgb.r, rgb.g, rgb.b),
+                                targetColorLuminance
+                            )
+                        );
+
+                        let ratioNotInRange = false;
+                        for (const ratio of ratios) {
+                            if (!inRange(ratio, selectedContrastRatioRange)) {
+                                ratioNotInRange = true;
+                                continue;
+                            }
+                        }
+
+                        if (ratioNotInRange) {
+                            continue;
+                        }
+
+                        const ratioAvg = avg(ratios);
+                        const currentMax = eachDivisionCurrentMax[divisionIndex];
+                        if (!currentMax || currentMax < ratioAvg) {
+                            eachDivisionCurrentMax[divisionIndex] = ratioAvg;
+                            eachDivisionResult[divisionIndex] = { avg: ratioAvg, r: rgb.r, g: rgb.g, b: rgb.b };
+                        }
                     }
                 }
-                if (ratioNotInRange) {
-                    continue;
-                }
-
-                const ratioAvg = avg(ratios);
-                if (ratioAvg < currentMin) {
-                    continue;
-                }
-
-                resultArray.push({ avg: ratioAvg, r: r_i, g: g_i, b: b_i });
             }
 
-            return resultArray;
+            return eachDivisionResult;
 
         }
     };
