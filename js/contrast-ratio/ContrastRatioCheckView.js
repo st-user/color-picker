@@ -1,6 +1,5 @@
 import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import ContrastRatioCalculator from './ContrastRatioCalculator.js';
-import ContrastRatioCheckModel from './ContrastRatioCheckModel.js';
 import ContrastRatioExplanationsView from './ContrastRatioExplanationsView.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 
@@ -31,9 +30,9 @@ export default class ContrastRatioCheckView {
 
     #droppedBarCounter;
 
-    constructor() {
+    constructor(contrastRatioCheckModel) {
 
-        this.#contrastRatioCheckModel = new ContrastRatioCheckModel();
+        this.#contrastRatioCheckModel = contrastRatioCheckModel;
 
         this.#explanations = new ContrastRatioExplanationsView(
             '#contrastRatioCheckTitle .tool-contrast-ratio-area__explanations-to-close',
@@ -61,7 +60,7 @@ export default class ContrastRatioCheckView {
             });
         };
 
-        const setPickedColor = ($element, colorInfoSetter) => {
+        const setPickedColor = ($element, colorCodeSetter) => {
             $element.addEventListener('drop', event => {
                 event.preventDefault();
 
@@ -77,7 +76,7 @@ export default class ContrastRatioCheckView {
 
                 if (dataTransferred.indexOf('#') === 0) {
                     const colorCode = dataTransferred;
-                    colorInfoSetter(colorCode);
+                    colorCodeSetter(colorCode);
                 }
 
             });
@@ -87,10 +86,10 @@ export default class ContrastRatioCheckView {
         preventDefaultOnDragover(this.#$contrastRatioPickedColor2);
 
         setPickedColor(this.#$contrastRatioPickedColor1,
-            color => this.#contrastRatioCheckModel.setBackgroundColorFromColorCode(color)
+            colorCode => this.#contrastRatioCheckModel.setBackgroundColorFromColorCode(colorCode)
         );
         setPickedColor(this.#$contrastRatioPickedColor2,
-            color => this.#contrastRatioCheckModel.setTextColorFromColorCode(color)
+            colorCode => this.#contrastRatioCheckModel.setTextColorFromColorCode(colorCode)
         );
 
         CommonEventDispatcher.on(CustomEventNames.COLOR_PICKER__CHANGE_CONTRAST_RATIO_CHECK_COLOR, event => {

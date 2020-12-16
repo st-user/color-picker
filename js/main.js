@@ -9,6 +9,7 @@ import ColorPointerPinView from './tool/ColorPointerPinView.js';
 import CommonEventDispatcher from './common/CommonEventDispatcher.js';
 import Constants from './common/Constants.js';
 import ContrastRatioAutoExtractionView from './contrast-ratio/ContrastRatioAutoExtractionView.js';
+import ContrastRatioCheckModel from './contrast-ratio/ContrastRatioCheckModel.js';
 import ContrastRatioCheckView from './contrast-ratio/ContrastRatioCheckView.js';
 import CustomEventNames from './common/CustomEventNames.js';
 import ExplanationsView from './explanations/ExplanationsView.js';
@@ -29,6 +30,8 @@ export default function main() {
         CustomEventNames.COLOR_PICKER__CHANGE_COLOR_ON_COLOR_CONTROL_VIEW,
         new Color({ colorCode: '#ffffff' })
     );
+    /* コントラスト比の確認 */
+    const contrastRatioCheckModel = new ContrastRatioCheckModel();
     /* 配色チェックの色リスト */
     const colorDesignCheckListOfColorModel = new PatternColorListModel(
         CustomEventNames.COLOR_PICKER__ADD_COLOR_DESIGN_TARGET_COLOR,
@@ -63,8 +66,8 @@ export default function main() {
     const imageCanvasView = new ImageCanvasView(colorModel);
     const loadedImageHolder = new LoadedImageHolder();
     const colorPointerPinView = new ColorPointerPinView();
-    const contrastRatioCheckView = new ContrastRatioCheckView();
-    const contrastRatioAutoExtractionView = new ContrastRatioAutoExtractionView();
+    const contrastRatioCheckView = new ContrastRatioCheckView(contrastRatioCheckModel);
+    const contrastRatioAutoExtractionView = new ContrastRatioAutoExtractionView(contrastRatioCheckModel);
     const colorDesignView = new ColorDesignView(
         colorDesignCheckListOfColorModel, colorDesignCheckPatternInputModel, colorDesignHistoryPatternListModel
     );

@@ -28,6 +28,7 @@ const resultColorTemplate = data => {
 export default class ContrastRatioAutoExtractionView {
 
     #targetColorListModel;
+    #contrastRatioCheckModel;
 
     #explanations;
 
@@ -52,12 +53,13 @@ export default class ContrastRatioAutoExtractionView {
 
     #service;
 
-    constructor() {
+    constructor(contrastRatioCheckModel) {
 
         this.#targetColorListModel = new ColorListModel(
             CustomEventNames.COLOR_PICKER__ADD_CONTRAST_RATIO_AUTO_EXTRACTION_TARGET_COLOR,
             CustomEventNames.COLOR_PICKER__REMOVE_CONTRAST_RATIO_AUTO_EXTRACTION_TARGET_COLOR
         );
+        this.#contrastRatioCheckModel = contrastRatioCheckModel;
 
         this.#explanations = new ContrastRatioExplanationsView(
             '#contrastRatioExtractionTitle .tool-contrast-ratio-area__explanations-to-close',
@@ -159,9 +161,10 @@ export default class ContrastRatioAutoExtractionView {
 
     #renderColorList(id, color) {
 
+        const colorCode = color.getColorCode();
         const colorBar = targetColorTemplate({
             id: id,
-            colorCode: color.getColorCode()
+            colorCode: colorCode
         });
 
         this.#$contrastRatioTargetColorList.insertAdjacentHTML('beforeend', colorBar);
@@ -170,10 +173,14 @@ export default class ContrastRatioAutoExtractionView {
         const $newBar = $bars[$bars.length - 1];
         const $newBarDelMark = $newBar.querySelector('.tool-contrast-ratio-area__pick-color-bar-del');
 
-        this.#makeSingleBarDraggable($newBar, color.getColorCode(), true);
+        this.#makeSingleBarDraggable($newBar, colorCode, true);
 
         $newBarDelMark.addEventListener('click', () => {
             this.#targetColorListModel.removeById(id);
+        });
+
+        $newBar.addEventListener('dblclick', () => {
+            this.#contrastRatioCheckModel.setBackgroundColorFromColorCode(colorCode);
         });
 
         $newBar.addEventListener('mouseover', () => {
@@ -304,6 +311,9 @@ export default class ContrastRatioAutoExtractionView {
         $newBars.forEach(($newBar, i) => {
             const colorCode = appendedColorCodes[i];
             this.#makeSingleBarDraggable($newBar, colorCode, false);
+            $newBar.addEventListener('dblclick', () => {
+                this.#contrastRatioCheckModel.setTextColorFromColorCode(colorCode);
+            });
         });
 
         this.#refleshResultState(resultFromWrokers.length);
