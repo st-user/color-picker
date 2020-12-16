@@ -1,9 +1,6 @@
 /*globals require */
 const noUiSlider = require('../../node_modules/nouislider/distribute/nouislider.js');
 import { HsvColorBar } from '../common/ColorBar.js';
-import RgbUtil from '../common/RgbUtil.js';
-
-const TASK_UNIT_COUNT = 1000;
 
 
 const decimalStringToInteger = d => {
@@ -164,11 +161,11 @@ export default class ContrastRatioAutoExtractionConditionView {
             ]);
         }
         return targetHueRanges.map(r => {
-                return Object.assign({
-                    targetHueRange: r,
-                    hueDivisionCount: hueDivisionCount
-                }, cond);
-            });
+            return Object.assign({
+                targetHueRange: r,
+                hueDivisionCount: hueDivisionCount
+            }, cond);
+        });
     }
 
     getThreadCount() {

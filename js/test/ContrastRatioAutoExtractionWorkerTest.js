@@ -7,34 +7,32 @@ import ContrastRatioCalculator from '../contrast-ratio/ContrastRatioCalculator.j
 
 describe('ContrastRatioAutoExtractionWorker', () => {
 
-    describe('#extractHighestContrastRatios()', () => {
+    describe('#calcContrastRatioScore()', () => {
 
-        describe('抽出範囲を絞り込まない場合、探索対象分の結果が取得できること', () => {
+        describe('抽出範囲を絞り込まない場合、結果が取得できること', () => {
 
             const message = {
                 targetColorLuminances: [
                     ContrastRatioCalculator.calcLuminance(255, 255, 255)
                 ],
                 condition: {
-                    targetRange: [0, 2],
-                    hueRange: [0, 360],
-                    saturationRange: [0, 100],
-                    valueRange: [0, 100],
-                    contrastRatioRange: [1, 21]
-                },
-                currentMinScore: undefined
+                    targetHueRange: [0, 36],
+                    hueDivisionCount: 10,
+                    selectedHueRange: [0, 360],
+                    selectedSaturationRange: [0, 100],
+                    selectedValueRange: [0, 100],
+                    selectedContrastRatioRange: [1, 21]
+                }
             };
 
-            const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
+            const results = ContrastRatioAutoExtractionWorker.calcContrastRatioScore(message);
 
-            it('結果の件数', () => expect(results.length).to.be(2));
+            it('結果の件数', () => expect(Object.values(results).length).to.be(1));
             it('結果のコントラスト比', () => expect(results[0].avg).to.be(21));
         });
 
-        describe('HSVの絞り込み条件で絞り込まれること', () => {
 
-            // { r: 128, g: 79, b: 94 } = HSV(342, 38, 50)
-            const targetColorIndex = 128 * (256 * 256) + 79 * 256 + 94;
+        describe('HSVの絞り込み条件で絞り込まれること', () => {
 
             const messageFactory = () => {
                 return {
@@ -42,89 +40,81 @@ describe('ContrastRatioAutoExtractionWorker', () => {
                         ContrastRatioCalculator.calcLuminance(255, 255, 255)
                     ],
                     condition: {
-                        targetRange: [targetColorIndex, targetColorIndex + 1],
-                        hueRange: [0, 360],
-                        saturationRange: [0, 100],
-                        valueRange: [0, 100],
-                        contrastRatioRange: [1, 21]
+                        targetHueRange: [36, 72],
+                        hueDivisionCount: 10,
+                        selectedHueRange: [0, 360],
+                        selectedSaturationRange: [0, 100],
+                        selectedValueRange: [0, 100],
+                        selectedContrastRatioRange: [1, 21]
                     },
                     currentMinScore: undefined
                 };
             };
 
-            const exec = message => ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-            it('テストデータの事前確認', () => expect(exec(messageFactory()).length).to.be(1));
-
-            it('hue - 範囲内', () => {
+            it('hue - 範囲内 - 1', () => {
                 const message = messageFactory();
-                message.condition.hueRange = [342, 342];
-                const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-                expect(results.length).to.be(1);
+                message.condition.selectedHueRange = [0, 36];
+                const results = ContrastRatioAutoExtractionWorker.calcContrastRatioScore(message);
+                expect(Object.values(results).length).to.be(1);
             });
 
+            it('hue - 範囲内 - 2', () => {
+                const message = messageFactory();
+                message.condition.selectedHueRange = [71, 360];
+                const results = ContrastRatioAutoExtractionWorker.calcContrastRatioScore(message);
+                expect(Object.values(results).length).to.be(1);
+            });
 
             it('hue - 範囲外 - 1', () => {
                 const message = messageFactory();
-                message.condition.hueRange = [343, 343];
-                const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-                expect(results.length).to.be(0);
+                message.condition.selectedHueRange = [0, 35];
+                const results = ContrastRatioAutoExtractionWorker.calcContrastRatioScore(message);
+                expect(Object.values(results).length).to.be(0);
             });
-
 
             it('hue - 範囲外 - 2', () => {
                 const message = messageFactory();
-                message.condition.hueRange = [341, 341];
-                const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-                expect(results.length).to.be(0);
+                message.condition.selectedHueRange = [72, 360];
+                const results = ContrastRatioAutoExtractionWorker.calcContrastRatioScore(message);
+                expect(Object.values(results).length).to.be(0);
             });
 
+            const saturationChecker = collectedSaturations => {
+                return (h, s, v) => collectedSaturations[s] = s; // eslint-disable-line no-unused-vars
+            };
 
-            it('saturation - 範囲内', () => {
+            it('saturation', () => {
                 const message = messageFactory();
-                message.condition.saturationRange = [38, 38];
-                const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-                expect(results.length).to.be(1);
+                message.condition.selectedSaturationRange = [20, 30];
+                const collectedSaturations = {};
+                ContrastRatioAutoExtractionWorker.calcContrastRatioScore(
+                    message, saturationChecker(collectedSaturations)
+                );
+                const collectedSaturationsArray = Object.values(collectedSaturations);
+                collectedSaturationsArray.sort((a, b) => a - b);
+                expect(collectedSaturationsArray.length).to.be(11);
+                expect(collectedSaturationsArray[0]).to.be(20);
+                expect(collectedSaturationsArray[10]).to.be(30);
             });
 
+            const valueChecker = collectedValues => {
+                return (h, s, v) => collectedValues[v] = v; // eslint-disable-line no-unused-vars
+            };
 
-            it('saturation - 範囲外 - 1', () => {
+            it('value', () => {
                 const message = messageFactory();
-                message.condition.saturationRange = [39, 39];
-                const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-                expect(results.length).to.be(0);
+                message.condition.selectedValueRange = [30, 35];
+                const collectedValues = {};
+                ContrastRatioAutoExtractionWorker.calcContrastRatioScore(
+                    message, valueChecker(collectedValues)
+                );
+                const collectedValuesArray = Object.values(collectedValues);
+                collectedValuesArray.sort((a, b) => a - b);
+                expect(collectedValuesArray.length).to.be(6);
+                expect(collectedValuesArray[0]).to.be(30);
+                expect(collectedValuesArray[5]).to.be(35);
             });
 
-
-            it('saturation - 範囲外 - 2', () => {
-                const message = messageFactory();
-                message.condition.saturationRange = [37, 37];
-                const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-                expect(results.length).to.be(0);
-            });
-
-
-            it('value - 範囲内', () => {
-                const message = messageFactory();
-                message.condition.valueRange = [50, 50];
-                const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-                expect(results.length).to.be(1);
-            });
-
-
-            it('value - 範囲外 - 1', () => {
-                const message = messageFactory();
-                message.condition.valueRange = [51, 51];
-                const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-                expect(results.length).to.be(0);
-            });
-
-
-            it('value - 範囲外 - 2', () => {
-                const message = messageFactory();
-                message.condition.valueRange = [49, 49];
-                const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-                expect(results.length).to.be(0);
-            });
         });
 
         describe('コントラスト比の範囲の絞り込み条件で絞り込まれること', () => {
@@ -135,86 +125,43 @@ describe('ContrastRatioAutoExtractionWorker', () => {
                         ContrastRatioCalculator.calcLuminance(0, 0, 0)
                     ],
                     condition: {
-                        targetRange: [0, 1],
-                        hueRange: [0, 360],
-                        saturationRange: [0, 100],
-                        valueRange: [0, 100],
-                        contrastRatioRange: [1, 21]
+                        targetHueRange: [0, 36],
+                        hueDivisionCount: 10,
+                        selectedHueRange: [0, 360],
+                        selectedSaturationRange: [0, 100],
+                        selectedValueRange: [0, 100],
+                        selectedContrastRatioRange: [1, 21]
                     },
                     currentMinScore: undefined
                 };
             };
 
-            const exec = message => ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-            it('テストデータの事前確認', () => expect(exec(messageFactory()).length).to.be(1));
-
-            it('contrast ratio - 範囲内', () => {
+            it('contrast ratio - 範囲内 - 1', () => {
                 const message = messageFactory();
-                message.condition.contrastRatioRange = [1, 1];
-                const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-                expect(results.length).to.be(1);
+                message.condition.selectedContrastRatioRange = [1, 1];
+                const results = ContrastRatioAutoExtractionWorker.calcContrastRatioScore(message);
+                expect(results[0].avg).to.be(1);
             });
 
+            it('contrast ratio - 範囲内 - 2', () => {
+                const message = messageFactory();
+                message.condition.selectedContrastRatioRange = [21, 21];
+                const results = ContrastRatioAutoExtractionWorker.calcContrastRatioScore(message);
+                expect(results[0].avg).to.be(21);
+            });
 
             it('contrast ratio - 範囲外 - 1', () => {
                 const message = messageFactory();
-                message.condition.contrastRatioRange = [0, 0];
-                const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-                expect(results.length).to.be(0);
+                message.condition.selectedContrastRatioRange = [0, 0];
+                const results = ContrastRatioAutoExtractionWorker.calcContrastRatioScore(message);
+                expect(Object.values(results).length).to.be(0);
             });
-
 
             it('contrast ratio - 範囲外 - 2', () => {
                 const message = messageFactory();
-                message.condition.contrastRatioRange = [2, 2];
-                const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-                expect(results.length).to.be(0);
-            });
-
-        });
-
-        describe('現時点の最小スコアで絞り込まれること', () => {
-
-            const messageFactory = () => {
-                return {
-                    targetColorLuminances: [
-                        ContrastRatioCalculator.calcLuminance(0, 0, 0)
-                    ],
-                    condition: {
-                        targetRange: [0, 1],
-                        hueRange: [0, 360],
-                        saturationRange: [0, 100],
-                        valueRange: [0, 100],
-                        contrastRatioRange: [1, 21]
-                    },
-                    currentMinScore: undefined
-                };
-            };
-
-            const exec = message => ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-            it('テストデータの事前確認', () => expect(exec(messageFactory()).length).to.be(1));
-
-            it('current min score - 範囲内', () => {
-                const message = messageFactory();
-                message.currentMinScore = 0;
-                const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-                expect(results.length).to.be(1);
-            });
-
-
-            it('current min score - 範囲外 - 1', () => {
-                const message = messageFactory();
-                message.currentMinScore = 1;
-                const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-                expect(results.length).to.be(1);
-            });
-
-
-            it('current min score - 範囲外 - 2', () => {
-                const message = messageFactory();
-                message.currentMinScore = 2;
-                const results = ContrastRatioAutoExtractionWorker.extractHighestContrastRatios(message);
-                expect(results.length).to.be(0);
+                message.condition.selectedContrastRatioRange = [22, 22];
+                const results = ContrastRatioAutoExtractionWorker.calcContrastRatioScore(message);
+                expect(Object.values(results).length).to.be(0);
             });
 
         });

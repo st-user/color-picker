@@ -55,7 +55,6 @@ export default class ContrastRatioAutoExtractionService {
                     }
 
                     const eachDivisionResult = event.data.results;
-                    console.log(eachDivisionResult);
                     const resultDivisions = Object.keys(eachDivisionResult).map(d => parseInt(d));
                     for (const divIndex of resultDivisions) {
                         const currentMax = allResults[divIndex];
@@ -70,7 +69,7 @@ export default class ContrastRatioAutoExtractionService {
                         postMessage();
                     } else {
 
-                        const uniqueResults = []
+                        const uniqueResults = [];
                         Object.values(allResults).forEach(result => {
                             for (const existingRgb of uniqueResults) {
                                 if (existingRgb.r === result.r
@@ -80,7 +79,7 @@ export default class ContrastRatioAutoExtractionService {
                                 }
                             }
                             uniqueResults.push(result);
-                        })
+                        });
                         uniqueResults.sort((a, b) => b.avg - a.avg);
 
                         resolve({

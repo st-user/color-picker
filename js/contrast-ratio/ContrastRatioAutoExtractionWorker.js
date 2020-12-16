@@ -1,6 +1,5 @@
 import ContrastRatioCalculator from './ContrastRatioCalculator.js';
 import HsvRgbConverter from '../common/HsvRgbConverter.js';
-import RgbUtil from '../common/RgbUtil.js';
 
 const ContrastRatioAutoExtractionWorker = (() => {
 
@@ -14,7 +13,9 @@ const ContrastRatioAutoExtractionWorker = (() => {
 
     return {
 
-        calcContrastRatioScore: message => {
+        calcContrastRatioScore: (message, hsvToRgbConverter) => {
+
+            hsvToRgbConverter = hsvToRgbConverter || ((h, s, v) => HsvRgbConverter.hsvToRgb(h % 360, s / 100, v / 100));
 
             const condition = message.condition;
             const targetColorLuminances = message.targetColorLuminances;
@@ -43,7 +44,7 @@ const ContrastRatioAutoExtractionWorker = (() => {
                 for (let saturationIndex = selectedSaturationRange[0]; saturationIndex < saturationEndExclusive; saturationIndex++) {
                     for (let valueIndex = selectedValueRange[0]; valueIndex < valueEndExclusive; valueIndex++) {
 
-                        const rgb = HsvRgbConverter.hsvToRgb(hueIndex % 360, saturationIndex / 100, valueIndex / 100);
+                        const rgb = hsvToRgbConverter(hueIndex, saturationIndex, valueIndex);
 
                         const ratios = targetColorLuminances.map(
                             targetColorLuminance => ContrastRatioCalculator.calcContrastRatio(
@@ -56,7 +57,7 @@ const ContrastRatioAutoExtractionWorker = (() => {
                         for (const ratio of ratios) {
                             if (!inRange(ratio, selectedContrastRatioRange)) {
                                 ratioNotInRange = true;
-                                continue;
+                                break;
                             }
                         }
 
