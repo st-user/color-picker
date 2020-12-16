@@ -12,6 +12,8 @@ export default class ColorControlView {
     #stateOfAutoHistoryUpdate;
     #isInitializing;
 
+    #$colorControlArea;
+
     #$viewColor;
     #$rgbColorCode;
 
@@ -45,6 +47,8 @@ export default class ColorControlView {
         );
         this.#isInitializing = true;
 
+        this.#$colorControlArea = document.querySelector('#colorControlArea');
+
         this.#$viewColor = document.querySelector('#viewColor');
 
         this.#$rgbColorCode = document.querySelector('#rgbColorCode');
@@ -69,6 +73,24 @@ export default class ColorControlView {
     }
 
     setUpEvents() {
+
+        this.#$colorControlArea.addEventListener('dragover', event => {
+            event.preventDefault();
+        });
+
+        this.#$colorControlArea.addEventListener('drop', event => {
+            event.preventDefault();
+
+            const dataTransferred = event.dataTransfer.getData('text/plain');
+            if (!dataTransferred) {
+                return;
+            }
+
+            if (dataTransferred.indexOf('#') === 0) {
+                const colorCode = dataTransferred;
+                this.#colorModel.setColorCode(colorCode);
+            }
+        });
 
         const alertIfNecessary = error => {
             if (error) {

@@ -15,6 +15,7 @@ const colorTemplate = data => {
 
 export default class ColorDesignView {
 
+    #colorModel;
     #listOfColorsModel;
     #patternInputModel;
     #colorDesignHistoryPatternListModel;
@@ -24,6 +25,7 @@ export default class ColorDesignView {
     #$tabInput;
 
     #$movingBar;
+    #$isSorting;
 
     #scatterChart;
 
@@ -32,8 +34,9 @@ export default class ColorDesignView {
     #$colorDesignPatternNameError;
 
 
-    constructor(listOfColorsModel, patternInputModel, colorDesignHistoryPatternListModel) {
+    constructor(colorModel, listOfColorsModel, patternInputModel, colorDesignHistoryPatternListModel) {
 
+        this.#colorModel = colorModel;
         this.#listOfColorsModel = listOfColorsModel;
         this.#patternInputModel = patternInputModel;
         this.#colorDesignHistoryPatternListModel = colorDesignHistoryPatternListModel;
@@ -41,6 +44,8 @@ export default class ColorDesignView {
         this.#$colorDesignListOfColors = document.querySelector('#colorDesignListOfColors');
         this.#$colorDesignListOfColorsText = document.querySelector('#colorDesignListOfColorsText');
         this.#$tabInput = document.querySelector('#colorDesignAreaTabTitle');
+
+        this.#$isSorting = false;
 
         this.#scatterChart = new ScatterChart();
 
@@ -58,7 +63,7 @@ export default class ColorDesignView {
         this.#$colorDesignListOfColors.addEventListener('drop', e => {
 
             const dataTransferred = e.dataTransfer.getData('text/plain');
-            if (!dataTransferred) {
+            if (this.#$isSorting || !dataTransferred) {
                 return;
             }
 
@@ -126,9 +131,10 @@ export default class ColorDesignView {
 
     #renderColorInfo(id, color) {
 
+        const colorCode = color.getColorCode();
         const data = {
             id: id,
-            colorCode: color.getColorCode()
+            colorCode: colorCode
         };
         const colorBar = colorTemplate(data);
         this.#$colorDesignListOfColors.insertAdjacentHTML('beforeend', colorBar);
@@ -140,20 +146,25 @@ export default class ColorDesignView {
             color: color
         });
 
-        $newBar.addEventListener('dragover', e => {
-            e.preventDefault();
+        $newBar.addEventListener('dragover', event => {
+            event.preventDefault();
         });
 
-        $newBar.addEventListener('dragstart', e => {
+        $newBar.addEventListener('dragstart', event => {
+
+            this.#$isSorting = true;
 
             $newBar.classList.add('is-dragging');
             this.#$movingBar = $newBar;
-            e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/html', $newBar.innerHTML);
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('text/html', $newBar.innerHTML);
 
+            const currentColorInfoId = $newBar.dataset.colorInfoId;
+            const color = this.#listOfColorsModel.getItemByIdString(currentColorInfoId);
+            event.dataTransfer.setData('text/plain', color.getColorCode());
         });
 
-        $newBar.addEventListener('drop', e => {
+        $newBar.addEventListener('drop', event => {
 
             if (this.#$movingBar && this.#$movingBar !== $newBar) {
 
@@ -162,14 +173,14 @@ export default class ColorDesignView {
                 this.#$movingBar.innerHTML = $newBar.innerHTML;
                 this.#$movingBar.dataset.colorInfoId = $newBar.dataset.colorInfoId;
 
-                $newBar.innerHTML = e.dataTransfer.getData('text/html');
+                $newBar.innerHTML = event.dataTransfer.getData('text/html');
                 $newBar.dataset.colorInfoId = movingBarColorInfoId;
                 this.#setUpBarElement(this.#$movingBar);
                 this.#setUpBarElement($newBar);
                 this.#$movingBar = undefined;
             }
-
-            e.preventDefault();
+            event.stopPropagation();
+            event.preventDefault();
         });
 
         $newBar.addEventListener('dragenter', () => {
@@ -194,6 +205,7 @@ export default class ColorDesignView {
                 $mark.style.display = 'none';
             });
 
+            this.#$isSorting = false;
         });
 
         this.#toggleListOfColorsText();
@@ -205,23 +217,28 @@ export default class ColorDesignView {
 
         const colorInfoId = $element.dataset.colorInfoId;
         const color = this.#listOfColorsModel.getItemByIdString(colorInfoId);
-        $element.style.backgroundColor = color.getColorCode();
+        const colorCode = color.getColorCode();
+        $element.style.backgroundColor = colorCode;
         const $newBarDelMark = $element.querySelector('.tool-color-design-area__picked-color-bar-del');
 
-        $newBarDelMark.addEventListener('click', () => {
+        $newBarDelMark.onclick = () => {
             this.#listOfColorsModel.removeById(parseInt(colorInfoId));
             if (this.#listOfColorsModel.isEmpty()) {
                 this.#patternInputModel.clear();
             }
-        });
+        };
 
-        $element.addEventListener('mouseover', () => {
+        $element.ondblclick = () => {
+            this.#colorModel.setColorCode(colorCode);
+        };
+
+        $element.onmouseover = () => {
             $newBarDelMark.style.display = 'inline-block';
-        });
+        };
 
-        $element.addEventListener('mouseout', () => {
+        $element.onmouseout = () => {
             $newBarDelMark.style.display = 'none';
-        });
+        };
 
         $newBarDelMark.style.display = 'none';
     }

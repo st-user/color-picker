@@ -66,10 +66,14 @@ export default function main() {
     const imageCanvasView = new ImageCanvasView(colorModel);
     const loadedImageHolder = new LoadedImageHolder();
     const colorPointerPinView = new ColorPointerPinView();
-    const contrastRatioCheckView = new ContrastRatioCheckView(contrastRatioCheckModel);
-    const contrastRatioAutoExtractionView = new ContrastRatioAutoExtractionView(contrastRatioCheckModel);
+    const contrastRatioCheckView = new ContrastRatioCheckView(
+        colorModel, contrastRatioCheckModel
+    );
+    const contrastRatioAutoExtractionView = new ContrastRatioAutoExtractionView(
+        contrastRatioCheckModel
+    );
     const colorDesignView = new ColorDesignView(
-        colorDesignCheckListOfColorModel, colorDesignCheckPatternInputModel, colorDesignHistoryPatternListModel
+        colorModel, colorDesignCheckListOfColorModel, colorDesignCheckPatternInputModel, colorDesignHistoryPatternListModel
     );
     toolTabsView.setUpEvent();
     hsvCircleCanvasView.setUpEvent();

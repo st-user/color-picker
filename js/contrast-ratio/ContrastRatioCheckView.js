@@ -15,6 +15,7 @@ const pickedColorTemplate = data => {
 
 export default class ContrastRatioCheckView {
 
+    #colorModel;
     #contrastRatioCheckModel;
 
     #explanations;
@@ -30,8 +31,9 @@ export default class ContrastRatioCheckView {
 
     #droppedBarCounter;
 
-    constructor(contrastRatioCheckModel) {
+    constructor(colorModel, contrastRatioCheckModel) {
 
+        this.#colorModel = colorModel;
         this.#contrastRatioCheckModel = contrastRatioCheckModel;
 
         this.#explanations = new ContrastRatioExplanationsView(
@@ -136,6 +138,10 @@ export default class ContrastRatioCheckView {
     #setUpBarEvent($element, colorCode) {
 
         const $newBar = $element.querySelector('.tool-contrast-ratio-area__picked-color-bar');
+
+        $newBar.addEventListener('dblclick', () => {
+            this.#colorModel.setColorCode(colorCode);
+        });
 
         $newBar.addEventListener('dragstart', event => {
             this.#isSwapping = true;
