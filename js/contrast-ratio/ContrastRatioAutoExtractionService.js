@@ -16,6 +16,8 @@ export default class ContrastRatioAutoExtractionService {
             let postedTaskCount = 0;
             let error = false;
 
+            // console.log(conditions);
+
             for (let i = 0; i < threadCount; i++) {
                 let worker = this.#workers[i];
                 if (!worker) {
@@ -63,6 +65,7 @@ export default class ContrastRatioAutoExtractionService {
                             allResults[divIndex] = resultMax;
                         }
                     }
+                    // console.log(`eachDivisionResult :: ${JSON.stringify(eachDivisionResult)}`);
                     processedTaskCount++;
 
                     if (processedTaskCount < conditions.length) {
@@ -81,6 +84,7 @@ export default class ContrastRatioAutoExtractionService {
                             uniqueResults.push(result);
                         });
                         uniqueResults.sort((a, b) => b.avg - a.avg);
+                        // console.log(`end service :: ${JSON.stringify(uniqueResults)}`);
 
                         resolve({
                             scoreWithRgbs: uniqueResults
