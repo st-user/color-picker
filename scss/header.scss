@@ -6,6 +6,9 @@
 
 .header {
     height: 64px;
+    margin: auto;
+    position: relative;
+    width: 584px;
 
     &__title {
         float: left;
@@ -14,6 +17,21 @@
         line-height: 2;
         text-align: center;
         width: 100%;
+    }
+
+    &__logo {
+        background-image: url('../assets/logo.png');
+        background-size: contain;
+        height: 32px;
+        left: 16px;
+        position: absolute;
+        top: 16px;
+        width: 32px;
+    }
+
+    &__logo:hover {
+        transform: translateY(-64px);
+        transition: transform 2s;
     }
 
     &__btn-show-explanations-wrapper {

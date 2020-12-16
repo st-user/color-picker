@@ -18,6 +18,10 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
+      {
         test: /\.m?js$/,
         exclude: /node_modules/,
         use: {
@@ -33,7 +37,8 @@ module.exports = {
     new CleanWebpackPlugin(),
     new CopyPlugin({
       patterns: [
-        { from: "./html/index.html", to: "./color-picker" }
+        { from: "./html/index.html", to: "./color-picker" },
+        { from: "./assets/favicon.ico", to: "./color-picker" }
       ],
     }),
   ],
