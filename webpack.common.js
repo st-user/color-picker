@@ -1,6 +1,7 @@
 const path = require('path');
 const CopyPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const packageInfo = require('./package.json');
 
 module.exports = {
   entry: {
@@ -20,6 +21,9 @@ module.exports = {
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
+        generator: {
+          filename: 'color-picker/[hash][ext]' + '?q=' + packageInfo.version
+        }
       },
       {
         test: /\.m?js$/,
