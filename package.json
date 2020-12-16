@@ -1,6 +1,6 @@
 {
   "name": "color-picker",
-  "version": "1.3.5",
+  "version": "1.3.6",
   "description": "color picker application",
   "private": true,
   "scripts": {
