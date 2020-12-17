@@ -30,8 +30,30 @@
     }
 
     &__logo:hover {
-        transform: translateY(-64px);
-        transition: transform 2s;
+        animation-duration: 1s;
+        animation-name: header__logo-animation;
+    }
+
+    @keyframes header__logo-animation {
+        0% {
+            transform: scale(1);
+        }
+
+        25% {
+            transform: scale(0.8);
+        }
+
+        50% {
+            transform: scale(1);
+        }
+
+        75% {
+            transform: scale(0.8);
+        }
+
+        100% {
+            transform: scale(1);
+        }
     }
 
     &__btn-show-explanations-wrapper {
