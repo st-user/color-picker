@@ -1,9 +1,9 @@
 /*globals require */
 require('../node_modules/nouislider/distribute/nouislider.css');
 
-require('../css/reset.css');
-require('../css/default.css');
-require('../css/main.css');
+require('../scss-dest/reset.css');
+require('../scss-dest/default.css');
+require('../scss-dest/main.css');
 
 require('../scss-dest/header.css');
 require('../scss-dest/explanations.css');

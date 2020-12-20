@@ -4,7 +4,7 @@
   "description": "color picker application",
   "private": true,
   "scripts": {
-    "build": "node-sass scss --output scss-dest && webpack --config webpack.prod.js",
+    "build": "node-sass scss --output scss-dest --output-style compressed && node-sass base-scss --output scss-dest --output-style compressed && webpack --config webpack.prod.js",
     "build:test": "webpack --config webpack.dev.js",
     "build:watch": "webpack --config webpack.dev.js --watch",
     "start": "webpack serve --config webpack.dev.js",
@@ -12,7 +12,7 @@
     "lint:js": "eslint 'js/**/*.js'",
     "lint:css": "stylelint 'scss/**/*.scss'",
     "lint:html": "htmlhint 'html/index.html'",
-    "build-css": "node-sass scss --output scss-dest"
+    "build-css": "node-sass scss --output scss-dest && node-sass base-scss --output scss-dest"
   },
   "repository": {
     "type": "git",
