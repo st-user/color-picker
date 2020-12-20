@@ -2,7 +2,7 @@
 /*globals describe */
 /*globals it */
 const expect = require('expect.js');
-import ContrastRatioCalculator from '../contrast-ratio/ContrastRatioCalculator.js';
+import ContrastRatioCalculator from '../js/contrast-ratio/ContrastRatioCalculator.js';
 
 
 const assertFuzzyEquals = (expected, actual, torelance) => {

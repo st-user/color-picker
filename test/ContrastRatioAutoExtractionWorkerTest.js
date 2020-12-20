@@ -2,9 +2,9 @@
 /*globals describe */
 /*globals it */
 const expect = require('expect.js');
-import ContrastRatioAutoExtractionWorker from '../contrast-ratio/ContrastRatioAutoExtractionWorker.js';
-import ContrastRatioCalculator from '../contrast-ratio/ContrastRatioCalculator.js';
-import HsvRgbConverter from '../common/HsvRgbConverter.js';
+import ContrastRatioAutoExtractionWorker from '../js/contrast-ratio/ContrastRatioAutoExtractionWorker.js';
+import ContrastRatioCalculator from '../js/contrast-ratio/ContrastRatioCalculator.js';
+import HsvRgbConverter from '../js/common/HsvRgbConverter.js';
 
 describe('ContrastRatioAutoExtractionWorker', () => {
 

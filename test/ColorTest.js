@@ -2,7 +2,7 @@
 /*globals describe */
 /*globals it */
 const expect = require('expect.js');
-import Color from '../common/Color.js';
+import Color from '../js/common/Color.js';
 
 
 const getColor = () => {

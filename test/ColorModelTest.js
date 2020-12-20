@@ -2,8 +2,8 @@
 /*globals describe */
 /*globals it */
 const expect = require('expect.js');
-import ColorModel from '../common/ColorModel.js';
-import Color from '../common/Color.js';
+import ColorModel from '../js/common/ColorModel.js';
+import Color from '../js/common/Color.js';
 
 const getColorModel = () => {
     return new ColorModel('test', new Color(

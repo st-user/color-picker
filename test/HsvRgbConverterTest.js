@@ -2,7 +2,7 @@
 /*globals describe */
 /*globals it */
 const expect = require('expect.js');
-import HsvRgbConverter from '../common/HsvRgbConverter.js';
+import HsvRgbConverter from '../js/common/HsvRgbConverter.js';
 
 const assertRgb = (expected, actual) => {
     expect(actual.r).to.be(expected.r);
