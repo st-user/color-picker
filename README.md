@@ -22,6 +22,7 @@ gitをインストールしていない場合、zipをダウンロードし、�
 プロダクション版（ウェブサーバーのドキュメントルートなどに配置する版）をビルドする場合は
 ```
 npm run build
+npm run license-gen
 ```
 を実行してください。
 
@@ -35,6 +36,5 @@ npm run build
 - https://stackoverflow.com/questions/3423214/convert-hsb-hsv-color-to-hsl
 
 
-### 使用ライブラリのライセンス
-- [noUiSlider](https://github.com/leongersen/noUiSlider/blob/master/LICENSE.md)
-- [d3](https://github.com/d3/d3/blob/master/LICENSE)
+### ライセンス
+ソースコードのライセンスは[LICENSE](https://github.com/st-user/color-picker/blob/master/LICENSE)記載の通りMITですが、[assets](https://github.com/st-user/color-picker/tree/master/assets)に配置するicon,logoについては、許可なく利用することを禁止します。
