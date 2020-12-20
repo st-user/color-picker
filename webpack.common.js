@@ -1,7 +1,8 @@
-const path = require('path');
-const CopyPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 const packageInfo = require('./package.json');
+const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   entry: {
@@ -52,5 +53,9 @@ module.exports = {
         { from: "./assets/favicon.ico", to: "./color-picker" }
       ],
     }),
+    new webpack.BannerPlugin({
+        test: /main/,
+        banner: 'For license information please see https://tools.ajizablg.com/color-picker/oss-licenses.json'
+    })
   ],
 };
