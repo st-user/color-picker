@@ -12,6 +12,7 @@ RGB/HSVをスライダーバーで調整してカラーコードを作成する�
 git clone https://github.com/st-user/color-picker.git
 cd color-picker
 npm install
+npm run clean
 npm run build-css
 npm run start
 ```
@@ -21,6 +22,7 @@ gitをインストールしていない場合、zipをダウンロードし、�
 以上により、`http://localhost:8080/color-picker/index.html`にアクセスできるようになります。
 プロダクション版（ウェブサーバーのドキュメントルートなどに配置する版）をビルドする場合は
 ```
+npm run clean
 npm run build
 npm run license-gen
 ```

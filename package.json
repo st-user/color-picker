@@ -4,6 +4,7 @@
   "description": "color picker application",
   "private": true,
   "scripts": {
+    "clean": "rm -Rf dist && rm -Rf dist-discard && rm -Rf scss-dest",
     "build": "node-sass scss --output scss-dest --output-style compressed && node-sass base-scss --output scss-dest --output-style compressed && webpack --config webpack.prod.js",
     "build:test": "webpack --config webpack.dev.js",
     "build:watch": "webpack --config webpack.dev.js --watch",
@@ -13,7 +14,7 @@
     "lint:js": "eslint 'js/**/*.js'",
     "lint:css": "stylelint 'scss/**/*.scss'",
     "lint:html": "htmlhint 'html/index.html'",
-    "build-css": "node-sass scss --output scss-dest && node-sass base-scss --output scss-dest"
+    "build-css": "node-sass scss --output scss-dest --output-style compressed && node-sass base-scss --output scss-dest --output-style compressed"
   },
   "repository": {
     "type": "git",
