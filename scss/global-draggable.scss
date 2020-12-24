@@ -6,7 +6,7 @@
 
 %g-draggable__droppable-area-bg {
     background-color: #fff;
-    background-image: radial-gradient(#000 1%, transparent 10%), radial-gradient(#000 1%, transparent 10%);
+    background-image: radial-gradient(#000 1%, rgba(0, 0, 0, 0) 10%), radial-gradient(#000 1%, rgba(0, 0, 0, 0) 10%); /* stylelint-disable-line plugin/no-unsupported-browser-features */
     background-position: 0 0, 6px 6px;
     background-size: 12px 12px;
 

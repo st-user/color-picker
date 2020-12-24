@@ -36,9 +36,10 @@
 
     &__value-slider {
         @extend %g__border-normal;
-        -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
-        appearance: none;
-        background: linear-gradient(to left, #fff, #000);
+        /* https://caniuse.com/css-appearance */
+        -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix, plugin/no-unsupported-browser-features */
+        appearance: none;  /* stylelint-disable-line plugin/no-unsupported-browser-features */
+        background: linear-gradient(to left, #fff, #000); /* stylelint-disable-line plugin/no-unsupported-browser-features */
         height: 32px;
         opacity: 0.8;
         outline: none;
@@ -52,8 +53,9 @@
     }
 
     &__value-slider::-webkit-slider-thumb {
-        -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix */
-        appearance: none;
+        /* https://caniuse.com/css-appearance */
+        -webkit-appearance: none; /* stylelint-disable-line property-no-vendor-prefix, plugin/no-unsupported-browser-features */
+        appearance: none; /* stylelint-disable-line plugin/no-unsupported-browser-features */
         background-color: #fff;
         border: 1px solid #333334;
         border-radius: 0;
