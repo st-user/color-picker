@@ -16,9 +16,6 @@ module.exports = merge(common, {
               if (packageName.startsWith('d3-')) {
                   return true;
               }
-              if (packageName === 'css-loader') {
-                  return true;
-              }
               return false;
           },
           outputFilename: '../dist/color-picker/oss-licenses.json'
