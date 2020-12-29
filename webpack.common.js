@@ -2,7 +2,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");
 const packageInfo = require('./package.json');
 const path = require('path');
-const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   entry: {
@@ -53,19 +52,5 @@ module.exports = {
         { from: "./assets/favicon.ico", to: "./color-picker" }
       ],
     })
-  ],
-  optimization: {
-      minimize: true,
-      minimizer: [new TerserPlugin({
-          extractComments: {
-              condition: /^\**!|@preserve|@license|@cc_on/i,
-              filename: (fileData) => {
-                  return `${fileData.filename}.LICENSE.txt${fileData.query}`;
-              },
-              banner: (licenseFile) => {
-                  return 'For license information please see https://tools.ajizablg.com/color-picker/oss-licenses.json';
-              }
-          }
-      })]
-  },
+  ]
 };

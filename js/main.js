@@ -1,3 +1,5 @@
+/*! For license information please see https://tools.ajizablg.com/color-picker/oss-licenses.json */
+
 import Color from './common/Color.js';
 import ColorCodeHistoryView from './history/ColorCodeHistoryView.js';
 import ColorControlView from './color-control/ColorControlView.js';
