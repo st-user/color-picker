@@ -154,9 +154,4 @@ export default function main() {
 
     document.addEventListener('mousedown', event => dispatchControlKeyPressedEvent(event, true));
     document.addEventListener('mouseup', event => dispatchControlKeyPressedEvent(event, false));
-
-    const $remark = document.querySelector('#remarkAboutBrowser');
-    $remark.setAttribute('style', '');
-
-    window.isMainScriptLoadedSuccessfully = true;
 }
