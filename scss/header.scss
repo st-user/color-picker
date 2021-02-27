@@ -22,6 +22,8 @@
     &__logo {
         background-image: url('../assets/logo.png');
         background-size: contain;
+        cursor: pointer;
+        display: block;
         height: 32px;
         left: 16px;
         position: absolute;
