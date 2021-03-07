@@ -30,6 +30,11 @@ const headerConfig  = {
     これら意外のブラウザでは動作しない可能性があります。`
 };
 
+const expanationsConfig = {
+    eventName: CustomEventNames.COLOR_PICKER__TOGGLE_EXPLANATIONS
+};
+
+
 export default function main() {
 
     /* Viewを跨って使用するModel群 */
@@ -65,7 +70,7 @@ export default function main() {
     new HeaderView(headerConfig);
 
     /** 説明 */
-    const explanationsView = new ExplanationsView();
+    const explanationsView = new ExplanationsView(expanationsConfig);
     explanationsView.setUpEvents();
 
     /** RGB, HSVのスライダー */

@@ -1,4 +1,4 @@
-import { CommonEventDispatcher, debounce, StateModel } from 'vncho-lib';
+import { CommonEventDispatcher, debounce, BooleanStateModel } from 'vncho-lib';
 
 import { RgbColorBar, HsvColorBar } from '../common/ColorBar.js';
 import Constants from '../common/Constants.js';
@@ -40,7 +40,7 @@ export default class ColorControlView {
         this.#colorModel = colorModel;
         this.#colorCodeHistoryColorListModel = colorCodeHistoryColorListModel;
 
-        this.#stateOfAutoHistoryUpdate = new StateModel(
+        this.#stateOfAutoHistoryUpdate = new BooleanStateModel(
             CustomEventNames.COLOR_PICKER__CHANGE_STATE_OF_AUTO_HISTORY_UPDATE,
             true
         );
@@ -162,11 +162,11 @@ export default class ColorControlView {
         });
 
         this.#$storeHistoriesAutomatically.addEventListener('change', () => {
-            this.#stateOfAutoHistoryUpdate.setStateValue(this.#$storeHistoriesAutomatically.checked);
+            this.#stateOfAutoHistoryUpdate.setValue(this.#$storeHistoriesAutomatically.checked);
         });
 
         this.#$addHistory.addEventListener('click', () => {
-            if (this.#stateOfAutoHistoryUpdate.getStateValue()) {
+            if (this.#stateOfAutoHistoryUpdate.getValue()) {
                 return;
             }
             const color = this.#colorModel.getColor();
@@ -178,7 +178,7 @@ export default class ColorControlView {
 
         //size制限&removeもModelで管理しているため、追加のタイミングを間引かなければならない
         const debounceAddList = debounce(() => {
-            if (!this.#stateOfAutoHistoryUpdate.getStateValue()) {
+            if (!this.#stateOfAutoHistoryUpdate.getValue()) {
                 return;
             }
             const color = this.#colorModel.getColor();
@@ -196,11 +196,11 @@ export default class ColorControlView {
         });
 
         CommonEventDispatcher.on(CustomEventNames.COLOR_PICKER__CHANGE_STATE_OF_AUTO_HISTORY_UPDATE, event => {
-            const stateValue = event.detail.stateValue;
-            this.#renderHistoryBtn(stateValue);
+            const value = event.detail.value;
+            this.#renderHistoryBtn(value);
         });
 
-        this.#stateOfAutoHistoryUpdate.setStateValue(Constants.AUTO_HISTORY_UPDATE_STATE_DEFAULT);
+        this.#stateOfAutoHistoryUpdate.setValue(Constants.AUTO_HISTORY_UPDATE_STATE_DEFAULT);
         this.#colorModel.setRgbFromValidInteger(151, 179, 237);
     }
 

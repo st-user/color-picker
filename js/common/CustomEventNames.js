@@ -1,9 +1,10 @@
 import { CustomEventNamesFactory } from 'vncho-lib';
-const { createNames } = CustomEventNamesFactory;
 
-const CustomEventNames = createNames();
+const CustomEventNames = CustomEventNamesFactory.createNames();
 
 CustomEventNames
+    /* header */
+    .set('COLOR_PICKER__TOGGLE_EXPLANATIONS', 'color-picker/toggle-explanations')
     /* 色編集領域 */
     .set('COLOR_PICKER__CHANGE_COLOR_ON_COLOR_CONTROL_VIEW', 'color-picker/change-color-on-color-control-view')
     .set('COLOR_PICKER__UPDATE_COLOR_CODE_HISTORY', 'color-picker/update-color-code-history')
