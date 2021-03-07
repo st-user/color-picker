@@ -5,20 +5,20 @@ const path = require('path');
 
 module.exports = merge(common, {
     entry: {
-      'license-gen': './license-gen/index.js'
+        'license-gen': './license-gen/index.js'
     },
     output: {
-      path: path.resolve(__dirname, 'dist-discard/'),
+        path: path.resolve(__dirname, 'dist-discard/'),
     },
     plugins: [
-      new LicensePlugin({
-          excludedPackageTest: (packageName, version) => {
-              if (packageName.startsWith('d3-') || packageName.startsWith('vncho-lib')) {
-                  return true;
-              }
-              return false;
-          },
-          outputFilename: '../dist/color-picker/oss-licenses.json'
-      })
+        new LicensePlugin({
+            excludedPackageTest: (packageName) => {
+                if (packageName.startsWith('d3-') || packageName.startsWith('vncho-lib')) {
+                    return true;
+                }
+                return false;
+            },
+            outputFilename: '../dist/color-picker/oss-licenses.json'
+        })
     ]
 });
