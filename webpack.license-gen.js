@@ -13,7 +13,7 @@ module.exports = merge(common, {
     plugins: [
       new LicensePlugin({
           excludedPackageTest: (packageName, version) => {
-              if (packageName.startsWith('d3-')) {
+              if (packageName.startsWith('d3-') || packageName.startsWith('vncho-lib')) {
                   return true;
               }
               return false;

@@ -1,3 +1,5 @@
+/*! For license information please see https://www.ajizablg.com/color-picker/oss-licenses.json */
+
 import '../node_modules/nouislider/distribute/nouislider.css';
 
 import '../scss-dest/reset.css';

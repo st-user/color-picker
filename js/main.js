@@ -1,5 +1,3 @@
-/*! For license information please see https://tools.ajizablg.com/color-picker/oss-licenses.json */
-
 import { CommonEventDispatcher, HeaderView, ExplanationsView } from 'vncho-lib';
 
 import Color from './common/Color.js';
