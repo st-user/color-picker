@@ -32,6 +32,7 @@ const expanationsConfig = {
     eventName: CustomEventNames.COLOR_PICKER__TOGGLE_EXPLANATIONS
 };
 
+// TODO setUpEvent, setUpEventsが混在している。setUpEventsに統一する
 
 export default function main() {
 
