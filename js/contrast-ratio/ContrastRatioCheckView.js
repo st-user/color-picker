@@ -1,4 +1,5 @@
-import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
+import { CommonEventDispatcher } from 'vncho-lib';
+
 import ContrastRatioCalculator from './ContrastRatioCalculator.js';
 import ContrastRatioExplanationsView from './ContrastRatioExplanationsView.js';
 import CustomEventNames from '../common/CustomEventNames.js';

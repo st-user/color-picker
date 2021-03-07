@@ -1,6 +1,7 @@
-import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
+import { CommonEventDispatcher, debounce } from 'vncho-lib';
+
 import CustomEventNames from '../common/CustomEventNames.js';
-import debounce from '../common/Debounce.js';
+
 
 const CENTER = [20, 20];
 const R = 16;

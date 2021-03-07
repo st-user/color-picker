@@ -1,5 +1,6 @@
+import { CommonEventDispatcher } from 'vncho-lib';
+
 import Color from '../common/Color.js';
-import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 
 export default class ContrastRatioCheckModel {

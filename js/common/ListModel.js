@@ -1,4 +1,4 @@
-import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
+import { CommonEventDispatcher } from 'vncho-lib';
 
 export default class ListModel {
 

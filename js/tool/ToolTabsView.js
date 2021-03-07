@@ -1,4 +1,4 @@
-import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
+import { hideColorPointerPinView } from '../common/CustomEventDispatcher.js';
 
 export default class ToolTabsView {
 
@@ -8,7 +8,7 @@ export default class ToolTabsView {
         const $toolTabItems = document.querySelectorAll('input[name="toolTabItem"]');
         $toolTabItems.forEach($item => {
             $item.addEventListener('change', () => {
-                CommonEventDispatcher.hideColorPointerPinView();
+                hideColorPointerPinView();
             });
         });
 

@@ -1,4 +1,4 @@
-import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
+import { CommonEventDispatcher } from 'vncho-lib';
 import CustomEventNames from '../common/CustomEventNames.js';
 
 const whitespaceRegExp = /^\s+$/;

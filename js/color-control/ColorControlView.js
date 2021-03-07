@@ -1,9 +1,8 @@
+import { CommonEventDispatcher, debounce, StateModel } from 'vncho-lib';
+
 import { RgbColorBar, HsvColorBar } from '../common/ColorBar.js';
-import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import Constants from '../common/Constants.js';
 import CustomEventNames from '../common/CustomEventNames.js';
-import debounce from '../common/Debounce.js';
-import StateModel from '../common/StateModel.js';
 
 export default class ColorControlView {
 

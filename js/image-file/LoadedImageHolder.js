@@ -1,5 +1,6 @@
+import { CommonEventDispatcher } from 'vncho-lib';
+
 import Constants from '../common/Constants.js';
-import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 
 export default class LoadedImageHolder {

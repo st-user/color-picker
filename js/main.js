@@ -1,5 +1,7 @@
 /*! For license information please see https://tools.ajizablg.com/color-picker/oss-licenses.json */
 
+import { CommonEventDispatcher, HeaderView, ExplanationsView } from 'vncho-lib';
+
 import Color from './common/Color.js';
 import ColorCodeHistoryView from './history/ColorCodeHistoryView.js';
 import ColorControlView from './color-control/ColorControlView.js';
@@ -8,13 +10,11 @@ import ColorDesignView from './color-design/ColorDesignView.js';
 import ColorListModel from './common/ColorListModel.js';
 import ColorModel from './common/ColorModel.js';
 import ColorPointerPinView from './tool/ColorPointerPinView.js';
-import CommonEventDispatcher from './common/CommonEventDispatcher.js';
 import Constants from './common/Constants.js';
 import ContrastRatioAutoExtractionView from './contrast-ratio/ContrastRatioAutoExtractionView.js';
 import ContrastRatioCheckModel from './contrast-ratio/ContrastRatioCheckModel.js';
 import ContrastRatioCheckView from './contrast-ratio/ContrastRatioCheckView.js';
 import CustomEventNames from './common/CustomEventNames.js';
-import ExplanationsView from './explanations/ExplanationsView.js';
 import HsvCircleCanvasView from './hsv-circle/HsvCircleCanvasView.js';
 import ImageCanvasView from './image-file/ImageCanvasView.js';
 import LoadedImageHolder from './image-file/LoadedImageHolder.js';
@@ -22,6 +22,13 @@ import PatternColorListModel from './common/PatternColorListModel.js';
 import PatternInputModel from './common/PatternInputModel.js';
 import PatternListModel from './common/PatternListModel.js';
 import ToolTabsView from './tool/ToolTabsView.js';
+
+const headerConfig  = {
+    containerSelector: '#headerArea',
+    title: 'カラーコード作成ツール',
+    remarkAboutBrowser: `ブラウザは、Google Chrome, Firefox, Microsoft Edge(Chromium版), Safariの、できるだけ最新に近いバージョンを使用してください。
+    これら意外のブラウザでは動作しない可能性があります。`
+};
 
 export default function main() {
 
@@ -53,6 +60,9 @@ export default function main() {
         CustomEventNames.COLOR_PICKER__REMOVE_PATTERN_TO_HISTORY,
         Constants.HISTORY_MAX_SIZE
     );
+
+    /** Header */
+    new HeaderView(headerConfig);
 
     /** 説明 */
     const explanationsView = new ExplanationsView();

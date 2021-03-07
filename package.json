@@ -54,6 +54,7 @@
   },
   "dependencies": {
     "d3": "^6.2.0",
-    "nouislider": "^14.6.3"
+    "nouislider": "^14.6.3",
+    "vncho-lib": "file:../vncho-lib"
   }
 }

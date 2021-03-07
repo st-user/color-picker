@@ -1,4 +1,5 @@
-import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
+import { CommonEventDispatcher } from 'vncho-lib';
+import { hideColorPointerPinView } from '../common/CustomEventDispatcher.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 import ScatterChart from './ScatterChart.js';
 
@@ -210,7 +211,7 @@ export default class ColorDesignView {
 
         this.#toggleListOfColorsText();
         this.#$tabInput.checked = true;
-        CommonEventDispatcher.hideColorPointerPinView();
+        hideColorPointerPinView();
     }
 
     #setUpBarElement($element) {

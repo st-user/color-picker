@@ -1,5 +1,6 @@
+import { CommonEventDispatcher } from 'vncho-lib';
+
 import CanvasHandler from '../tool/CanvasHandler.js';
-import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import CustomEventNames from '../common/CustomEventNames.js';
 
 export default class ImageCanvasView extends CanvasHandler {

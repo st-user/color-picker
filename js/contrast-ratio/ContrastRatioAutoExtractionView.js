@@ -1,5 +1,6 @@
+import { CommonEventDispatcher } from 'vncho-lib';
+
 import ColorListModel from '../common/ColorListModel.js';
-import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
 import ContrastRatioAutoExtractionConditionView from './ContrastRatioAutoExtractionConditionView.js';
 import ContrastRatioAutoExtractionService from './ContrastRatioAutoExtractionService.js';
 import ContrastRatioExplanationsView from './ContrastRatioExplanationsView.js';

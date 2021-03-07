@@ -1,7 +1,7 @@
-import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
+import { CommonEventDispatcher, DOM } from 'vncho-lib';
+
 import CurrentEventXY from './CurrentEventXY.js';
 import CustomEventNames from '../common/CustomEventNames.js';
-import ElementUtil from '../common/ElementUtil.js';
 
 export default class CanvasHandler {
 
@@ -141,7 +141,7 @@ export default class CanvasHandler {
     #extractRgb(currentEventX, currentEventY) {
         const $canvas = this.#$canvas;
 
-        const canvasPosition = ElementUtil.getElementPosition($canvas);
+        const canvasPosition = DOM.getElementPosition($canvas);
         const canvasX = currentEventX - canvasPosition.left;
         const canvasY = currentEventY - canvasPosition.top;
 

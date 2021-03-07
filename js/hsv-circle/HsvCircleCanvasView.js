@@ -1,6 +1,7 @@
+import { DOM } from 'vncho-lib';
+
+import { hideColorPointerPinView } from '../common/CustomEventDispatcher.js';
 import CanvasHandler from '../tool/CanvasHandler.js';
-import CommonEventDispatcher from '../common/CommonEventDispatcher.js';
-import ElementUtil from '../common/ElementUtil.js';
 import HsvRgbConverter from '../common/HsvRgbConverter.js';
 
 const STROKE_WIDTH = 20;
@@ -69,7 +70,7 @@ export default class HsvCircleCanvasView extends CanvasHandler {
             const value = $valueSlider.value;
             this.#currentValue = parseInt(value);
             this.#drawHsvCircleFromConfigs();
-            CommonEventDispatcher.hideColorPointerPinView();
+            hideColorPointerPinView();
         });
         $valueSlider.value = DEFAULT_VALUE;
 
@@ -79,7 +80,7 @@ export default class HsvCircleCanvasView extends CanvasHandler {
                 const selectedSize = $switch.value;
                 this.#currentSizeConfig = CIRCLE_SIZE_CONFIGS[parseInt(selectedSize)];
                 this.#drawHsvCircleFromConfigs();
-                CommonEventDispatcher.hideColorPointerPinView();
+                hideColorPointerPinView();
             });
         });
         document.querySelector('#hsvCircleSizeSwitchMedium').checked = true;
@@ -90,7 +91,7 @@ export default class HsvCircleCanvasView extends CanvasHandler {
                 const selectedCount = $switch.value;
                 this.#currentArcStep = Math.PI / (parseInt(selectedCount) / 2);
                 this.#drawHsvCircleFromConfigs();
-                CommonEventDispatcher.hideColorPointerPinView();
+                hideColorPointerPinView();
             });
         });
         document.querySelector('#hsvCircleDivisionCountSwitchNone').checked = true;
@@ -111,7 +112,7 @@ export default class HsvCircleCanvasView extends CanvasHandler {
     }
 
     containsXY(x, y) {
-        const canvasPosition = ElementUtil.getElementPosition(this.canvas());
+        const canvasPosition = DOM.getElementPosition(this.canvas());
         const canvasX = x - canvasPosition.left;
         const canvasY = y - canvasPosition.top;
         const center = this.#currentSizeConfig.center;
