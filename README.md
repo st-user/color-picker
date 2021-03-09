@@ -1,7 +1,7 @@
 # color-picker
 RGB/HSVをスライダーバーで調整してカラーコードを作成するためのツールです。画像から色を抽出したり、編集したカラーコードを保存できます。
 
-サイト→https://tools.ajizablg.com/color-picker/index.html
+サイト→https://www.ajizablg.com/color-picker/index.html
 
 ## ビルド方法
 ### 前提
